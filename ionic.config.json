@@ -1,0 +1,8 @@
+{
+  "name": "WeedMobile",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "vue",
+  "id": "030f3b70"
+} 

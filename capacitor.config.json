@@ -1,0 +1,8 @@
+{
+  "appId": "com.bitcanna.weedmobile",
+  "appName": "WeedMobile",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
