@@ -1,4 +1,4 @@
-package com.bitcanna.weedmobile;
+package io.bitcanna.mobile;
 
 import com.getcapacitor.BridgeActivity;
 
