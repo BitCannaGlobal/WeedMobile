@@ -1,11 +1,11 @@
 <template>
   <div id="login">
-  <v-row align="center" justify="center">
-  <v-img
-    max-width="200"
-    max-height="200"
-    src="@/assets/logo-bcna.png"
+    <v-row align="center" justify="center">
+  <v-img 
+    cover
+    src="@/assets/banner-home.png"
   ></v-img>
+ 
   </v-row>
   <div class="mt-10 text-center">Unlock Wallet</div>
     <v-container>
@@ -46,7 +46,7 @@
         </v-col>
       </v-row>
  
-      <v-btn type="submit" block class="mt-2" @click="login">Unlock</v-btn> 
+      <v-btn type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">Unlock</v-btn> 
 
     </v-container>
   </div>
@@ -99,12 +99,12 @@ export default {
 }
 </script>
 <style>
-#login {
+/* #login {
   background: linear-gradient(black 70%, #3CC194);
   min-width: 100%;
   min-height: 100%;
   width: 100%;
   height: auto;
   position: fixed;
-}
+} */
 </style>

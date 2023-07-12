@@ -3,6 +3,7 @@
  *
  * Bootstraps Vuetify and other plugins then mounts the App`
  */
+import { createI18n } from 'vue-i18n'
 
 // Components
 import App from './App.vue'
@@ -14,7 +15,22 @@ import { createApp } from 'vue'
 import { registerPlugins } from '@/plugins'
 import store from './store'
 
-const app = createApp(App).use(store)
+const messages = {
+  English: {
+    message: {
+      hello: 'Hello'
+    }
+  }, 
+}
+
+const i18n = createI18n({
+  locale: 'English', // set locale
+  fallbackLocale: 'English', // set fallback locale
+  messages, // set locale messages
+})
+
+const app = createApp(App).use(store).use(i18n)
+
 
 registerPlugins(app)
 

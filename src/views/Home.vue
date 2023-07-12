@@ -1,5 +1,14 @@
 <template>
     <v-container>
+      <p>{{ $t("message.hello") }}</p>
+      <br />
+        <v-select
+        v-model="$i18n.locale"
+          label="Select"
+          :items="$i18n.availableLocales"
+          :item-title="'locale-' + locale"
+          :item-value="locale"
+        ></v-select>
       <v-row>
         <v-col
           v-for="n in 2"
@@ -21,4 +30,5 @@
 </template>
 
 <script setup>
+
 </script>
