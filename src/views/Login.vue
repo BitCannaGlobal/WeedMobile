@@ -77,7 +77,7 @@ export default {
     ...mapState(['allWallets', 'isLogged'])
   },
   async mounted() {
- 
+    await this.$store.dispatch('getWallets')
 
   },
   methods: { 
@@ -86,7 +86,8 @@ export default {
       const hash = md5(this.passWord);
 
       console.log(hash)
-      await this.$store.dispatch('checkLogin', { name: this.select.state, password: this.passWord });
+      //console.log(this.allWallets[0].data)
+      await this.$store.dispatch('checkLogin', { data: this.allWallets[0].data, password: this.passWord });
 
       if (this.isLogged) { 
         this.$router.push('/')

@@ -20,10 +20,11 @@ export default createStore({
       if (value)
         state.allWallets = JSON.parse(value)
     },
-    async checkLogin({ state }, data) { 
-      let foundWallet = state.allWallets.find( ({ name }) => name === data.name )
+    async checkLogin({ state }, walletData) { 
+      // By wallet name, not active
+      //let foundWallet = state.allWallets.find( ({ name }) => name === data.name )      
       try {
-        await DirectSecp256k1HdWallet.deserialize(foundWallet.data, data.password); 
+        await DirectSecp256k1HdWallet.deserialize(walletData.data, walletData.password); 
         state.isLogged = true
       } catch (error) {
         console.log(error)  

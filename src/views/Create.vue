@@ -7,9 +7,9 @@
   ></v-img>
  
   </v-row>
-  <div class="mt-10 text-center">Unlock Wallet</div>
-    <v-container>
-    <v-alert
+  <div class="mt-8 ml-4 text-h4">Welcome to Bitcanna</div>
+    <v-container class="d-flex flex-column">
+<!--     <v-alert
       v-model="alertError"
       variant="outlined"
       type="warning"
@@ -65,17 +65,17 @@
           ></v-text-field>
         </v-col>
       </v-row>
+      
+      <v-btn type="submit" block class="mt-2" @click="login">Unlock</v-btn> -->
+      <v-btn type="submit" size="x-large" color="#0FB786" block class="mt-4" @click="dialogImport = true">Create a BitCanna wallet</v-btn>
+      <v-btn type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="dialogCreate = true">Import wallet</v-btn>
+      <!-- <v-btn type="submit" size="x-large" block class="mt-2" @click="deleteWallets">Delete wallets (dev mode)</v-btn>
+ -->
  
-      <v-btn type="submit" block class="mt-2" @click="login">Unlock</v-btn>
-      <v-btn type="submit" block class="mt-2" @click="dialogImport = true">Import</v-btn>
-      <v-btn type="submit" block class="mt-2" @click="deleteWallets">Delete wallets</v-btn>
-
     </v-container>
   </div>
 
 
-
-  <v-row justify="center">
     <v-dialog
       v-model="dialogImport"
       fullscreen
@@ -98,6 +98,7 @@
           <v-toolbar-items>
             <v-btn
               variant="text"
+              size="x-large"
               @click="importWallet"
             >
               Save
@@ -128,6 +129,7 @@
             <v-btn
               block
               color="#00b786"
+              size="x-large"
               @click="generateWallet"
             >
               Generate
@@ -159,8 +161,82 @@
         </v-list>
       </v-card>
     </v-dialog>
-  </v-row>
 
+    <v-dialog
+      v-model="dialogCreate"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogCreate = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Import</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn
+              variant="text"
+              size="x-large"
+              @click="importWallet"
+            >
+              Save
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list
+        >
+        <v-list-item>
+            <v-text-field
+                v-model="name"
+                variant="outlined"
+                color="#00b786"
+                counter="6"
+                label="Wallet name"
+                style="min-height: 96px"
+                class="mt-6"
+              ></v-text-field>
+          </v-list-item> 
+          <v-list-item>
+            <v-textarea
+              v-model="mnemonic"
+              auto-grow
+              variant="outlined"
+              color="#00b786"
+              label="Mnemonic"
+              rows="4"
+              class="mt-6"
+            ></v-textarea>
+          </v-list-item>
+          <v-list-item>
+            <v-text-field
+                v-model="password"
+                variant="outlined"
+                color="#00b786"
+                counter="6"
+                label="Password"
+                style="min-height: 96px"
+                type="password"
+                class="mt-6"
+              ></v-text-field>
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-dialog>
 
 
 </template>
@@ -175,6 +251,7 @@ export default {
   data: () => ({ 
     passWord: '',
     dialogImport: false,
+    dialogCreate: false,
     name: '',
     mnemonic: '',
     password: '',
@@ -200,7 +277,7 @@ export default {
 
   },
   methods: { 
-    async login() {
+/*     async login() {
       console.log("login")  
       const hash = md5(this.passWord);
 
@@ -212,7 +289,7 @@ export default {
       } else {
         this.alertError = true
       } 
-    },
+    }, */
     async deleteWallets() {
       await removeAccount() 
       this.items = []

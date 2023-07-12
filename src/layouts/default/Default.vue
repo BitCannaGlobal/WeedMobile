@@ -13,9 +13,9 @@
         ></v-list-item>
 
         <v-divider></v-divider>
-          <v-list-item prepend-icon="mdi-view-dashboard" title="DashBoard" to="/"></v-list-item>
-          <v-list-item prepend-icon="mdi-login" title="Create" to="/create"></v-list-item>
-          <v-list-item prepend-icon="mdi-login" title="Login" to="/login"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" title="DashBoard" to="/"></v-list-item>
+          <v-list-item prepend-icon="mdi-pencil" title="Create/import" to="/create"></v-list-item>
+          <v-list-item v-if="!isLogged" prepend-icon="mdi-login" title="Login" to="/login"></v-list-item>
         </v-list>
     </v-navigation-drawer>
 
@@ -27,18 +27,19 @@
 
     <v-main>
       <!-- <div class="mt-10 text-center">{{ height }}</div> -->
-      <div >
+ 
       <router-view></router-view>
-      </div>
-
+      <mainFooter v-if="isLogged" />      
     </v-main>
   </v-app>
 </template>
 
 <script>
-  import { useDisplay } from 'vuetify'
+import { mapState } from 'vuex'
+import mainFooter from '@/components/Footer.vue'
 
   export default {
+    components: { mainFooter },
     setup () {
 //       const { name } = useDisplay()
 //
@@ -66,6 +67,9 @@
       drawer: false,
       drawertest: false,
     }),
+    computed: {
+      ...mapState(['isLogged'])
+    },
 
     async mounted() {
 

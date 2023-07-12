@@ -3,11 +3,12 @@
       <p>{{ $t("message.hello") }}</p>
       <br />
         <v-select
-        v-model="$i18n.locale"
-          label="Select"
+          v-model="$i18n.locale"
+          label="Language"
           :items="$i18n.availableLocales"
           :item-title="'locale-' + locale"
           :item-value="locale"
+          variant="outlined"
         ></v-select>
       <v-row>
         <v-col
@@ -26,9 +27,18 @@
 
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> 
+    
 </template>
 
-<script setup>
+<script>
 
+
+export default {
+  name: 'App', 
+  
+  data: () => ({
+ 
+  }),
+}
 </script>

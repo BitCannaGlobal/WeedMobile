@@ -21,6 +21,11 @@ const messages = {
       hello: 'Hello'
     }
   }, 
+  French: {
+    message: {
+      hello: 'Bonjour'
+    }
+  }, 
 }
 
 const i18n = createI18n({
