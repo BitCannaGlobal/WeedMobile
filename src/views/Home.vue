@@ -75,12 +75,12 @@ export default {
       this.timeNow = timeNow
       this.timeLeft = timeNow - (this.userSession + this.sessionMax)
       //console.log(this.timeLeft)
-      if (this.timeLeft > 0) {
+      /* if (this.timeLeft > 0) {
         clearInterval(this.timeoutJs);
         this.$store.commit('setIsLogged', false)
         removeSession()
         this.$router.push('/login')
-      }
+      } */
     },
     async logout() {
       clearInterval(this.timeoutJs);
