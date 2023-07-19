@@ -38,6 +38,22 @@
               </v-table>            
             </v-card>
             <v-btn v-if="isLogged" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="logout">Logout</v-btn>
+            <v-table>
+                <tbody>
+                  <tr>
+                    <td>timeNow</td>
+                    <td>{{ timeNow }}</td>
+                  </tr>
+                  <tr>
+                    <td>timeNowDebug</td>
+                    <td>{{ timeNowDebug }}</td>
+                  </tr>
+                  <tr>
+                    <td>timeoutJs</td>
+                    <td>{{ timeoutJs }}</td>
+                  </tr>
+                </tbody>  
+              </v-table>   
         </v-col>
       </v-row>
     </v-container> 
@@ -54,6 +70,7 @@ export default {
   data: () => ({
     userSession: '',
     timeNow: '',
+    timeNowDebug: '',
     timeLeft: '',
     timeoutJs: '',
   }),
@@ -64,6 +81,8 @@ export default {
     console.log(this.isLogged)
     let getFinalSession = await getSession();
     this.userSession = Number(getFinalSession);
+    this.timeNowDebug = Date.now()
+    this.remainingTime()
 
     this.timeoutJs = setInterval(() => {
       this.remainingTime()
@@ -73,6 +92,7 @@ export default {
     remainingTime() {
       let timeNow = Math.floor(Date.now() / 1000)
       this.timeNow = timeNow
+      
       this.timeLeft = timeNow - (this.userSession + this.sessionMax)
       //console.log(this.timeLeft)
       /* if (this.timeLeft > 0) {
