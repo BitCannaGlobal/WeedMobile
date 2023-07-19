@@ -58,7 +58,7 @@
 <script>
 import { mapState } from 'vuex'
 import md5 from 'md5' 
-import { checkMasterPassword, addSession } from '@/libs/storage.js';
+import { checkMasterPassword, addBcnaSession } from '@/libs/storage.js';
 // import { userData } from './stores/data'
 
 export default {
@@ -87,7 +87,7 @@ export default {
       let checkPass = await checkMasterPassword(hash)
       console.log(checkPass)
       if(checkPass) {
-        await addSession();
+        await addBcnaSession();
         this.$store.commit('setIsLogged', checkPass)
         this.$router.push('/')
       } else {

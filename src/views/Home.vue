@@ -75,7 +75,7 @@
 
 <script>
 import { Preferences } from '@capacitor/preferences';
-import { getSession, removeSession } from '@/libs/storage.js'; 
+import { getBcnaSession, removeBcnaSession } from '@/libs/storage.js'; 
 import { mapState } from 'vuex'
 
 export default {
@@ -96,14 +96,14 @@ export default {
   },
   async mounted() {
     console.log(this.isLogged)
-    let getFinalSession = await getSession();
+    let getFinalSession = await getBcnaSession();
     this.userSession = getFinalSession;
 
-/*     const { value } = await Preferences.get({ key: 'userSession' }); 
-    this.userSessionDebug = value; */
+    const { value } = await Preferences.get({ key: 'bcnaUserSession' }); 
+    this.userSessionDebug = value;
 
-    const { value } = await Preferences.get({ key: 'masterPass' });
-    this.valueMpDebug = value;
+/*     const { value } = await Preferences.get({ key: 'masterPass' });
+    this.valueMpDebug = value; */
 
     const list = await Preferences.keys();
     this.allKeyDebug = list;
@@ -125,15 +125,15 @@ export default {
       /* if (this.timeLeft > 0) {
         clearInterval(this.timeoutJs);
         this.$store.commit('setIsLogged', false)
-        removeSession()
+        removeBcnaSession()
         this.$router.push('/login')
       } */
     },
     async logout() {
       clearInterval(this.timeoutJs);
       this.$store.commit('setIsLogged', false)
-      removeSession()
-      let getFinalSession = await getSession();
+      removeBcnaSession()
+      let getFinalSession = await getBcnaSession();
       this.userSession = getFinalSession;
       //this.$router.push('/login')
 

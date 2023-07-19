@@ -5,18 +5,18 @@ export async function getAccounts() {
   const { value } = await Preferences.get({ key: 'allWallets' }); 
   return value
 }
-export async function addSession() {
-  // const sessionTime = Math.floor(Date.now() / 1000);
+export async function addBcnaSession() {
+  const sessionTime = Math.floor(Date.now() / 1000);
   await Preferences.set({
     key: 'bcnaUserSession',
-    value: 1689774847
+    value: sessionTime
   });
 }
-export async function getSession() {
+export async function getBcnaSession() {
   const { value } = await Preferences.get({ key: 'bcnaUserSession' });
   return value
 }
-export async function removeSession() {
+export async function removeBcnaSession() {
   await Preferences.remove({ key: 'bcnaUserSession' });
   const list = await Preferences.keys();
   console.log(list)
