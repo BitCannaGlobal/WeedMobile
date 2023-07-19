@@ -7,9 +7,10 @@ export async function getAccounts() {
 }
 export async function addBcnaSession() {
   const sessionTime = Math.floor(Date.now() / 1000);
+  console.log(typeof String(sessionTime))
   await Preferences.set({
     key: 'bcnaUserSession',
-    value: sessionTime
+    value: String(sessionTime)
   });
 }
 export async function getBcnaSession() {
