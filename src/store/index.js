@@ -4,14 +4,16 @@ import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing"
 
 export default createStore({
   state: {
+    masterPassExist: false,
     isLogged: false,
+    sessionMax: 30,
     allWallets: [],
   },
   getters: {
   },
   mutations: {
-    async updateTotalSupply(state, data) {
-      state.totalSupply = data
+    async setIsLogged(state, data) {
+      state.isLogged = data
     },
   },
   actions: {

@@ -16,6 +16,7 @@
           <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" title="DashBoard" to="/"></v-list-item>
           <v-list-item prepend-icon="mdi-pencil" title="Create/import" to="/create"></v-list-item>
           <v-list-item v-if="!isLogged" prepend-icon="mdi-login" title="Login" to="/login"></v-list-item>
+          <v-list-item v-else prepend-icon="mdi-login" title="Logout" @click="logout"></v-list-item>
         </v-list>
     </v-navigation-drawer>
 
@@ -23,6 +24,8 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>WeedMobile</v-toolbar-title>
+      <v-spacer></v-spacer>
+
     </v-app-bar>
 
     <v-main>
@@ -72,8 +75,16 @@ import mainFooter from '@/components/Footer.vue'
     },
 
     async mounted() {
-
+      if (!this.isLogged) {
+        this.$router.push('/login')
+      }
     },
+    methods: {
+      logout() {
+        this.$store.commit('setIsLogged', false)
+        this.$router.push('/login')
+      }
+    }
   }
 </script>
 <style>

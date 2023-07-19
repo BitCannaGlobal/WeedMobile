@@ -58,6 +58,7 @@
 <script>
 import { mapState } from 'vuex'
 import md5 from 'md5' 
+import { checkMasterPassword, addSession } from '@/libs/storage.js';
 // import { userData } from './stores/data'
 
 export default {
@@ -82,6 +83,19 @@ export default {
   },
   methods: { 
     async login() {
+      const hash = md5(this.passWord);
+      let checkPass = await checkMasterPassword(hash)
+      console.log(checkPass)
+      if(checkPass) {
+        addSession();
+        this.$store.commit('setIsLogged', checkPass)
+        this.$router.push('/')
+      } else {
+        this.alertError = true
+      }
+      
+    }
+    /* async login() {
       console.log("login")  
       const hash = md5(this.passWord);
 
@@ -94,7 +108,7 @@ export default {
       } else {
         this.alertError = true
       } 
-    },
+    }, */
  
   }
 }
