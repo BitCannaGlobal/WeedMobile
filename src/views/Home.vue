@@ -52,6 +52,11 @@
                     <td>timeoutJs</td>
                     <td>{{ timeoutJs }}</td>
                   </tr>
+                  <tr>
+                    <td>userSessionDebug</td>
+                    <td>{{ userSessionDebug }}</td>
+                  </tr>
+                  
                 </tbody>  
               </v-table>   
         </v-col>
@@ -61,6 +66,7 @@
 </template>
 
 <script>
+import { Preferences } from '@capacitor/preferences';
 import { getSession, removeSession } from '@/libs/storage.js'; 
 import { mapState } from 'vuex'
 
@@ -69,6 +75,7 @@ export default {
   
   data: () => ({
     userSession: '',
+    userSessionDebug: '',
     timeNow: '',
     timeNowDebug: '',
     timeLeft: '',
@@ -80,7 +87,11 @@ export default {
   async mounted() {
     console.log(this.isLogged)
     let getFinalSession = await getSession();
-    this.userSession = Number(getFinalSession);
+    this.userSession = getFinalSession;
+
+    const { value } = await Preferences.get({ key: 'userSession' }); 
+    this.userSessionDebug = value;
+
     this.timeNowDebug = Date.now()
     this.remainingTime()
 
@@ -93,7 +104,7 @@ export default {
       let timeNow = Math.floor(Date.now() / 1000)
       this.timeNow = timeNow
       
-      this.timeLeft = timeNow - (this.userSession + this.sessionMax)
+      this.timeLeft = timeNow - (Number(this.userSession) + this.sessionMax)
       //console.log(this.timeLeft)
       /* if (this.timeLeft > 0) {
         clearInterval(this.timeoutJs);
@@ -107,7 +118,7 @@ export default {
       this.$store.commit('setIsLogged', false)
       removeSession()
       let getFinalSession = await getSession();
-      this.userSession = Number(getFinalSession);
+      this.userSession = getFinalSession;
       //this.$router.push('/login')
     }
   }
