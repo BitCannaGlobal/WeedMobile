@@ -6,10 +6,10 @@ export async function getAccounts() {
   return value
 }
 export async function addSession() {
-  const sessionTime = Math.floor(Date.now() / 1000);
+  // const sessionTime = Math.floor(Date.now() / 1000);
   await Preferences.set({
     key: 'bcnaUserSession',
-    value: sessionTime
+    value: 1689774847
   });
 }
 export async function getSession() {
