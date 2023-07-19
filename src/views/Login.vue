@@ -30,7 +30,6 @@
     >
       You are connected!
     </v-alert>
-    {{ userSessionDebug }}
     <br />
       <v-row>
         <v-col
@@ -75,8 +74,6 @@ export default {
     alertError: false,
     alertSuccess: false,
     alertDelete: false,
-
-    userSessionDebug: '',
   }),
   computed: {
     ...mapState(['allWallets', 'isLogged'])
@@ -93,13 +90,10 @@ export default {
       if(checkPass) {
         await addBcnaSession();
         this.$store.commit('setIsLogged', checkPass)
-        //this.$router.push('/')
+        this.$router.push('/')
       } else {
         this.alertError = true
-      }
-
-      const { value } = await Preferences.get({ key: 'bcnaUserSession' }); 
-      this.userSessionDebug = value;     
+      }  
     }
     /* async login() {
       console.log("login")  

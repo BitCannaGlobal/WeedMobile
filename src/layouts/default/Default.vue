@@ -39,6 +39,7 @@
 
 <script>
 import { mapState } from 'vuex'
+import { StatusBar, Style } from '@capacitor/status-bar';
 import mainFooter from '@/components/Footer.vue'
 
   export default {
@@ -75,6 +76,10 @@ import mainFooter from '@/components/Footer.vue'
     },
 
     async mounted() {
+      const showStatusBar = async () => {
+        await StatusBar.hide();
+      };
+      console.log(await showStatusBar())
       if (!this.isLogged) {
         this.$router.push('/login')
       }

@@ -52,6 +52,11 @@
   resolved "https://registry.npmjs.org/@capacitor/preferences/-/preferences-5.0.2.tgz"
   integrity sha512-NOBA4TFC9sq0UU13dKHCDqNsD3X5TGPFgtGvRcJorBvbllUwMMBAbkjF5iCVsoenAN55d77Qh9wXufewdMpXjg==
 
+"@capacitor/status-bar@^5.0.6":
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/@capacitor/status-bar/-/status-bar-5.0.6.tgz#281568a7f7aeacf80777702cb9947c29dc32685c"
+  integrity sha512-7od8CxsBnot1XMK3IeOkproFL4hgoKoWAc3pwUvmDOkQsXoxwQm4SR9mLwQavv1XfxtHbFV9Ukd7FwMxOPSViw==
+
 "@cosmjs/amino@^0.31.0-alpha.1":
   version "0.31.0-alpha.1"
   resolved "https://registry.npmjs.org/@cosmjs/amino/-/amino-0.31.0-alpha.1.tgz"

@@ -38,35 +38,6 @@
               </v-table>            
             </v-card>
             <v-btn v-if="isLogged" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="logout">Logout</v-btn>
-            <v-table>
-                <tbody>
-                  <tr>
-                    <td>timeNow</td>
-                    <td>{{ timeNow }}</td>
-                  </tr>
-                  <tr>
-                    <td>timeNowDebug</td>
-                    <td>{{ timeNowDebug }}</td>
-                  </tr>
-                  <tr>
-                    <td>timeoutJs</td>
-                    <td>{{ timeoutJs }}</td>
-                  </tr>
-                  <tr>
-                    <td>userSessionDebug</td>
-                    <td>{{ userSessionDebug }}</td>
-                  </tr>
-                  <tr>
-                    <td>valueMpDebug</td>
-                    <td>{{ valueMpDebug }}</td>
-                  </tr>
-                  <tr>
-                    <td>allKeyDebug</td>
-                    <td>{{ allKeyDebug }}</td>
-                  </tr>
-                  
-                </tbody>  
-              </v-table>   
         </v-col>
       </v-row>
     </v-container> 
@@ -74,7 +45,6 @@
 </template>
 
 <script>
-import { Preferences } from '@capacitor/preferences';
 import { getBcnaSession, removeBcnaSession } from '@/libs/storage.js'; 
 import { mapState } from 'vuex'
 
@@ -83,9 +53,6 @@ export default {
   
   data: () => ({
     userSession: '',
-    userSessionDebug: '',
-    valueMpDebug: '',
-    allKeyDebug: '',
     timeNow: '',
     timeNowDebug: '',
     timeLeft: '',
@@ -99,16 +66,6 @@ export default {
     let getFinalSession = await getBcnaSession();
     this.userSession = getFinalSession;
 
-    const { value } = await Preferences.get({ key: 'bcnaUserSession' }); 
-    this.userSessionDebug = value;
-
-/*     const { value } = await Preferences.get({ key: 'masterPass' });
-    this.valueMpDebug = value; */
-
-    const list = await Preferences.keys();
-    this.allKeyDebug = list;
-
-    this.timeNowDebug = Date.now()
     this.remainingTime()
 
     this.timeoutJs = setInterval(() => {
@@ -122,12 +79,12 @@ export default {
       
       this.timeLeft = timeNow - (Number(this.userSession) + this.sessionMax)
       //console.log(this.timeLeft)
-      /* if (this.timeLeft > 0) {
+      if (this.timeLeft > 0) {
         clearInterval(this.timeoutJs);
         this.$store.commit('setIsLogged', false)
         removeBcnaSession()
         this.$router.push('/login')
-      } */
+      }
     },
     async logout() {
       clearInterval(this.timeoutJs);
@@ -135,10 +92,7 @@ export default {
       removeBcnaSession()
       let getFinalSession = await getBcnaSession();
       this.userSession = getFinalSession;
-      //this.$router.push('/login')
-
-      const list = await Preferences.keys();
-      this.allKeyDebug = list;
+      this.$router.push('/login')
     }
   }
 }
