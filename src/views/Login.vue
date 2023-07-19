@@ -87,7 +87,7 @@ export default {
       let checkPass = await checkMasterPassword(hash)
       console.log(checkPass)
       if(checkPass) {
-        addSession();
+        await addSession();
         this.$store.commit('setIsLogged', checkPass)
         this.$router.push('/')
       } else {
