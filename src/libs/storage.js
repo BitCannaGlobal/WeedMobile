@@ -8,16 +8,16 @@ export async function getAccounts() {
 export async function addSession() {
   const sessionTime = Math.floor(Date.now() / 1000);
   await Preferences.set({
-    key: 'userSession',
+    key: 'bcnaUserSession',
     value: sessionTime
   });
 }
 export async function getSession() {
-  const { value } = await Preferences.get({ key: 'userSession' });
+  const { value } = await Preferences.get({ key: 'bcnaUserSession' });
   return value
 }
 export async function removeSession() {
-  await Preferences.remove({ key: 'userSession' });
+  await Preferences.remove({ key: 'bcnaUserSession' });
   const list = await Preferences.keys();
   console.log(list)
 }
