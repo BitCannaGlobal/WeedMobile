@@ -30,6 +30,7 @@
     >
       You are connected!
     </v-alert>
+    {{ userSessionDebug }}
     <br />
       <v-row>
         <v-col
@@ -56,6 +57,7 @@
 
 </template>
 <script>
+import { Preferences } from '@capacitor/preferences';
 import { mapState } from 'vuex'
 import md5 from 'md5' 
 import { checkMasterPassword, addBcnaSession } from '@/libs/storage.js';
@@ -73,6 +75,8 @@ export default {
     alertError: false,
     alertSuccess: false,
     alertDelete: false,
+
+    userSessionDebug: '',
   }),
   computed: {
     ...mapState(['allWallets', 'isLogged'])
@@ -89,11 +93,13 @@ export default {
       if(checkPass) {
         await addBcnaSession();
         this.$store.commit('setIsLogged', checkPass)
-        this.$router.push('/')
+        //this.$router.push('/')
       } else {
         this.alertError = true
       }
-      
+
+      const { value } = await Preferences.get({ key: 'bcnaUserSession' }); 
+      this.userSessionDebug = value;     
     }
     /* async login() {
       console.log("login")  
