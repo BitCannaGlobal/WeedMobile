@@ -56,6 +56,14 @@
                     <td>userSessionDebug</td>
                     <td>{{ userSessionDebug }}</td>
                   </tr>
+                  <tr>
+                    <td>valueMpDebug</td>
+                    <td>{{ valueMpDebug }}</td>
+                  </tr>
+                  <tr>
+                    <td>allKeyDebug</td>
+                    <td>{{ allKeyDebug }}</td>
+                  </tr>
                   
                 </tbody>  
               </v-table>   
@@ -76,6 +84,8 @@ export default {
   data: () => ({
     userSession: '',
     userSessionDebug: '',
+    valueMpDebug: '',
+    allKeyDebug: '',
     timeNow: '',
     timeNowDebug: '',
     timeLeft: '',
@@ -89,8 +99,14 @@ export default {
     let getFinalSession = await getSession();
     this.userSession = getFinalSession;
 
-    const { value } = await Preferences.get({ key: 'userSession' }); 
-    this.userSessionDebug = value;
+/*     const { value } = await Preferences.get({ key: 'userSession' }); 
+    this.userSessionDebug = value; */
+
+    const { value } = await Preferences.get({ key: 'masterPass' });
+    this.valueMpDebug = value;
+
+    const list = await Preferences.keys();
+    this.allKeyDebug = list;
 
     this.timeNowDebug = Date.now()
     this.remainingTime()
@@ -120,6 +136,9 @@ export default {
       let getFinalSession = await getSession();
       this.userSession = getFinalSession;
       //this.$router.push('/login')
+
+      const list = await Preferences.keys();
+      this.allKeyDebug = list;
     }
   }
 }

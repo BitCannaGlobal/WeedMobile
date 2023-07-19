@@ -6,9 +6,10 @@ export async function getAccounts() {
   return value
 }
 export async function addSession() {
+  const sessionTime = Math.floor(Date.now() / 1000);
   await Preferences.set({
     key: 'userSession',
-    value: Math.floor(Date.now() / 1000)
+    value: sessionTime
   });
 }
 export async function getSession() {
