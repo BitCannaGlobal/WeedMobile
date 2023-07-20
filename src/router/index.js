@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/',
+    path: '/dashboard',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
@@ -14,7 +14,7 @@ const routes = [
     ],
   },
   {
-    path: '/login',
+    path: '/',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {

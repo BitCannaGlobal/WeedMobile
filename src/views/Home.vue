@@ -20,10 +20,6 @@
               <v-table>
                 <tbody>
                   <tr>
-                    <td>userSession</td>
-                    <td>{{ userSession }}</td>
-                  </tr>
-                  <tr>
                     <td>sessionConfig</td>
                     <td>{{ sessionMax }}s</td>
                   </tr>
@@ -62,15 +58,14 @@ export default {
     ...mapState(['isLogged', 'sessionMax'])
   },
   async mounted() {
-    console.log(this.isLogged)
-    let getFinalSession = await getBcnaSession();
+    // console.log(this.isLogged)
+    /* let getFinalSession = await getBcnaSession();
     this.userSession = getFinalSession;
 
     this.remainingTime()
-
     this.timeoutJs = setInterval(() => {
       this.remainingTime()
-    }, 1000);
+    }, 1000); */
   },
   methods: {
     remainingTime() {
@@ -83,7 +78,7 @@ export default {
         clearInterval(this.timeoutJs);
         this.$store.commit('setIsLogged', false)
         removeBcnaSession()
-        this.$router.push('/login')
+        this.$router.push('/')
       }
     },
     async logout() {
@@ -92,7 +87,7 @@ export default {
       removeBcnaSession()
       let getFinalSession = await getBcnaSession();
       this.userSession = getFinalSession;
-      this.$router.push('/login')
+      this.$router.push('/')
     }
   }
 }

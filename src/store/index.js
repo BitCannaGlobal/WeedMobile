@@ -6,7 +6,7 @@ export default createStore({
   state: {
     masterPassExist: false,
     isLogged: false,
-    sessionMax: 30,
+    sessionMax: 10,
     allWallets: [],
   },
   getters: {

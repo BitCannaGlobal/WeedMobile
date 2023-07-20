@@ -30,6 +30,17 @@
     >
       You are connected!
     </v-alert>
+    <v-alert
+      v-model="alertExpired"
+      variant="outlined"
+      type="warning"
+      border="top"
+      closable
+      close-label="Close Alert"
+    >
+      Session expired
+    </v-alert>
+    
     <br />
       <v-row>
         <v-col
@@ -60,7 +71,6 @@ import { Preferences } from '@capacitor/preferences';
 import { mapState } from 'vuex'
 import md5 from 'md5' 
 import { checkMasterPassword, addBcnaSession } from '@/libs/storage.js';
-// import { userData } from './stores/data'
 
 export default {
   data: () => ({ 
@@ -74,42 +84,29 @@ export default {
     alertError: false,
     alertSuccess: false,
     alertDelete: false,
+    alertExpired: false,
   }),
   computed: {
     ...mapState(['allWallets', 'isLogged'])
   },
   async mounted() {
     await this.$store.dispatch('getWallets')
-
+    if (typeof this.$route.query.expired !== 'undefined') {
+      this.alertExpired = true
+    }
   },
   methods: { 
     async login() {
       const hash = md5(this.passWord);
       let checkPass = await checkMasterPassword(hash)
-      console.log(checkPass)
       if(checkPass) {
         await addBcnaSession();
         this.$store.commit('setIsLogged', checkPass)
-        this.$router.push('/')
+        this.$router.push('/dashboard')
       } else {
         this.alertError = true
       }  
     }
-    /* async login() {
-      console.log("login")  
-      const hash = md5(this.passWord);
-
-      console.log(hash)
-      //console.log(this.allWallets[0].data)
-      await this.$store.dispatch('checkLogin', { data: this.allWallets[0].data, password: this.passWord });
-
-      if (this.isLogged) { 
-        this.$router.push('/')
-      } else {
-        this.alertError = true
-      } 
-    }, */
- 
   }
 }
 </script>

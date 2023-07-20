@@ -38,9 +38,10 @@
 </template>
 
 <script>
+import { App } from '@capacitor/app';
 import { mapState } from 'vuex'
-import { StatusBar, Style } from '@capacitor/status-bar';
-import mainFooter from '@/components/Footer.vue'
+import mainFooter from '@/components/Footer.vue' 
+import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storage.js'; 
 
   export default {
     components: { mainFooter },
@@ -70,24 +71,42 @@ import mainFooter from '@/components/Footer.vue'
     data: () => ({
       drawer: false,
       drawertest: false,
+      timeLeft: '',
     }),
     computed: {
-      ...mapState(['isLogged'])
+      ...mapState(['isLogged', 'sessionMax'])
     },
-
     async mounted() {
-      const showStatusBar = async () => {
-        await StatusBar.hide();
-      };
-      console.log(await showStatusBar())
+      App.addListener('appStateChange', async ({ isActive }) => {
+        //console.log('App state changed. Is active?', isActive);
+        if (!isActive) { 
+          await addBcnaSession();
+          //console.log('App will close in ' + this.sessionMax + ' seconds');
+        } else {
+          let getFinalSession = await getBcnaSession();
+          this.remainingTime(getFinalSession)
+          //console.log('App is active, reset session data: ' + getFinalSession);
+          removeBcnaSession();
+        }
+      });
       if (!this.isLogged) {
-        this.$router.push('/login')
+        this.$router.push('/')
       }
     },
     methods: {
+      async remainingTime(getFinalSession) { 
+        let timeNow = Math.floor(Date.now() / 1000)        
+        this.timeLeft = timeNow - (Number(getFinalSession) + this.sessionMax)
+
+        if (this.timeLeft > 0) { 
+          this.$store.commit('setIsLogged', false)
+          removeBcnaSession()
+          this.$router.push('/?expired=true')
+        }
+      },
       logout() {
         this.$store.commit('setIsLogged', false)
-        this.$router.push('/login')
+        this.$router.push('/')
       }
     }
   }

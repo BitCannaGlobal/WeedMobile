@@ -6,8 +6,7 @@ export async function getAccounts() {
   return value
 }
 export async function addBcnaSession() {
-  const sessionTime = Math.floor(Date.now() / 1000);
-  console.log(typeof String(sessionTime))
+  const sessionTime = Math.floor(Date.now() / 1000); 
   await Preferences.set({
     key: 'bcnaUserSession',
     value: String(sessionTime)
@@ -18,9 +17,7 @@ export async function getBcnaSession() {
   return value
 }
 export async function removeBcnaSession() {
-  await Preferences.remove({ key: 'bcnaUserSession' });
-  const list = await Preferences.keys();
-  console.log(list)
+  await Preferences.remove({ key: 'bcnaUserSession' }); 
 }
 export async function getMasterPassword() {
   const { value } = await Preferences.get({ key: 'masterPass' });
@@ -39,8 +36,7 @@ export async function addMasterPassword(password) {
 }
 export async function removeMasterPassword() {
   await Preferences.remove({ key: 'masterPass' });
-  const list = await Preferences.keys();
-  console.log(list)
+  const list = await Preferences.keys(); 
 }
 export async function checkMasterPassword(hash) {
   const { value } = await Preferences.get({ key: 'masterPass' });
