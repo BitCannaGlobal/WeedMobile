@@ -13,10 +13,11 @@
         ></v-list-item>
 
         <v-divider></v-divider>
-          <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" title="DashBoard" to="/"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" title="DashBoard" to="/dashboard"></v-list-item>
           <v-list-item prepend-icon="mdi-pencil" title="Create/import" to="/create"></v-list-item>
-          <v-list-item v-if="!isLogged" prepend-icon="mdi-login" title="Login" to="/login"></v-list-item>
-          <v-list-item v-else prepend-icon="mdi-login" title="Logout" @click="logout"></v-list-item>
+          <v-list-item v-if="!isLogged" prepend-icon="mdi-login" title="Login" to="/"></v-list-item>
+          <v-list-item v-else prepend-icon="mdi-login" title="Logout" @click="logout"></v-list-item> 
+          
         </v-list>
     </v-navigation-drawer>
 
@@ -39,6 +40,8 @@
 
 <script>
 import { App } from '@capacitor/app';
+
+
 import { mapState } from 'vuex'
 import mainFooter from '@/components/Footer.vue' 
 import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storage.js'; 

@@ -1,6 +1,8 @@
 <template>
     <v-container>
-      <p>{{ $t("message.hello") }}</p>
+      
+      <h3>{{ $t("dashboard.title") }}</h3>
+      <br /> 
       <br />
         <v-select
           v-model="$i18n.locale"
@@ -9,31 +11,13 @@
           :item-title="'locale-' + locale"
           :item-value="locale"
           variant="outlined"
-        ></v-select>
+        ></v-select>  
       <v-row>
         <v-col>
-
-            <v-card
-              class="d-flex align-center"
-              dark 
-            >
-              <v-table>
-                <tbody>
-                  <tr>
-                    <td>sessionConfig</td>
-                    <td>{{ sessionMax }}s</td>
-                  </tr>
-                  <tr>
-                    <td>remainingTime</td>
-                    <td> 
-                      <span v-if="timeLeft > 0" class="text-red">Not logged</span>
-                      <span v-else class="text-green">{{ timeLeft }} Logged</span>
-                    </td>
-                  </tr>
-                </tbody>  
-              </v-table>            
-            </v-card>
-            <v-btn v-if="isLogged" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="logout">Logout</v-btn>
+          <v-card 
+            :title="accountNow.name"
+            :subtitle="accountNow.address" 
+          ></v-card> 
         </v-col>
       </v-row>
     </v-container> 
@@ -53,11 +37,13 @@ export default {
     timeNowDebug: '',
     timeLeft: '',
     timeoutJs: '',
+    accountNow: '',
   }),
   computed: {
-    ...mapState(['isLogged', 'sessionMax'])
+    ...mapState(['isLogged', 'allWallets', 'sessionMax', 'accountSelected'])
   },
-  async mounted() {
+  async mounted() { 
+    this.accountNow = this.allWallets[this.accountSelected]
     // console.log(this.isLogged)
     /* let getFinalSession = await getBcnaSession();
     this.userSession = getFinalSession;
@@ -66,6 +52,7 @@ export default {
     this.timeoutJs = setInterval(() => {
       this.remainingTime()
     }, 1000); */
+
   },
   methods: {
     remainingTime() {
@@ -80,14 +67,6 @@ export default {
         removeBcnaSession()
         this.$router.push('/')
       }
-    },
-    async logout() {
-      clearInterval(this.timeoutJs);
-      this.$store.commit('setIsLogged', false)
-      removeBcnaSession()
-      let getFinalSession = await getBcnaSession();
-      this.userSession = getFinalSession;
-      this.$router.push('/')
     }
   }
 }

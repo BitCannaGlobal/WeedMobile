@@ -391,6 +391,7 @@ export default {
       }
       this.select = this.items[0]
       this.dialogImport = false
+      this.dialogCreate = false
     },
     async saveMasterPassword() {
       if (this.masterPass == this.masterPass2) {

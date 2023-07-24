@@ -6,8 +6,9 @@ export default createStore({
   state: {
     masterPassExist: false,
     isLogged: false,
-    sessionMax: 10,
+    sessionMax: 1000000,
     allWallets: [],
+    accountSelected: 0,
   },
   getters: {
   },
@@ -21,6 +22,9 @@ export default createStore({
       const { value } = await Preferences.get({ key: 'allWallets' });
       if (value)
         state.allWallets = JSON.parse(value)
+    },
+    changeWallet({ state }, data) {
+      state.accountSelected = data
     },
     async checkLogin({ state }, walletData) { 
       // By wallet name, not active

@@ -35,6 +35,28 @@ const routes = [
       },
     ],
   },  
+  {
+    path: '/accounts',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Accounts',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Accounts.vue'),
+      },
+    ],
+  }, 
+  {
+    path: '/config',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Config',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Config.vue'),
+      },
+    ],
+  }, 
 ]
 
 const router = createRouter({

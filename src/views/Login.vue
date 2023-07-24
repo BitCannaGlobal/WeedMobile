@@ -7,7 +7,7 @@
   ></v-img>
  
   </v-row>
-  <div class="mt-10 text-center">Unlock Wallet</div>
+  <div class="mt-10 text-center">{{ $t("login.title") }}</div> 
     <v-container>
     <v-alert
       v-model="alertError"
@@ -49,7 +49,7 @@
  
           <v-text-field
             v-model="passWord"
-            label="Password"
+            :label="$t('login.passInput')"
             required
             variant="outlined"
             type="password"
@@ -57,7 +57,9 @@
         </v-col>
       </v-row>
  
-      <v-btn type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">Unlock</v-btn> 
+      <v-btn type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">        
+        {{ $t("login.loginButton") }}
+      </v-btn> 
 
     </v-container>
   </div>

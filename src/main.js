@@ -10,6 +10,8 @@ import App from './App.vue'
 
 // Composables
 import { createApp } from 'vue'
+// Capacitore info device
+import { Device } from '@capacitor/device';
 
 // Plugins
 import { registerPlugins } from '@/plugins'
@@ -17,19 +19,103 @@ import store from './store'
 
 const messages = {
   English: {
-    message: {
-      hello: 'Hello'
+    login: {
+      title: 'Unlock your wallet',
+      passInput: 'Password',
+      loginButton: 'Unlock',
+    },
+    dashboard: {
+      title: 'Welcome to your wallet', 
+    },
+    config: {
+      currency: {
+        title: 'Currency',
+        subtitle: 'Select your currency',
+      },
+      language: {
+        title: 'Language',
+        subtitle: 'Select your language',
+      },
+      viewMnemonic: {
+        title: 'Mnemonic Seed',
+        subtitle: 'View your mnemonic',
+      },
+      masterPassChange: {
+        title: 'Master password',
+        subtitle: 'Change master password',
+      },
+      deleteWallet: {
+        title: 'Delete wallet',
+        subtitle: 'Delete wallet from phone',
+      },
+    },
+    footer: {
+      title1: 'Dashboard',  
+      title2: 'Account', 
+      title3: 'Config', 
     }
-  }, 
-  French: {
-    message: {
-      hello: 'Bonjour'
+  },
+  Dutch: {
+    login: {
+      title: 'Ontgrendel uw portemonnee', 
+      passInput: 'Je wachtwoord',
+      loginButton: 'Ontgrendelen',
+    },
+    dashboard: {
+      title: 'Welkom bij uw portefeuille', 
+    },
+    config: {
+      currency: {
+        title: 'Munteenheid',
+        subtitle: 'Selecteer uw valuta',
+      },
+      language: {
+        title: 'Taal',
+        subtitle: 'Selecteer uw taal',
+      },
+      viewMnemonic: {
+        title: 'Mnemonic Seed',
+        subtitle: 'Zie je geheugensteuntje',
+      },
+      masterPassChange: {
+        title: 'Master password',
+        subtitle: 'Hoofdwachtwoord wijzigen',
+      },
+      deleteWallet: {
+        title: 'Portemonnee verwijderen',
+        subtitle: 'Portemonnee van telefoon verwijderen',
+      },
+    },
+    footer: {
+      title1: 'Dashboard', 
+      title2: 'Rekeningen', 
+      title3: 'Config',  
     }
-  }, 
-}
+  } 
+} 
 
+const getLocalLang = async () => {
+ 
+  const getLanguageCode = await Device.getLanguageCode();
+  let language = ''
+  console.log('getLanguageCode', getLanguageCode.value)
+  switch (getLanguageCode.value) {
+    case 'en':
+      language = 'English'      
+      break;
+    case 'nl':
+      language = 'Dutch'
+      break;
+    default:
+      language = 'English'
+      break;
+  }
+  return language
+};
+let userLang = await getLocalLang();
+console.log('userLang', userLang)
 const i18n = createI18n({
-  locale: 'English', // set locale
+  locale: userLang, // set locale
   fallbackLocale: 'English', // set fallback locale
   messages, // set locale messages
 })
