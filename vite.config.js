@@ -43,6 +43,9 @@ export default defineConfig({
       '.vue',
     ],
   },
+  build: {
+    target: 'esnext'
+  },
   server: {
     port: 3000,
   },
