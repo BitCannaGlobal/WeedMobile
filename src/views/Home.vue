@@ -15,6 +15,7 @@
       <v-row>
         <v-col>
           <v-card 
+            v-if="allWallets.length > 0"
             :title="accountNow.name"
             :subtitle="accountNow.address" 
           ></v-card> 

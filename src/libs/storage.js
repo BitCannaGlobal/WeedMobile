@@ -59,6 +59,32 @@ export async function addAccount(name, address, data) {
   });        
   // const list = await Preferences.keys();
 }
+
+export async function editAccountId(id, name) {
+  console.log('Edit account id')
+  console.log(id, name)
+  const { value } = await Preferences.get({ key: 'allWallets' });
+  let allWalletsData = JSON.parse(value)
+ 
+  allWalletsData[id].name = name
+  console.log(allWalletsData);
+  await Preferences.set({
+    key: 'allWallets',
+    value: JSON.stringify(allWalletsData)
+  }); 
+}
+export async function removeAccountId(id) {
+  console.log('Remove account id', id)
+  const { value } = await Preferences.get({ key: 'allWallets' });
+  let allWalletsData = JSON.parse(value)
+ 
+  allWalletsData.splice(id, 1);
+  console.log(allWalletsData);
+  await Preferences.set({
+    key: 'allWallets',
+    value: JSON.stringify(allWalletsData)
+  });   
+}
 export async function removeAccount() {
   await Preferences.remove({ key: 'allWallets' });
 }
