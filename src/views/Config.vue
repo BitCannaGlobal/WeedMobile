@@ -258,15 +258,22 @@ import { removeAccountId } from '@/libs/storage.js';
     },
     mounted() {
       console.log(this.$i18n.t('config.currency.title'))
+
     },
     methods : {
       forceChangeLang() {
         this.$forceUpdate();
       },
       async revemoAccount() {
-        removeAccountId(this.accountSelected)
+        await removeAccountId(this.accountSelected)
         await this.$store.dispatch('getWallets')
+        await this.$store.dispatch('changeWallet', 0)
         this.deletedWallet = true
+        if(this.allWallets.length === 0) {
+          this.$store.commit('setIsLogged', false)
+          this.$router.push('/create') 
+        }
+        
       }
     }
   }

@@ -6,8 +6,8 @@
           >
             <v-list lines="two">
               <v-list-item
-                :title="accountNow.name"
-                :subtitle="accountNow.address"
+                :title="this.allWallets[this.accountSelected]?.name"
+                :subtitle="this.allWallets[this.accountSelected]?.address"
               >
               <template v-slot:prepend>
                   <v-avatar>
@@ -98,7 +98,9 @@ export default {
       this.accountNow = this.allWallets[this.accountSelected]
       this.walletName = this.accountNow.name
     }
-
+    if(this.allWallets.length === 0) {
+        this.$router.push('/create') 
+    }
   },
   methods: {
     async editAccount() {

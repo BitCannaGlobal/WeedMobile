@@ -116,6 +116,18 @@
         <v-divider></v-divider>
         <v-list
         >
+      <v-alert
+        v-model="alertError"
+        class="ma-4"
+        variant="outlined"
+        type="warning"
+        border="top"
+        closable
+        close-label="Close Alert"
+      >
+        Bad password
+      </v-alert>
+
         <v-list-item>
             <v-text-field
                 v-model="name"
@@ -199,9 +211,21 @@
         >
           <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
         </v-list>
+        
         <v-divider></v-divider>
         <v-list
         >
+       <v-alert
+        v-model="alertError"
+        class="ma-4"
+        variant="outlined"
+        type="warning"
+        border="top"
+        closable
+        close-label="Close Alert"
+      >
+        Bad password
+      </v-alert>       
         <v-list-item>
             <v-text-field
                 v-model="name"
@@ -308,6 +332,7 @@
 </template>
 <script>
 import { mapState } from 'vuex'
+import { Preferences } from '@capacitor/preferences';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
 import { getAccounts, removeAccount, addAccount, addMasterPassword, getMasterPassword, removeMasterPassword } from '@/libs/storage.js';
 import md5 from 'md5' 
@@ -372,6 +397,15 @@ export default {
       this.mnemonic = wallet.mnemonic
     },
     async importWallet() {
+      const hash = md5(this.password); 
+      const { value } = await Preferences.get({ key: 'masterPass' });
+
+      console.log(hash, value)
+      if(hash !== value) {
+        this.alertError = true
+        return
+      }
+      
 
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic( this.mnemonic, {
         prefix: 'bcna'

@@ -72,7 +72,7 @@
 import { Preferences } from '@capacitor/preferences';
 import { mapState } from 'vuex'
 import md5 from 'md5' 
-import { checkMasterPassword, addBcnaSession } from '@/libs/storage.js';
+import { checkMasterPassword, addBcnaSession, getMasterPassword } from '@/libs/storage.js';
 
 export default {
   data: () => ({ 
@@ -96,6 +96,10 @@ export default {
     if (typeof this.$route.query.expired !== 'undefined') {
       this.alertExpired = true
     }
+
+    let existPass = await getMasterPassword()
+    if(!existPass)
+      this.$router.push('/create')
   },
   methods: { 
     async login() {
@@ -104,7 +108,14 @@ export default {
       if(checkPass) {
         await addBcnaSession();
         this.$store.commit('setIsLogged', checkPass)
-        this.$router.push('/dashboard')
+
+        if(this.allWallets.length !== 0) {
+          this.$router.push('/dashboard')
+        } else {
+          this.$router.push('/create')
+        }
+
+        // this.$router.push('/dashboard')
       } else {
         this.alertError = true
       }  
