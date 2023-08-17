@@ -99,7 +99,7 @@ export default {
       this.walletName = this.accountNow.name
     }
     if(this.allWallets.length === 0) {
-        this.$router.push('/create') 
+        this.$router.push('/accounts') 
     }
   },
   methods: {

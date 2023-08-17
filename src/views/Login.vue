@@ -7,8 +7,9 @@
   ></v-img>
  
   </v-row>
-  <div class="mt-10 text-center">{{ $t("login.title") }}</div> 
-    <v-container>
+  <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div> 
+  <div v-else class="mt-10 text-center">Welcome to bitcanna app<br />Create first your password to use your wallet</div>
+    <v-container> 
     <v-alert
       v-model="alertError"
       variant="outlined"
@@ -42,11 +43,10 @@
     </v-alert>
     
     <br />
-      <v-row>
+      <v-row v-if="passExist">
         <v-col
           cols="12"
-        >
- 
+        > 
           <v-text-field
             v-model="passWord"
             :label="$t('login.passInput')"
@@ -57,27 +57,92 @@
         </v-col>
       </v-row>
  
-      <v-btn type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">        
+      <v-btn v-if="passExist" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">        
         {{ $t("login.loginButton") }}
       </v-btn> 
-
+      <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="dialogMasterPassword = true">Set masterpass</v-btn>
+      <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">Remove masterpass</v-btn> 
     </v-container>
   </div>
 
  
-
+  <v-dialog
+      v-model="dialogMasterPassword"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogMasterPassword = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Import</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-toolbar-items>
+            <v-btn
+              variant="text"
+              size="x-large"
+              @click="saveMasterPassword"
+            >
+              Save
+            </v-btn>
+          </v-toolbar-items>
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list>
+          <v-list-item>
+            <v-text-field
+              v-model="masterPass"
+              type="password"
+              variant="outlined"
+              color="#00b786"
+              counter="6"
+              label="Set your password"
+              style="min-height: 96px"
+              class="mt-4"              
+            ></v-text-field>
+          </v-list-item> 
+          <v-list-item>
+            <v-text-field
+              v-model="masterPass2"
+              type="password"
+              variant="outlined"
+              color="#00b786"
+              counter="6"
+              label="Repeat your password"
+              style="min-height: 96px"
+              class="mt-4"
+            ></v-text-field>
+          </v-list-item> 
+        </v-list>
+      </v-card>
+    </v-dialog>
 
 </template>
 <script>
 import { Preferences } from '@capacitor/preferences';
 import { mapState } from 'vuex'
 import md5 from 'md5' 
-import { checkMasterPassword, addBcnaSession, getMasterPassword } from '@/libs/storage.js';
+import { checkMasterPassword, addBcnaSession, getMasterPassword, addMasterPassword, removeMasterPassword } from '@/libs/storage.js';
 
 export default {
   data: () => ({ 
     passWord: '',
     dialogImport: false,
+    dialogMasterPassword: false,
     name: '',
     mnemonic: '',
     password: '',
@@ -87,6 +152,7 @@ export default {
     alertSuccess: false,
     alertDelete: false,
     alertExpired: false,
+    passExist: false,
   }),
   computed: {
     ...mapState(['allWallets', 'isLogged'])
@@ -96,10 +162,10 @@ export default {
     if (typeof this.$route.query.expired !== 'undefined') {
       this.alertExpired = true
     }
-
+      
     let existPass = await getMasterPassword()
-    if(!existPass)
-      this.$router.push('/create')
+    if(existPass)
+      this.passExist = existPass
   },
   methods: { 
     async login() {
@@ -109,16 +175,31 @@ export default {
         await addBcnaSession();
         this.$store.commit('setIsLogged', checkPass)
 
-        if(this.allWallets.length !== 0) {
+        /* if(this.allWallets.length !== 0) {
           this.$router.push('/dashboard')
         } else {
           this.$router.push('/create')
-        }
+        } */
 
-        // this.$router.push('/dashboard')
+        this.$router.push('/dashboard')
       } else {
         this.alertError = true
       }  
+    },
+    async saveMasterPassword() {
+      if (this.masterPass == this.masterPass2) {
+        await addMasterPassword( this.masterPass )
+        this.dialogMasterPassword = false
+        // Refresh pass exist
+        let existPass = await getMasterPassword()
+        this.passExist = existPass
+      }
+    },
+    async removePassword() {
+      await removeMasterPassword()
+      // Refresh pass exist
+      let existPass = await getMasterPassword()
+      this.passExist = existPass
     }
   }
 }

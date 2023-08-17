@@ -261,17 +261,14 @@ import { removeAccountId } from '@/libs/storage.js';
 
     },
     methods : {
-      forceChangeLang() {
-        this.$forceUpdate();
-      },
       async revemoAccount() {
         await removeAccountId(this.accountSelected)
         await this.$store.dispatch('getWallets')
         await this.$store.dispatch('changeWallet', 0)
         this.deletedWallet = true
         if(this.allWallets.length === 0) {
-          this.$store.commit('setIsLogged', false)
-          this.$router.push('/create') 
+          // this.$store.commit('setIsLogged', false)
+          this.$router.push('/accounts') 
         }
         
       }

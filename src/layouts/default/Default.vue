@@ -14,7 +14,7 @@
 
         <v-divider></v-divider>
           <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" title="DashBoard" to="/dashboard"></v-list-item>
-          <v-list-item prepend-icon="mdi-pencil" title="Create/import" to="/create"></v-list-item>
+          <!-- <v-list-item prepend-icon="mdi-pencil" title="Create/import" to="/create"></v-list-item> -->
           <v-list-item v-if="!isLogged" prepend-icon="mdi-login" title="Login" to="/"></v-list-item>
           <v-list-item v-else prepend-icon="mdi-login" title="Logout" @click="logout"></v-list-item> 
           
@@ -22,11 +22,9 @@
     </v-navigation-drawer>
 
     <v-app-bar style="background-color:black; color:white">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>WeedMobile</v-toolbar-title>
+      <v-app-bar-nav-icon  v-if="isLogged"   @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title  v-if="isLogged"  >WeedMobile</v-toolbar-title>
       <v-spacer></v-spacer>
-
     </v-app-bar>
 
     <v-main>
@@ -95,6 +93,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       if (!this.isLogged) {
         this.$router.push('/')
       }
+      
     },
     methods: {
       async remainingTime(getFinalSession) { 

@@ -24,17 +24,7 @@ const routes = [
       },
     ],
   },
-  {
-    path: '/create',
-    component: () => import('@/layouts/default/Default.vue'),
-    children: [
-      {
-        path: '',
-        name: 'Create',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Create.vue'),
-      },
-    ],
-  },  
+ 
   {
     path: '/accounts',
     component: () => import('@/layouts/default/Default.vue'),
