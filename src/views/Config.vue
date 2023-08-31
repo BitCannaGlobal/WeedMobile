@@ -1,22 +1,39 @@
 <template>
     <v-list bg-color="black" lines="two">
       <v-list-subheader>General</v-list-subheader>
-      <Accounts />
+      <Accounts /> 
       <v-list-item
-        v-for="folder in general"
-        :key="folder.title"
-        :title="folder.title"
-        :subtitle="folder.subtitle"
+        :title="$t('config.currency.title')"
+        :subtitle="$t('config.currency.subtitle')"
       >
       <template v-slot:prepend>
           <v-avatar>
-            <v-icon :color="folder.color">{{ folder.icon }}</v-icon>
+            <v-icon color="#33ffc9">mdi-currency-usd</v-icon>
+          </v-avatar>
+        </template>
+
+        <template v-slot:append>
+          <!-- <v-btn
+            v-if="folder.id == 'language'"
+            color="grey-lighten-1"
+            icon="mdi-chevron-right"
+            variant="text"
+            @click.stop="changeLang = !changeLang"
+          ></v-btn> -->
+        </template>
+      </v-list-item>
+      <v-list-item
+        :title="$t('config.language.title')"
+        :subtitle="$t('config.language.subtitle')"
+      >
+        <template v-slot:prepend>
+          <v-avatar>
+            <v-icon color="#33ffc9">mdi-translate-variant</v-icon>
           </v-avatar>
         </template>
 
         <template v-slot:append>
           <v-btn
-            v-if="folder.id == 'language'"
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
@@ -30,14 +47,12 @@
       <v-list-subheader>Privacy</v-list-subheader>
 
       <v-list-item
-        v-for="file in privacy"
-        :key="file.title"
-        :title="file.title"
-        :subtitle="file.subtitle"
+        :title="$t('config.viewMnemonic.title')"
+        :subtitle="$t('config.viewMnemonic.subtitle')"
       >
-        <template v-slot:prepend>
+      <template v-slot:prepend>
           <v-avatar>
-            <v-icon :color="file.color">{{ file.icon }}</v-icon>
+            <v-icon color="#33ffc9">mdi-shield-lock-open-outline</v-icon>
           </v-avatar>
         </template>
 
@@ -49,19 +64,13 @@
           ></v-btn>
         </template>
       </v-list-item>
-      <v-divider></v-divider>
-
-      <v-list-subheader>Other</v-list-subheader>
-
       <v-list-item
-        v-for="file in other"
-        :key="file.title"
-        :title="file.title"
-        :subtitle="file.subtitle"
+        :title="$t('config.masterPassChange.title')"
+        :subtitle="$t('config.masterPassChange.subtitle')"
       >
-        <template v-slot:prepend>
+      <template v-slot:prepend>
           <v-avatar>
-            <v-icon :color="file.color">{{ file.icon }}</v-icon>
+            <v-icon color="#33ffc9">mdi-pencil-lock-outline</v-icon>
           </v-avatar>
         </template>
 
@@ -70,54 +79,42 @@
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
-            @click.stop="deleteWallet = !deleteWallet"
           ></v-btn>
         </template>
-      </v-list-item>      
+      </v-list-item>
+ 
+      <v-divider></v-divider>
+
+      <v-list-subheader>Other</v-list-subheader>
+
+      <v-list-item
+        :title="$t('config.deleteWallet.title')"
+        :subtitle="$t('config.deleteWallet.subtitle')"
+      >
+      <template v-slot:prepend>
+          <v-avatar>
+            <v-icon color="red">mdi-delete-forever-outline</v-icon>
+          </v-avatar>
+        </template>
+
+        <template v-slot:append>
+          <v-btn
+            color="grey-lighten-1"
+            icon="mdi-chevron-right"
+            variant="text"
+            @click.stop="openDeleteWallet()"
+          ></v-btn>
+        </template>
+      </v-list-item>
+   
     </v-list>
  
-
-    <v-navigation-drawer
-        v-model="drawer"
-        location="bottom"
-        temporary
-      >
-      <v-row>
-        <v-col  >
-          <v-sheet border="md" >test</v-sheet>
-        </v-col>
-        <v-col >
-          <v-sheet border="md"  >test</v-sheet>
-        </v-col>
-        <v-col  >
-          <v-sheet border="md" >test</v-sheet>
-        </v-col>
-      </v-row>
-      </v-navigation-drawer>
-
-<!--       <v-navigation-drawer
-        v-model="deleteWallet"
-        location="bottom"
-        temporary 
-      >
-      
-        <span >Are you sure to delete this wallet?</span>
-        <br />
-        <v-btn
-        class="flex-grow-1"
-          color="red"  
-          block 
-        >
-          Delete this wallet
-        </v-btn>
-      </v-navigation-drawer>
-       -->
 
    <div class="text-center">
     <v-bottom-sheet v-model="deleteWallet" inset>
       <v-card
         class="text-center"
-        height="200"
+        height="300"
       >
         <v-card-text>
           <v-btn
@@ -127,8 +124,7 @@
             close
           </v-btn>
 
-          <br>
-          <br>
+ 
 
           <v-alert
             v-if="deletedWallet"
@@ -139,16 +135,31 @@
             Wallet deleted
           </v-alert>
 
+          <!-- <v-checkbox
+              v-if="!deletedWallet" 
+              v-model="checkbox1"
+              label="You agree to delete your wallet from the app?"
+            ></v-checkbox> -->
+            <v-text-field
+                v-model="password"
+                variant="outlined"
+                color="#00b786" 
+                label="Password"
+                style="min-height: 96px"
+                class="mt-6"
+                type="password"
+            ></v-text-field>
+            <v-btn 
+              v-if="!deletedWallet" 
+              color="red"  
+              block 
+              @click="revemoAccount"
+            >
+              Delete this wallet
+            </v-btn>
 
-        <v-btn
-          v-if="!deletedWallet"
-          class="flex-grow-1"
-          color="red"  
-          block 
-          @click="revemoAccount"
-        >
-          Delete this wallet
-        </v-btn>
+                   
+ 
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
@@ -187,7 +198,8 @@
 <script>
 import { mapState } from 'vuex'
 import Accounts from '@/components/Accounts.vue'
-import { removeAccountId } from '@/libs/storage.js'; 
+import md5 from 'md5' 
+import { removeAccountId, checkMasterPassword } from '@/libs/storage.js';  
 
   export default {
     components: { Accounts },
@@ -196,62 +208,8 @@ import { removeAccountId } from '@/libs/storage.js';
       deleteWallet: false,
       deletedWallet: false,
       changeLang: false,
-      items: [
-        {
-          title: 'Foo',
-          value: 'foo',
-        },
-        {
-          title: 'Bar',
-          value: 'bar',
-        },
-        {
-          title: 'Fizz',
-          value: 'fizz',
-        },
-        {
-          title: 'Buzz',
-          value: 'buzz',
-        },
-      ],
-      general: [
-        {      
-          id: 'currency',
-          color: '#33ffc9',    
-          icon: 'mdi-currency-usd',
-          subtitle: t.$i18n.t('config.currency.subtitle'),
-          title: t.$i18n.t('config.currency.title'),
-        },
-        {
-          id: 'language',
-          color: '#33ffc9',
-          icon: 'mdi-translate-variant',
-          subtitle: t.$i18n.t('config.language.subtitle'),
-          title: t.$i18n.t('config.language.title'),
-        }
-      ],
-      privacy: [
-        {
-          color: '#33ffc9',
-          icon: 'mdi-shield-lock-open-outline',
-          subtitle: t.$i18n.t('config.viewMnemonic.subtitle'),
-          title: t.$i18n.t('config.viewMnemonic.title'),
-        },
-        {
-          color: '#33ffc9',
-          icon: 'mdi-pencil-lock-outline',
-          subtitle: t.$i18n.t('config.masterPassChange.subtitle'),
-          title: t.$i18n.t('config.masterPassChange.title'),
-        },
-      ],
-      other: [
-        {
-          color: 'red',
-          icon: 'mdi-delete-forever-outline',
-          subtitle: t.$i18n.t('config.deleteWallet.subtitle'),
-          title: t.$i18n.t('config.deleteWallet.title'),
-        }
-      ],
+      checkbox1: true,
+      password: '',
     }),
     computed: {
       ...mapState(['allWallets', 'accountSelected'])
@@ -261,16 +219,31 @@ import { removeAccountId } from '@/libs/storage.js';
 
     },
     methods : {
+      async openDeleteWallet() {
+        this.deleteWallet = true
+        this.deletedWallet = false
+        this.checkbox1 = false
+      },
       async revemoAccount() {
-        await removeAccountId(this.accountSelected)
+
+        console.log(this.password)
+
+        const hash = md5(this.password);
+        let checkPass = await checkMasterPassword(hash)
+        if(checkPass) {
+          console.log('Deleted!!')
+        } else {
+          console.log('Not Deleted :/')
+          this.alertError = true
+        }          
+        /* await removeAccountId(this.accountSelected)
         await this.$store.dispatch('getWallets')
         await this.$store.dispatch('changeWallet', 0)
         this.deletedWallet = true
         if(this.allWallets.length === 0) {
           // this.$store.commit('setIsLogged', false)
           this.$router.push('/accounts') 
-        }
-        
+        }  */       
       }
     }
   }

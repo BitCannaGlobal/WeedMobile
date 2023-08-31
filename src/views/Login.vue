@@ -60,8 +60,8 @@
       <v-btn v-if="passExist" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">        
         {{ $t("login.loginButton") }}
       </v-btn> 
-      <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="dialogMasterPassword = true">Set masterpass</v-btn>
-      <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">Remove masterpass</v-btn> 
+      <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="openDialogMasterPassword()">Set masterpass</v-btn>
+      <!-- <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">Remove masterpass</v-btn>  -->
     </v-container>
   </div>
 
@@ -83,7 +83,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Import</v-toolbar-title>
+          <v-toolbar-title>Create password</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
@@ -104,6 +104,16 @@
         <v-divider></v-divider>
         <v-list>
           <v-list-item>
+            <v-alert
+          v-model="badMasterPass"
+          variant="outlined"
+          type="warning"
+          border="top"
+          closable
+          close-label="Close Alert"
+        >
+          Bad password
+        </v-alert>
             <v-text-field
               v-model="masterPass"
               type="password"
@@ -153,6 +163,9 @@ export default {
     alertDelete: false,
     alertExpired: false,
     passExist: false,
+    badMasterPass: false,
+    masterPass: '',
+    masterPass2: ''
   }),
   computed: {
     ...mapState(['allWallets', 'isLogged'])
@@ -168,6 +181,11 @@ export default {
       this.passExist = existPass
   },
   methods: { 
+    async openDialogMasterPassword() {
+      this.masterPass = ''
+      this.masterPass2 = ''
+      this.dialogMasterPassword = true
+    },
     async login() {
       const hash = md5(this.passWord);
       let checkPass = await checkMasterPassword(hash)
@@ -193,7 +211,8 @@ export default {
         // Refresh pass exist
         let existPass = await getMasterPassword()
         this.passExist = existPass
-      }
+      } else 
+        this.badMasterPass = true
     },
     async removePassword() {
       await removeMasterPassword()

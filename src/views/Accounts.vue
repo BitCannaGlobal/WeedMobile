@@ -1,14 +1,16 @@
 <template>  
     <h4 class="ma-4">Accounts</h4> 
 
-    <div align="center" justify="center"> 
-        <v-btn size="x-large" color="#0FB786" class="ma-2" @click="dialogImport = true">Create a BitCanna wallet</v-btn> 
+    <div align="center" justify="center" class="ma-4"> 
+        <v-btn size="x-large" color="#0FB786" class="ma-2" @click="dialogImport = true">Create wallet</v-btn> 
         <v-btn size="x-large" color="#1C1D20" @click="dialogCreate = true">Import wallet</v-btn> 
     </div>
  
     <v-card
       v-for="(item, i) in items"
-       class="ma-4"
+      class="ma-4"
+      :style="item.selected == true ? 'border: 2px solid #0FB786;' : 'border: 1px solid white;'"
+       
       :title="item.name"
       :subtitle="item.addr"
       @click="changeAccount(i)"
@@ -50,20 +52,41 @@
           <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
         </v-list>
         <v-divider></v-divider>
-        <v-list
-        >
-      <v-alert
-        v-model="alertError"
-        class="ma-4"
-        variant="outlined"
-        type="warning"
-        border="top"
-        closable
-        close-label="Close Alert"
-      >
-        Bad password
-      </v-alert>
-
+        <v-list>
+          <v-alert
+            v-model="alertError"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Bad password
+          </v-alert>
+          <v-alert
+            v-model="alertErrorName"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Wallet name already taken
+          </v-alert>
+          <v-alert
+            v-model="alertErrorAddressExist"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Wallet address already taken
+          </v-alert>
+      
         <v-list-item>
             <v-text-field
                 v-model="name"
@@ -151,17 +174,39 @@
         <v-divider></v-divider>
         <v-list
         >
-       <v-alert
-        v-model="alertError"
-        class="ma-4"
-        variant="outlined"
-        type="warning"
-        border="top"
-        closable
-        close-label="Close Alert"
-      >
-        Bad password
-      </v-alert>       
+        <v-alert
+            v-model="alertError"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Bad password
+          </v-alert>
+          <v-alert
+            v-model="alertErrorName"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Wallet name already taken
+          </v-alert>
+          <v-alert
+            v-model="alertErrorAddressExist"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Wallet address already taken
+          </v-alert>     
         <v-list-item>
             <v-text-field
                 v-model="name"
@@ -222,25 +267,39 @@ export default {
     alertError: false,
     alertSuccess: false,
     alertDelete: false,
+    alertErrorName: false,
+    alertErrorAddressExist: false,
   }),
   computed: {
-    ...mapState(['allWallets', 'isLogged'])
+    ...mapState(['allWallets', 'isLogged', 'accountSelected'])
   },
   async mounted() {
-      await this.$store.dispatch('getWallets')
-      this.items = []
-      for (const element of this.allWallets) {
-        this.items.push({ name: element.name, addr: element.address })
-      } 
+    this.setData() 
+
+
       //console.log(await addAccount());
       // console.log(await getAccounts());
       //console.log(await removeAccount());
 
   },
   methods: { 
+    async setData() {
+      await this.$store.dispatch('getWallets')
+      this.items = []
+      for (const [index, element] of this.allWallets.entries()) {
+        console.log('index', index)
+        //console.log('accountSelected', this.accountSelected)
+        let selected = false
+        if(index === this.accountSelected) {
+          selected = true
+        }
+        this.items.push({ name: element.name, addr: element.address, selected: selected })
+      } 
+    },
     async changeAccount(i) {
       //console.log(i)
       await this.$store.dispatch('changeWallet', i)
+      this.setData() 
     }, 
     async deleteWallets() {
       await removeAccount() 
@@ -253,6 +312,10 @@ export default {
       this.mnemonic = wallet.mnemonic
     },
     async importWallet() {
+      this.alertErrorName = false
+      this.alertErrorAddressExist = false
+
+
       const hash = md5(this.password); 
       const { value } = await Preferences.get({ key: 'masterPass' });
 
@@ -261,15 +324,30 @@ export default {
         this.alertError = true
         return
       }
-      
+
 
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic( this.mnemonic, {
         prefix: 'bcna'
       })
       var finalWallet = await wallet.serialize( this.password )
       var finalAddress = await wallet.getAccounts()
-      console.log(finalWallet)
-      console.log(finalAddress[0].address)
+
+      console.log(this.allWallets)
+      const foundName = this.allWallets.find((element) => element.name === this.name);
+      const foundAddress = this.allWallets.find((element) => element.address === finalAddress[0].address);
+      if (foundName) {
+        console.log('found')
+        this.alertErrorName = true
+        return
+      }
+      if (foundAddress) {
+        console.log('found')
+        this.alertErrorAddressExist = true
+        return
+      }
+
+      //console.log(finalWallet)
+      //console.log(finalAddress[0].address)
 
       await addAccount( this.name, finalAddress[0].address, finalWallet )
       await this.$store.dispatch('getWallets')
@@ -281,7 +359,7 @@ export default {
       }
       this.select = this.items[0]
       this.dialogImport = false
-      this.dialogCreate = false
+      this.dialogCreate = false 
     },    
   }
 }

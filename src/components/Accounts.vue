@@ -20,7 +20,7 @@
                     color="grey-lighten-1"
                     icon="mdi-chevron-right"
                     variant="text"
-                    @click.stop="editNow = !editNow"
+                    @click.stop="editNowModal()"
                   ></v-btn>
                 </template>
               </v-list-item>
@@ -103,6 +103,10 @@ export default {
     }
   },
   methods: {
+    editNowModal() {
+      this.editedWallet = false
+      this.editNow = !this.editNow
+    },
     async editAccount() {
       await editAccountId(this.accountSelected, this.walletName)
       await this.$store.dispatch('getWallets')
