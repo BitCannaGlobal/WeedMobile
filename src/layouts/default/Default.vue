@@ -25,11 +25,37 @@
       <v-app-bar-nav-icon  v-if="isLogged"   @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title  v-if="isLogged"  >WeedMobile</v-toolbar-title>
       <v-spacer></v-spacer>
+ 
+
+    <v-menu
+    v-if="isLogged" 
+      transition="slide-x-transition"
+    >
+      <template v-slot:activator="{ props }">
+        <v-btn
+          color="#0FB786"
+          v-bind="props"
+        >
+          {{ network }}
+        </v-btn>
+      </template>
+
+      <v-list>
+        <v-list-item
+          v-for="(item, i) in bitcannaConfig"
+          :key="i"
+          @click="changeNetwork(item.type)"
+        >
+          <v-list-item-title>{{ item.type }}</v-list-item-title>
+        </v-list-item>
+      </v-list>
+    </v-menu>
+
     </v-app-bar>
 
     <v-main>
       <!-- <div class="mt-10 text-center">{{ height }}</div> -->
- 
+      
       <router-view></router-view>
       <mainFooter v-if="isLogged" />      
     </v-main>
@@ -38,7 +64,7 @@
 
 <script>
 import { App } from '@capacitor/app';
-
+import bitcannaConfig from '../../bitcanna.config'
 
 import { mapState } from 'vuex'
 import mainFooter from '@/components/Footer.vue' 
@@ -46,6 +72,13 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
 
   export default {
     components: { mainFooter },
+    data: () => ({
+      drawer: false,
+      drawertest: false,
+      timeLeft: '',
+      bitcannaConfig: bitcannaConfig,
+      accountNow: '',
+    }),
     setup () {
 //       const { name } = useDisplay()
 //
@@ -69,15 +102,12 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
 //
 //       return { height }
     },
-    data: () => ({
-      drawer: false,
-      drawertest: false,
-      timeLeft: '',
-    }),
+
     computed: {
-      ...mapState(['isLogged', 'sessionMax'])
+      ...mapState(['allWallets', 'network', 'isLogged', 'sessionMax', 'accountSelected'])
     },
     async mounted() {
+      await this.$store.dispatch('initRpc')
       App.addListener('appStateChange', async ({ isActive }) => {
         //console.log('App state changed. Is active?', isActive);
         if (!isActive) { 
@@ -93,9 +123,21 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       if (!this.isLogged) {
         this.$router.push('/')
       }
+
+      await this.$store.dispatch('getPriceNow')
       
     },
     methods: {
+      async changeNetwork(network) {
+        this.$store.commit('setNetwork', network) 
+        
+        await this.$store.dispatch('initRpc')
+        this.accountNow = this.allWallets[this.accountSelected]
+        await this.$store.dispatch('getBankModule', this.accountNow.address)
+        await this.$store.dispatch('getDistribModule', this.accountNow.address)
+        await this.$store.dispatch('getStakingModule', this.accountNow.address)
+        await this.$store.dispatch('getWalletAmount')
+      },
       async remainingTime(getFinalSession) { 
         let timeNow = Math.floor(Date.now() / 1000)        
         this.timeLeft = timeNow - (Number(getFinalSession) + this.sessionMax)
