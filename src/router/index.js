@@ -3,7 +3,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
   {
-    path: '/',
+    path: '/dashboard',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
@@ -14,7 +14,7 @@ const routes = [
     ],
   },
   {
-    path: '/login',
+    path: '/',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
@@ -24,17 +24,29 @@ const routes = [
       },
     ],
   },
+ 
   {
-    path: '/create',
+    path: '/accounts',
     component: () => import('@/layouts/default/Default.vue'),
     children: [
       {
         path: '',
-        name: 'Create',
-        component: () => import(/* webpackChunkName: "home" */ '@/views/Create.vue'),
+        name: 'Accounts',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Accounts.vue'),
       },
     ],
-  },  
+  }, 
+  {
+    path: '/config',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Config',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Config.vue'),
+      },
+    ],
+  }, 
 ]
 
 const router = createRouter({

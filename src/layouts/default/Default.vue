@@ -13,32 +13,39 @@
         ></v-list-item>
 
         <v-divider></v-divider>
-          <v-list-item prepend-icon="mdi-view-dashboard" title="DashBoard" to="/"></v-list-item>
-          <v-list-item prepend-icon="mdi-login" title="Create" to="/create"></v-list-item>
-          <v-list-item prepend-icon="mdi-login" title="Login" to="/login"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" title="DashBoard" to="/dashboard"></v-list-item>
+          <!-- <v-list-item prepend-icon="mdi-pencil" title="Create/import" to="/create"></v-list-item> -->
+          <v-list-item v-if="!isLogged" prepend-icon="mdi-login" title="Login" to="/"></v-list-item>
+          <v-list-item v-else prepend-icon="mdi-login" title="Logout" @click="logout"></v-list-item> 
+          
         </v-list>
     </v-navigation-drawer>
 
     <v-app-bar style="background-color:black; color:white">
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
-      <v-toolbar-title>WeedMobile</v-toolbar-title>
+      <v-app-bar-nav-icon  v-if="isLogged"   @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-toolbar-title  v-if="isLogged"  >WeedMobile</v-toolbar-title>
+      <v-spacer></v-spacer>
     </v-app-bar>
 
     <v-main>
       <!-- <div class="mt-10 text-center">{{ height }}</div> -->
-      <div >
+ 
       <router-view></router-view>
-      </div>
-
+      <mainFooter v-if="isLogged" />      
     </v-main>
   </v-app>
 </template>
 
 <script>
-  import { useDisplay } from 'vuetify'
+import { App } from '@capacitor/app';
+
+
+import { mapState } from 'vuex'
+import mainFooter from '@/components/Footer.vue' 
+import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storage.js'; 
 
   export default {
+    components: { mainFooter },
     setup () {
 //       const { name } = useDisplay()
 //
@@ -65,11 +72,45 @@
     data: () => ({
       drawer: false,
       drawertest: false,
+      timeLeft: '',
     }),
-
-    async mounted() {
-
+    computed: {
+      ...mapState(['isLogged', 'sessionMax'])
     },
+    async mounted() {
+      App.addListener('appStateChange', async ({ isActive }) => {
+        //console.log('App state changed. Is active?', isActive);
+        if (!isActive) { 
+          await addBcnaSession();
+          //console.log('App will close in ' + this.sessionMax + ' seconds');
+        } else {
+          let getFinalSession = await getBcnaSession();
+          this.remainingTime(getFinalSession)
+          //console.log('App is active, reset session data: ' + getFinalSession);
+          removeBcnaSession();
+        }
+      });
+      if (!this.isLogged) {
+        this.$router.push('/')
+      }
+      
+    },
+    methods: {
+      async remainingTime(getFinalSession) { 
+        let timeNow = Math.floor(Date.now() / 1000)        
+        this.timeLeft = timeNow - (Number(getFinalSession) + this.sessionMax)
+
+        if (this.timeLeft > 0) { 
+          this.$store.commit('setIsLogged', false)
+          removeBcnaSession()
+          this.$router.push('/?expired=true')
+        }
+      },
+      logout() {
+        this.$store.commit('setIsLogged', false)
+        this.$router.push('/')
+      }
+    }
   }
 </script>
 <style>
