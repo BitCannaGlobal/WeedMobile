@@ -31,14 +31,11 @@
       v-for="(item, i) in items"
       class="ma-4"
       :style="item.selected == true ? 'border: 2px solid #0FB786;' : 'border: 1px solid white;'"
-       
       :title="item.name"
       :subtitle="item.addr"
       @click="changeAccount(i)"
     >
-      <v-card-actions>
-        <v-col>      
-        </v-col>
+      <v-card-actions> 
         <v-col class="text-right">
           <v-btn color="#0FB786" variant="outlined" @click.stop="editNowModal(i)">Edit</v-btn>
           <v-btn color="red" variant="outlined" @click="openDeleteWallet()">Delete</v-btn>

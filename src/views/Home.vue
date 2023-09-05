@@ -150,18 +150,37 @@
  
       </v-row>
     </v-container> 
+    
+    <v-card color="black" >
+      <v-card-text  >
+      <v-row>
+        <v-col
+          cols="6"
+        >
+        <actionsModal type="getRewards" /> 
+        </v-col>
+        <v-col
+          cols="6"
+        >
+        <v-btn block size="x-large" color="#1C1D20"  @click="actionReceive = true">Receive</v-btn> 
+        </v-col>
+      </v-row>
+    </v-card-text>
+    </v-card>
+
 
 </template>
 
 <script>
 import { getBcnaSession, removeBcnaSession } from '@/libs/storage.js'; 
 import { mapState } from 'vuex'
+import actionsModal from '@/components/ActionsModal.vue'
 
 import bitcannaConfig from '../bitcanna.config'
 
 export default {
   name: 'App', 
-  
+  components: { actionsModal },
   data: () => ({
     bitcannaConfig: bitcannaConfig,
     userSession: '',
