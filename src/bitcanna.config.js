@@ -29,4 +29,19 @@ export default {
     feeMultiplier: 1.9,
     gasPrice: 0.0025
   },
+  'devnet': {
+    chainId: 'bitcanna-dev-6',
+    name: 'BitCanna',
+    type: 'devnet',
+    apiURL: 'https://lcd-devnet-6.bitcanna.io',
+    rpcURL: 'https://rpc-devnet-6.bitcanna.io',
+    coinLookup: {
+      viewDenom: 'BCNA',
+      chainDenom: 'ubcna',
+      addressPrefix: 'bcna'
+    },
+    coingeckoId: 'bitcanna',
+    feeMultiplier: 1.9,
+    gasPrice: 0.0025
+  },
 }
