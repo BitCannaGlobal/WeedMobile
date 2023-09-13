@@ -8,7 +8,7 @@
         <v-col
           cols="6"
         >
-        <v-btn  block size="x-large" color="#0FB786" @click="dialogImport = true">Create</v-btn> 
+        <CreateAccount />
         </v-col>
         <v-col
           cols="6"
@@ -28,7 +28,7 @@
  
     <h4 class="ma-4">Select wallet</h4> 
     <v-card
-      v-for="(item, i) in items"
+      v-for="(item, i) in allWalletsList"
       class="ma-4"
       :style="item.selected == true ? 'border: 2px solid #0FB786;' : 'border: 1px solid white;'"
       :title="item.name"
@@ -369,9 +369,7 @@
       </v-card>
     </v-bottom-sheet>
   </div> 
-
-
-
+ 
 </template>
 <script>
 import { mapState } from 'vuex'
@@ -379,12 +377,15 @@ import { Preferences } from '@capacitor/preferences';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
 import { checkMasterPassword, removeAccount, addAccount, removeAccountId, editAccountId } from '@/libs/storage.js';
 import md5 from 'md5' 
+import CreateAccount from '@/components/CreateAccount.vue' 
 
-export default {
+export default {  
+  components: { CreateAccount },
   data: () => ({ 
     items: [],
     dialogImport: false,
     dialogCreate: false,
+    dialogCreateWallet: false,
     name: '',
     mnemonic: '',
     password: '',
@@ -412,10 +413,13 @@ export default {
       } else {
         this.enableButton = false
       }
-    }
+    },
+    mnemonic: function (val) {
+      this.mnemonic = this.mnemonic.toLowerCase()      
+    },
   },  
   computed: {
-    ...mapState(['allWallets', 'isLogged', 'accountSelected'])
+    ...mapState(['allWallets', 'isLogged', 'accountSelected', 'allWalletsList'])
   },
   async mounted() {
     this.setData() 
@@ -429,16 +433,7 @@ export default {
   methods: { 
     async setData() {
       await this.$store.dispatch('getWallets')
-      this.items = []
-      for (const [index, element] of this.allWallets.entries()) {
-        console.log('index', index)
-        //console.log('accountSelected', this.accountSelected)
-        let selected = false
-        if(index === this.accountSelected) {
-          selected = true
-        }
-        this.items.push({ name: element.name, addr: element.address, selected: selected })
-      } 
+
     },
     async changeAccount(i) {
       //console.log(i)
@@ -459,7 +454,6 @@ export default {
       this.alertErrorName = false
       this.alertErrorAddressExist = false
 
-
       const hash = md5(this.password); 
       const { value } = await Preferences.get({ key: 'masterPass' });
 
@@ -468,7 +462,6 @@ export default {
         this.alertError = true
         return
       }
-
 
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic( this.mnemonic, {
         prefix: 'bcna'
@@ -480,28 +473,17 @@ export default {
       const foundName = this.allWallets.find((element) => element.name === this.name);
       const foundAddress = this.allWallets.find((element) => element.address === finalAddress[0].address);
       if (foundName) {
-        console.log('found')
         this.alertErrorName = true
         return
       }
       if (foundAddress) {
-        console.log('found')
         this.alertErrorAddressExist = true
         return
       }
 
-      //console.log(finalWallet)
-      //console.log(finalAddress[0].address)
-
       await addAccount( this.name, finalAddress[0].address, finalWallet )
       await this.$store.dispatch('getWallets')
 
-      this.items = []
-      for (const element of this.allWallets) {
-        console.log(element.name)
-        this.items.push({ name: element.name, addr: element.address })
-      }
-      this.select = this.items[0]
       this.dialogImport = false
       this.dialogCreate = false 
     },    
@@ -515,20 +497,6 @@ export default {
       await editAccountId(this.editThisWallet, this.walletName)
       await this.$store.dispatch('getWallets')
       this.editedWallet = true
-      /* let finalWallet = this.allWallets[this.accountSelected]
-      finalWallet.address = this.truncate(finalWallet?.address)
-      this.accountNow = this.allWallets[this.accountSelected]
-      this.walletName = this.accountNow.name */
-      this.items = []
-      for (const [index, element] of this.allWallets.entries()) {
-        console.log('index', index)
-        //console.log('accountSelected', this.accountSelected)
-        let selected = false
-        if(index === this.accountSelected) {
-          selected = true
-        }
-        this.items.push({ name: element.name, addr: element.address, selected: selected })
-      } 
     }, 
     async openDeleteWallet() {
         this.deleteWallet = true

@@ -21,6 +21,7 @@ export default createStore({
     isLogged: false,
     sessionMax: 1000000,
     allWallets: [],
+    allWalletsList: [],
     accountSelected: 0,
     spendableBalances: 0,
     totalRewards: 0,
@@ -133,8 +134,19 @@ export default createStore({
     },
     async getWallets({ state }) {
       const { value } = await Preferences.get({ key: 'allWallets' });
-      if (value)
+      if (value) {
         state.allWallets = JSON.parse(value)
+        state.allWalletsList = []
+        for (const [index, element] of state.allWallets.entries()) {
+          console.log('index', index)
+          //console.log('accountSelected', this.accountSelected)
+          let selected = false
+          if(index === state.accountSelected) {
+            selected = true
+          }
+          state.allWalletsList.push({ name: element.name, addr: element.address, selected: selected })
+        } 
+      } 
     },
     changeWallet({ state }, data) {
       state.accountSelected = data
