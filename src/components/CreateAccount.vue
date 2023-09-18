@@ -6,192 +6,23 @@
       :scrim="false"
       transition="dialog-bottom-transition"
     >
-
-<!--   <v-stepper v-model="e1">
-    <v-stepper-header>
-      <v-stepper-step
-        :complete="e1 > 1"
-        step="1"
-        color="#0eb786"
-      >
-        Name of step 1
-      </v-stepper-step>
-
-      <v-divider></v-divider>
-
-      <v-stepper-step
-        :complete="e1 > 2"
-        step="2"
-        color="#0eb786"
-      >
-        Name of step 2
-      </v-stepper-step>
-
-      <v-divider></v-divider>
-
-      <v-stepper-step color="#0eb786" :complete="valid" step="3">
-        Name of step 3
-      </v-stepper-step>
-    </v-stepper-header>
-
-    <v-stepper-items>
-      <v-stepper-content step="1">
-      
-      <v-chip
-        v-for="(item, index) in generatedMnenomic"
-        :key="index"      
-        class="ma-2"
-        color="success"
-        outlined
-      >
-        {{ item }}
-      </v-chip>      
-      
-      
-      <v-slider
-        v-model="numWords"
-        :tick-labels="ticksLabels"
-        :max="2"
-        step="1"
-        ticks="always"
-        tick-size="4"
-        class="ma-2"
-        color="#0eb786"
-        track-color="#0eb786"
-      ></v-slider>
-      
-      
-        <v-btn
-          class="mt-12"
-          color="#0eb786"
-          @click="step1"
+    <v-toolbar
+          dark
         >
-          Start verification
-        </v-btn>
-      </v-stepper-content>
-
-      <v-stepper-content step="2"> 
-      
-      <v-chip
-        v-for="(item, index) in checkMnenomic"
-        :key="item"      
-        class="ma-2"
-        outlined
-        :color="checkMnenomicColor"
-        @click="clickRemove(item, index)"
-      >
-      
-      <v-icon x-small class="mr-1">mdi-minus-circle-outline</v-icon>
-        {{ item }}
-      </v-chip>        
-      
-      <v-divider v-if="!mnenomicVerified"></v-divider>      
-      
-      <v-chip
-        v-for="(item, index) in shuffledMnenomic"
-        :key="index"      
-        class="ma-2"
-        outlined
-        @click="clickCheck(item, index)"
-      >
-      <v-icon x-small class="mr-1">mdi-plus-circle-outline</v-icon>
-      
-        {{ item }}
-      </v-chip>   
-       <br /><br />
- 
-        {{ generatedMnenomic }} 
-        <br />
-        <v-btn
-          class="mt-12"
-          color="#0eb786"
-          :disabled="!mnenomicVerified"
-          @click="step2"
-        >
-          Next step 
-        </v-btn>
-        <v-btn
-          class="mt-12"
-          color="#0eb786"
-          @click="e1 = 3"
-        >
-          pass it
-        </v-btn>
-      </v-stepper-content>
-
-      <v-stepper-content step="3">
-      <v-form v-model="valid">
-      <v-row>
-       
-        <v-col
-          cols="12"
-          sm="6"
-          md="3"
-        >
-         
-            <v-text-field
-              v-model="walletName"
-              label="Account name"
-              :rules="[rules.required, rules.counter]"
-              counter
-              maxlength="10"            
-            ></v-text-field>
-          </v-col>
-
-          <v-col
-            cols="12"
-            sm="6"
-            md="3"
+          <v-btn
+            icon
+            dark
+            @click="dialogCreateWallet = false"
           >
-            <v-text-field
-              v-model="password"
-              label="Password"
-              :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-              :type="show1 ? 'text' : 'password'"
-              :rules="[rules.required]"
-              @click:append="show1 = !show1"
-            ></v-text-field>
-          
-        </v-col>
-        
-      </v-row>
-      </v-form>
-
-        <v-btn
-          :disabled="!valid"
-          color="#0eb786"
-          @click="addWallet"
-        >
-          Create account
-        </v-btn>
-      </v-stepper-content>
-    </v-stepper-items>
-  </v-stepper> -->
-
-  <v-stepper
-    v-model="step"
-    :items="items"
-    hide-actions
-    complete
-  >
-    <template v-slot:item.1>
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Create wallet</v-toolbar-title>
+ 
+        </v-toolbar> 
+    <v-stepper v-model="step" :items="items" hide-actions alt-labels> 
+    <div class="ma-4" v-if="step === 1">
       <h3 class="text-h6">Mnenomic phrase </h3>
-
-      <br>
-      <!-- <v-slider
-          v-model="numWords"
-          :tick-labels="ticksLabels"
-          :max="2"
-          step="1"
-          ticks="always"
-          tick-size="4"
-          class="ma-2"
-          color="#0eb786"
-          track-color="#0eb786"
-          :thumb-size="24"
-          thumb-label="always"
-        ></v-slider> -->
-        <div class="d-flex align-center flex-column pa-6">
+      <div class="d-flex align-center flex-column pa-6">
           
           <v-btn-toggle
             v-model="numWords"
@@ -204,84 +35,57 @@
           </v-btn-toggle>
         </div>
       <v-sheet border>
-
         <v-chip
           v-for="(item, index) in generatedMnenomic"
           :key="index"      
           class="ma-2"
           color="#0eb786"
           outlined
-          label
+          label 
         >
           {{ item }}
         </v-chip>  
-        <!-- <v-table>
-          <thead>
-            <tr>
-              <th>Description</th>
-              <th class="text-end">Quantity</th>
-              <th class="text-end">Price</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr v-for="(product, index) in products" :key="index">
-              <td v-text="product.name"></td>
-              <td class="text-end" v-text="product.quantity"></td>
-              <td class="text-end" v-text="product.quantity * product.price"></td>
-            </tr>
-
-            <tr>
-              <th>Total</th>
-              <th></th>
-              <th class="text-end">
-                ${{ subtotal }}
-              </th>
-            </tr>
-          </tbody>
-        </v-table> -->
-
       </v-sheet>
       <v-btn
-          class="mt-4"
-          color="#0eb786"
-          @click="step1"
-          block
-        >
-          Start verification
-        </v-btn>
-    </template>
-
-    <template v-slot:item.2>
-      <h3 class="text-h6">Check Mnenomic</h3>
-
-      <br>
-      <v-chip
-        v-for="(item, index) in checkMnenomic"
-        :key="item"      
-        class="ma-2"
-        outlined
-        :color="checkMnenomicColor"
-        @click="clickRemove(item, index)"
+        class="mt-4"
+        color="#0eb786"
+        @click="step1"
+        block
       >
-      
-      <v-icon x-small class="mr-1">mdi-minus-circle-outline</v-icon>
-        {{ item }}
-      </v-chip>        
+        Start verification
+      </v-btn>      
+    </div>
+    <div class="ma-4" v-if="step === 2">
+      <h3 class="text-h6">Check Mnenomic</h3>
+        <v-chip
+          v-for="(item, index) in checkMnenomic"
+          :key="item"      
+          class="ma-2"
+          outlined 
+          :color="checkMnenomicColor"
+          @click="clickRemove(item, index)"
+        >
+        
+        <v-icon class="mr-1" >mdi-minus-circle-outline</v-icon>
+          {{ item }}
+        </v-chip>     
+ 
       
       <v-divider v-if="!mnenomicVerified"></v-divider>      
       
+ 
       <v-chip
         v-for="(item, index) in shuffledMnenomic"
         :key="index"      
         class="ma-2"
         outlined
         @click="clickCheck(item, index)"
+        
       >
-      <v-icon x-small class="mr-1">mdi-plus-circle-outline</v-icon>
+      <v-icon class="mr-1">mdi-plus-circle-outline</v-icon>
       
         {{ item }}
-      </v-chip>   
+      </v-chip>    
       <br />
       <v-btn
           class="ma-2" 
@@ -306,9 +110,8 @@
         </v-btn>
         <br />
         Debug<br /> {{ generatedMnenomic }}
-    </template>
-
-    <template v-slot:item.3>
+    </div>
+    <div class="ma-4" v-if="step === 3">
       <h3 class="text-h6">Confirm</h3>
 
       <br>
@@ -361,18 +164,20 @@
                 class="mt-6"
               ></v-text-field>
           </v-list-item>
+          <v-list-item>
           <v-btn 
               size="x-large"
+              block
+              color="#0eb786" 
               @click="importWallet"
             >
               Save
-            </v-btn>
+          </v-btn>
+        </v-list-item>
         </v-list>
-      </v-sheet>
-    </template>
-  </v-stepper>
-
-  
+      </v-sheet>      
+    </div>
+  </v-stepper>  
   </v-dialog>
 </template>
 <script>

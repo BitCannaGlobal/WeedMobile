@@ -1,6 +1,6 @@
 <template>
 
-  <v-btn block size="x-large" color="#0FB786" @click="dialogSendToken = true">Send</v-btn> 
+  <v-btn block size="x-large" color="#0FB786" @click="openDialogSendToken">Send</v-btn> 
   <v-dialog
       v-model="dialogSendToken"
       fullscreen
@@ -93,23 +93,57 @@
               ></v-text-field>
           </v-list-item>
           <v-list-item>
-            <v-btn block color="#0FB786" @click="sendToken()">Send</v-btn>
+            <v-btn 
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="sendToken()
+            ">Send</v-btn>
           </v-list-item>
         </v-list>        
       </v-card>
-      <txApproved v-else />
+
+
+      <v-card v-else class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
+          <v-icon
+          size="100"
+          color="#0FB786"
+          icon="mdi-check-outline"
+          class="returnIcon"
+        ></v-icon> 
+        <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
+          <v-card-title class="text-center">
+            <span class="font-weight-black text-subtitle-1">
+              Transaction approved
+            </span>
+          </v-card-title>
+          <v-card-text class="text-center">
+            <span class="font-weight-black text-subtitle-1">
+              Your transaction has been successfully sent
+            </span>
+            <v-btn
+              class="mt-4"
+              color="#0FB786"
+              @click="dialogSendToken = false"
+              block
+            >Back</v-btn>
+          </v-card-text>
+        </v-card> 
+      </v-card>
+ 
     </v-dialog>
 </template>
 <script>
 import { mapState } from 'vuex'
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosmjs/stargate";
-import bitcannaConfig from '../bitcanna.config'
-import txApproved from '@/components/TxApproved.vue'
+import { Preferences } from '@capacitor/preferences';
+import bitcannaConfig from '../bitcanna.config' 
+import md5 from 'md5' 
 
 export default {
-  name: 'ActionsModal',
-  components: { txApproved },
+  name: 'ActionsModal', 
   data: () => ({
     bitcannaConfig: bitcannaConfig,
     dialogSendToken: false,
@@ -120,7 +154,9 @@ export default {
     amount: '',
     memo: '',
     password: '',
-    txSend: true
+    txSend: false,
+    accountNow: '',
+    loading: false
   }),
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
@@ -132,17 +168,31 @@ export default {
     setAddress(address) {
       this.recipient = address;
     },
+    openDialogSendToken() {
+      this.dialogSendToken = true;
+      this.txSend = false;
+      this.recipient = '';
+      this.amount = '';
+      this.memo = '';
+      this.password = '';
+      this.loading = false
+    },
     closeModal() {
       this.actionSend = false;
       this.actionReceive = false;
     },
     async sendToken() {
+      const hash = md5(this.password); 
+      const { value } = await Preferences.get({ key: 'masterPass' });
 
-      
+      if(hash !== value) {
+        this.alertError = true
+        return
+      }
 
-      const deserialized = await DirectSecp256k1HdWallet.deserialize(this.allWallets[this.accountSelected].data, this.password);
+      this.loading = true
 
-      
+      const deserialized = await DirectSecp256k1HdWallet.deserialize(this.allWallets[this.accountSelected].data, this.password);      
  
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(deserialized.secret.data, {
         prefix: 'bcna'
@@ -179,6 +229,14 @@ export default {
             ); 
             assertIsDeliverTxSuccess(result);
             console.log(result); 
+            this.txSend = true
+
+            this.accountNow = this.allWallets[this.accountSelected]
+            await this.$store.dispatch('getBankModule', this.accountNow.address)
+            await this.$store.dispatch('getDistribModule', this.accountNow.address)
+            await this.$store.dispatch('getStakingModule', this.accountNow.address)
+            await this.$store.dispatch('getWalletAmount')
+
           } catch (error) {
             console.error(error); 
           }
@@ -187,3 +245,12 @@ export default {
 }
 
 </script>
+
+<style>
+  .txReturn {
+    background: linear-gradient(180deg, #000000, 80%, #0FB786);
+  } 
+  .returnIcon {
+    margin-top: 200px;
+  } 
+</style>
