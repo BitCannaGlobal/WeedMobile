@@ -15,6 +15,7 @@
         <v-divider></v-divider>
           <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" title="DashBoard" to="/dashboard"></v-list-item>
           <v-list-item v-if="isLogged" prepend-icon="mdi-book-open-page-variant-outline" title="Addressbook" to="/addressbook"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-book-open-page-variant-outline" title="Scan QR" to="/scan-qrcode"></v-list-item>
           <!-- <v-list-item prepend-icon="mdi-pencil" title="Create/import" to="/create"></v-list-item> -->
           <v-list-item v-if="!isLogged" prepend-icon="mdi-login" title="Login" to="/"></v-list-item>
           <v-list-item v-else prepend-icon="mdi-login" title="Logout" @click="logout"></v-list-item> 

@@ -47,6 +47,17 @@ const routes = [
       },
     ],
   }, 
+  {
+    path: '/scan-qrcode',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Scan-qrcode',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Scan-qrcode.vue'),
+      },
+    ],
+  }, 
 ]
 
 const router = createRouter({

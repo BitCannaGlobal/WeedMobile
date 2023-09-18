@@ -563,6 +563,24 @@
   resolved "https://registry.npmjs.org/@protobufjs/utf8/-/utf8-1.1.0.tgz"
   integrity sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==
 
+"@sec-ant/zxing-wasm@2.1.5":
+  version "2.1.5"
+  resolved "https://registry.yarnpkg.com/@sec-ant/zxing-wasm/-/zxing-wasm-2.1.5.tgz#152211b4a75ee7c464ede9301715c5c10b00003a"
+  integrity sha512-U8/bq15/qytQ2GOfFeyoL9ItnBLLWlILpG3c0F03iZ3SlEZNJtUWd/DONjDAlbQ90TRzzOFFVw9AQhh75XlANQ==
+  dependencies:
+    "@types/emscripten" "^1.39.7"
+    zustand "^4.4.1"
+
+"@types/dom-webcodecs@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@types/dom-webcodecs/-/dom-webcodecs-0.1.8.tgz#1f48409f83120625a12b6692a271ff3f10d77b7b"
+  integrity sha512-KThTPaGQJLITk8Q0XkEkz+GqFdoWDyQfbyeJmfEUagB15TZQdNx5AqP2b7GP6vkVM6X/6T1Z8EHxA8RgHfY9BA==
+
+"@types/emscripten@^1.39.7":
+  version "1.39.7"
+  resolved "https://registry.yarnpkg.com/@types/emscripten/-/emscripten-1.39.7.tgz#3025183ea56e12bf4d096aadc48ce74ca051233d"
+  integrity sha512-tLqYV94vuqDrXh515F/FOGtBcRMTPGvVV1LzLbtYDcQmmhtpf/gLYf+hikBbQk8MzOHNz37wpFfJbYAuSn8HqA==
+
 "@types/fs-extra@^8.0.0":
   version "8.1.2"
   resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-8.1.2.tgz"
@@ -786,6 +804,14 @@ balanced-match@^1.0.0:
   version "1.0.2"
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-1.0.2.tgz"
   integrity sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==
+
+barcode-detector@2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/barcode-detector/-/barcode-detector-2.0.3.tgz#2f8036b1747def1a84a9580f672a771ab75645e0"
+  integrity sha512-4d6KAcnsL5SuXhxtz0Z+7qjKqPi6bqrgE2QdocKKWTA33MMR+s2Dx1+YfGEhQ++/sM/MrXT/hTBzgG8XL4dAgg==
+  dependencies:
+    "@sec-ant/zxing-wasm" "2.1.5"
+    "@types/dom-webcodecs" "^0.1.8"
 
 base64-js@^1.3.0, base64-js@^1.5.1:
   version "1.5.1"
@@ -2324,6 +2350,11 @@ sax@1.1.4, sax@>=0.6.0:
   resolved "https://registry.npmjs.org/sax/-/sax-1.1.4.tgz"
   integrity sha512-5f3k2PbGGp+YtKJjOItpg3P99IMD84E4HOvcfleTb5joCHNXYLsR9yWFPOYGgaeMPDubQILTCMdsFb2OMeOjtg==
 
+sdp@^3.2.0:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/sdp/-/sdp-3.2.0.tgz#8961420552b36663b4d13ddba6f478d1461896a5"
+  integrity sha512-d7wDPgDV3DDiqulJjKiV2865wKsJ34YI+NDREbm+FySq6WuKOikwyNQcm+doLAZ1O6ltdO0SeKle2xMpN3Brgw==
+
 semver@^6.0.0:
   version "6.3.0"
   resolved "https://registry.npmjs.org/semver/-/semver-6.3.0.tgz"
@@ -2563,6 +2594,11 @@ uri-js@^4.2.2:
   dependencies:
     punycode "^2.1.0"
 
+use-sync-external-store@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
+  integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
+
 util-deprecate@^1.0.1, util-deprecate@^1.0.2:
   version "1.0.2"
   resolved "https://registry.npmjs.org/util-deprecate/-/util-deprecate-1.0.2.tgz"
@@ -2626,6 +2662,14 @@ vue-i18n@9:
     "@intlify/vue-devtools" "9.2.2"
     "@vue/devtools-api" "^6.2.1"
 
+vue-qrcode-reader@^5.3.5:
+  version "5.3.5"
+  resolved "https://registry.yarnpkg.com/vue-qrcode-reader/-/vue-qrcode-reader-5.3.5.tgz#598f80dae3ba4358c2c69f818222b82c4363c606"
+  integrity sha512-n8fhNJDtk6uk0itpJhGkmi0k+kyeQ9UcZunkPeind5dTrvCyqp2aCSt+mRa6ZeMYyjtWGgp0vNd6je6wymeKUA==
+  dependencies:
+    barcode-detector "2.0.3"
+    webrtc-adapter "^8.2.3"
+
 vue-router@^4.0.0:
   version "4.2.2"
   resolved "https://registry.npmjs.org/vue-router/-/vue-router-4.2.2.tgz"
@@ -2660,6 +2704,13 @@ webfontloader@^1.0.0:
   version "1.6.28"
   resolved "https://registry.npmjs.org/webfontloader/-/webfontloader-1.6.28.tgz"
   integrity sha512-Egb0oFEga6f+nSgasH3E0M405Pzn6y3/9tOVanv/DLfa1YBIgcv90L18YyWnvXkRbIM17v5Kv6IT2N6g1x5tvQ==
+
+webrtc-adapter@^8.2.3:
+  version "8.2.3"
+  resolved "https://registry.yarnpkg.com/webrtc-adapter/-/webrtc-adapter-8.2.3.tgz#85e5e52ea68e808be8d6db85e338aa5c95e80022"
+  integrity sha512-gnmRz++suzmvxtp3ehQts6s2JtAGPuDPjA1F3a9ckNpG1kYdYuHWYpazoAnL9FS5/B21tKlhkorbdCXat0+4xQ==
+  dependencies:
+    sdp "^3.2.0"
 
 which@^2.0.1:
   version "2.0.2"
@@ -2740,3 +2791,10 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmjs.org/yocto-queue/-/yocto-queue-0.1.0.tgz"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.yarnpkg.com/zustand/-/zustand-4.4.1.tgz#0cd3a3e4756f21811bd956418fdc686877e8b3b0"
+  integrity sha512-QCPfstAS4EBiTQzlaGP1gmorkh/UL1Leaj2tdj+zZCZ/9bm0WS7sI2wnfD5lpOszFqWJ1DcPnGoY8RDL61uokw==
+  dependencies:
+    use-sync-external-store "1.2.0"
