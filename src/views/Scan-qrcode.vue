@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <p>
+  <div class="ma-4">
+    <!-- <p>
       Track function:
       <select v-model="selected">
         <option v-for="option in options" :key="option.text" :value="option">
@@ -8,20 +8,19 @@
         </option>
       </select>
       <v-select
-        v-model="selected"
-        :hint="`${selected.text}, ${selected.value}`"
+        v-model="selected" 
         :items="options"
+        variant="outlined"
         item-title="text"
         item-value="value"
-        label="Select"
-        persistent-hint
+        label="Select" 
         return-object
         single-line
       ></v-select>
-    </p>
+    </p> -->
 
-    <qrcode-stream :track="selected.value" @error="logErrors" />
-    <p>result: {{ result }}</p>
+    <qrcode-stream :track="selected.value" @error="logErrors" /> 
+    <v-textarea class="mt-2" label="Result" variant="outlined"  :model-value="result"> </v-textarea>
   </div>
 </template>
 
@@ -31,14 +30,14 @@ export default {
 
   data() {
     const options = [
-      { text: 'nothing (default)', value: undefined },
-      { text: 'outline', value: this.paintOutline },
-      { text: 'centered text', value: this.paintCenterText },
+      //{ text: 'nothing (default)', value: undefined },
+      // { text: 'outline', value: this.paintOutline },
+      //{ text: 'centered text', value: this.paintCenterText },
       { text: 'bounding box', value: this.paintBoundingBox }
     ]
 
-    const selected = options[1]
-    let result = 'test'
+    const selected = options[0]
+    let result = ''
     return { selected, options, result }
   },
 
@@ -48,7 +47,7 @@ export default {
         this.result = detectedCode.rawValue
         const [firstPoint, ...otherPoints] = detectedCode.cornerPoints
 
-        ctx.strokeStyle = 'red'
+        ctx.strokeStyle = 'green'
 
         ctx.beginPath()
         ctx.moveTo(firstPoint.x, firstPoint.y)
@@ -69,12 +68,12 @@ export default {
         } = detectedCode
 
         ctx.lineWidth = 2
-        ctx.strokeStyle = '#007bff'
+        ctx.strokeStyle = '#00b786'
         ctx.strokeRect(x, y, width, height)
       }
     },
 
-    paintCenterText(detectedCodes, ctx) {
+    /* paintCenterText(detectedCodes, ctx) {
       
       for (const detectedCode of detectedCodes) {
         this.result = detectedCode.rawValue
@@ -96,7 +95,7 @@ export default {
         ctx.fillStyle = '#5cb984'
         ctx.fillText(rawValue, centerX, centerY)
       }
-    },
+    }, */
 
     logErrors: console.error
   }

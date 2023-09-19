@@ -58,6 +58,17 @@ const routes = [
       },
     ],
   }, 
+  {
+    path: '/create-qrcode',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Create-qrcode',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Create-qrcode.vue'),
+      },
+    ],
+  }, 
 ]
 
 const router = createRouter({
