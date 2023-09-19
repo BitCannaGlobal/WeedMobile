@@ -68,7 +68,7 @@ export default {
         } = detectedCode
 
         ctx.lineWidth = 2
-        ctx.strokeStyle = '#00b786'
+        ctx.strokeStyle = '#00b786' 
         ctx.strokeRect(x, y, width, height)
       }
     },
