@@ -192,8 +192,8 @@ export default {
 
       this.loading = true
 
-      const deserialized = await DirectSecp256k1HdWallet.deserialize(this.allWallets[this.accountSelected].data, this.password);      
- 
+      const deserialized = await DirectSecp256k1HdWallet.deserialize(this.allWallets[this.accountSelected].data, this.password); 
+      
       const wallet = await DirectSecp256k1HdWallet.fromMnemonic(deserialized.secret.data, {
         prefix: 'bcna'
       });

@@ -82,6 +82,7 @@
                 variant="outlined"
                 color="#00b786" 
                 label="Amount" 
+                type="number"
                 class="mt-2" 
             ></v-text-field>
           </v-list-item>
