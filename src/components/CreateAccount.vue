@@ -282,9 +282,13 @@ import md5 from 'md5'
       } 
     },    
     methods: {    
-      openCreateWallet() {
+      async openCreateWallet() {
         this.dialogCreateWallet = true
         this.step = 1
+        var generateSecret = await DirectSecp256k1HdWallet.generate(12)      
+        this.generatedMnenomicPlain = generateSecret.secret.data
+        this.generatedMnenomic = this.generatedMnenomicPlain.split(' ')  
+        this.shuffle()  
       },
       step1() {
         this.step = 2
