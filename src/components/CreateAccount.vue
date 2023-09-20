@@ -271,11 +271,19 @@ import md5 from 'md5'
           a.length === b.length &&
           a.every((element, index) => element === b[index]);     
 
-          if (compareArrays(this.checkMnenomic, this.generatedMnenomic)) {
-            this.checkMnenomicColor = 'green'
-            this.mnenomicVerified = true
+          console.log(this.generatedMnenomic.length)
+          console.log('this.checkMnenomic', this.checkMnenomic.length)
+
+          if (this.generatedMnenomic.length === this.checkMnenomic.length) {
+            if (compareArrays(this.checkMnenomic, this.generatedMnenomic)) {
+              this.checkMnenomicColor = 'green'
+              this.mnenomicVerified = true
+            } else {
+              this.checkMnenomicColor = 'red' 
+              this.mnenomicVerified = false
+            }
           } else {
-            this.checkMnenomicColor = 'red' 
+            this.checkMnenomicColor = 'gray'
             this.mnenomicVerified = false
           }
         }
