@@ -284,6 +284,8 @@ import md5 from 'md5'
     methods: {    
       async openCreateWallet() {
         this.dialogCreateWallet = true
+        this.alertError = false
+        this.alertErrorName = false
         this.step = 1
         var generateSecret = await DirectSecp256k1HdWallet.generate(12)      
         this.generatedMnenomicPlain = generateSecret.secret.data
