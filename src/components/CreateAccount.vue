@@ -56,6 +56,17 @@
       </v-btn>      
     </div>
     <div class="ma-4" v-if="step === 2">
+      <v-alert
+          v-model="alertErrorMnemonic"
+          class="ma-4"
+          variant="outlined"
+          type="warning"
+          border="top"
+          closable
+          close-label="Close Alert"
+        >
+          Bad mnemonic
+        </v-alert>
       <h3 class="text-h6">Check Mnenomic</h3>
         <v-chip
           v-for="(item, index) in checkMnenomic"
@@ -204,6 +215,7 @@ import md5 from 'md5'
         shuffledMnenomic: '',
         checkMnenomic: [],
         checkMnenomicColor: '',
+        alertErrorMnemonic: false,
         mnenomicVerified: false,
         alertError: false,
         alertErrorName: false,
@@ -278,13 +290,16 @@ import md5 from 'md5'
             if (compareArrays(this.checkMnenomic, this.generatedMnenomic)) {
               this.checkMnenomicColor = 'green'
               this.mnenomicVerified = true
+              this.alertErrorMnemonic = false
             } else {
               this.checkMnenomicColor = 'red' 
               this.mnenomicVerified = false
+              this.alertErrorMnemonic = true
             }
           } else {
             this.checkMnenomicColor = 'gray'
             this.mnenomicVerified = false
+            this.alertErrorMnemonic = false
           }
         }
       } 
