@@ -352,6 +352,11 @@ import md5 from 'md5'
         this.shuffledMnenomic = shuffled  
       },
       async importWallet() {
+        this.alertError = false
+        this.alertErrorName = false
+        this.alertErrorMnemonic = false
+
+
         const hash = md5(this.password); 
         const { value } = await Preferences.get({ key: 'masterPass' });
 
