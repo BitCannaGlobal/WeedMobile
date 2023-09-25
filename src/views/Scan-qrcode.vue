@@ -19,8 +19,13 @@
       ></v-select>
     </p> -->
 
-    <qrcode-stream :track="selected.value" @error="logErrors" /> 
+    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" /> 
     <v-textarea class="mt-2" label="Result" variant="outlined"  :model-value="result"> </v-textarea>
+    <v-btn 
+      block 
+      color="#0FB786" 
+      @click="retry()">Rescan
+    </v-btn>
   </div>
 </template>
 
@@ -29,6 +34,7 @@
 export default { 
 
   data() {
+    const removeScan = false
     const options = [
       //{ text: 'nothing (default)', value: undefined },
       // { text: 'outline', value: this.paintOutline },
@@ -38,10 +44,14 @@ export default {
 
     const selected = options[0]
     let result = ''
-    return { selected, options, result }
+    return { selected, options, result, removeScan }
   },
 
   methods: {
+    retry() {
+      this.removeScan = false
+      this.result = ''
+    },
     paintOutline(detectedCodes, ctx) { 
       for (const detectedCode of detectedCodes) {
         this.result = detectedCode.rawValue
@@ -63,6 +73,7 @@ export default {
     paintBoundingBox(detectedCodes, ctx) { 
       for (const detectedCode of detectedCodes) {
         this.result = detectedCode.rawValue
+        this.removeScan = true
         const {
           boundingBox: { x, y, width, height }
         } = detectedCode
