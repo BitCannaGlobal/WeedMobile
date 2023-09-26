@@ -57,7 +57,7 @@
         <h3 class="ma-4">Qr code generator</h3>
         <v-divider></v-divider>
         <v-list style="background-color: rgb(0, 0, 0);">
- 
+          <v-form ref="form">
         <v-list-item color="black" >
           <v-chip @click="setAddress('bcna148ml2tghqkfvzj8q27dlxw6ghe3vlmprhru76x')" class="mr-2">
             Wallet1
@@ -70,6 +70,7 @@
           </v-chip>
             <v-text-field
                 v-model="recipient"
+                :rules="addressRules"                
                 variant="outlined"
                 color="#00b786" 
                 label="Recipient" 
@@ -79,6 +80,7 @@
           <v-list-item>
             <v-text-field
                 v-model="amount"
+                :rules="amountRules"
                 variant="outlined"
                 color="#00b786" 
                 label="Amount" 
@@ -103,6 +105,7 @@
               color="#0FB786" 
               @click="generateQr()">generate</v-btn>
           </v-list-item>
+        </v-form>
         </v-list>        
  
       </div>
@@ -112,6 +115,22 @@
 
 <script>
 import QRCodeVue3 from "qrcode-vue3";
+import bech32 from "bech32";
+
+function bech32Validation(address) {
+  try {
+    bech32.decode(address);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function countPlaces(num) {
+  const sep = String(23.32).match(/\D/)[0];
+  const b = String(num).split(sep);
+  return b[1] ? b[1].length : 0;
+}
 
 export default {
   name: 'QRCodeVue3Example',
@@ -120,12 +139,28 @@ export default {
   },
   data() {
     return {
+      form: false,
       recipient: '',
       amount: '',
       memo: '', 
       loading: false,
       finalQr: '',
+      amountRules: [
+        (v) => !!v || "Amount is required",
+        (v) => !isNaN(v) || "Amount must be number",
+        (v) => countPlaces(v) < 7 || "Bad decimal",
+      ],
+      addressRules: [
+        (v) => !!v || "Address is required",
+        (v) =>
+          v.startsWith('bcna') ||
+          'Address must start with bcna',
+        (v) => bech32Validation(v) || "Bad address (not bech32)",
+      ],
     }
+  },
+  watch: {
+
   },
   methods: {
     backQrcode() {
@@ -134,7 +169,11 @@ export default {
     setAddress(address) {
       this.recipient = address;
     },
-    generateQr() {
+    async generateQr() {
+      const { valid } = await this.$refs.form.validate()
+      if (!valid) {
+        return
+      }
       this.finalQr = ''
       let test = JSON.stringify({
         amount: this.amount,

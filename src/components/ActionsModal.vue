@@ -8,6 +8,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card v-if="txSend === false">
+        <v-form ref="form"> 
         <v-toolbar
           dark
         >
@@ -53,8 +54,10 @@
           <v-chip @click="setAddress('bcna1l6c9uc9f9ulx8925790t9g7zzhavfr2e6nh68u')" class="mr-2">
             Wallet3
           </v-chip>
+          
             <v-text-field
                 v-model="recipient"
+                :rules="addressRules"
                 variant="outlined"
                 color="#00b786" 
                 label="Recipient" 
@@ -64,6 +67,7 @@
           <v-list-item>
             <v-text-field
                 v-model="amount"
+                :rules="amountRules"
                 variant="outlined"
                 color="#00b786" 
                 label="Amount" 
@@ -91,6 +95,7 @@
                 type="password"
                 class="mt-2"
               ></v-text-field>
+              
           </v-list-item>
           <v-list-item>
             <v-btn 
@@ -101,7 +106,8 @@
               @click="sendToken()
             ">Send</v-btn>
           </v-list-item>
-        </v-list>        
+        </v-list>   
+      </v-form>     
       </v-card>
 
 
@@ -141,6 +147,22 @@ import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosm
 import { Preferences } from '@capacitor/preferences';
 import bitcannaConfig from '../bitcanna.config' 
 import md5 from 'md5' 
+import bech32 from "bech32";
+
+function bech32Validation(address) {
+  try {
+    bech32.decode(address);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
+
+function countPlaces(num) {
+  const sep = String(23.32).match(/\D/)[0];
+  const b = String(num).split(sep);
+  return b[1] ? b[1].length : 0;
+}
 
 export default {
   name: 'ActionsModal', 
@@ -156,7 +178,19 @@ export default {
     password: '',
     txSend: false,
     accountNow: '',
-    loading: false
+    loading: false,
+    amountRules: [
+      (v) => !!v || "Amount is required",
+      (v) => !isNaN(v) || "Amount must be number",
+      (v) => countPlaces(v) < 7 || "Bad decimal",
+    ],
+    addressRules: [
+      (v) => !!v || "Address is required",
+      (v) =>
+        v.startsWith('bcna') ||
+        'Address must start with bcna',
+      (v) => bech32Validation(v) || "Bad address (not bech32)",
+    ],
   }),
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
@@ -182,6 +216,11 @@ export default {
       this.actionReceive = false;
     },
     async sendToken() {
+      const { valid } = await this.$refs.form.validate()
+      if (!valid) {
+        return
+      }
+
       const hash = md5(this.password); 
       const { value } = await Preferences.get({ key: 'masterPass' });
 
@@ -208,38 +247,35 @@ export default {
             this.bitcannaConfig[this.network].coinLookup.chainDenom
           ),
         }
-      );
-     
+      );     
 
-          const convertAmount = Math.round(this.amount * 1000000);
-          const amount = {
-            denom: this.bitcannaConfig[this.network].coinLookup.chainDenom,
-            amount: convertAmount.toString(),
-          };
+      const convertAmount = Math.round(this.amount * 1000000);
+      const amount = {
+        denom: this.bitcannaConfig[this.network].coinLookup.chainDenom,
+        amount: convertAmount.toString(),
+      };
 
-          console.log(accounts)
+      try {
+        const result = await client.sendTokens(
+          accounts.address,
+          this.recipient,
+          [amount],
+          "auto",
+          this.memo
+        ); 
+        assertIsDeliverTxSuccess(result);
+        console.log(result); 
+        this.txSend = true
 
-          try {
-            const result = await client.sendTokens(
-              accounts.address,
-              this.recipient,
-              [amount],
-              "auto",
-              this.memo
-            ); 
-            assertIsDeliverTxSuccess(result);
-            console.log(result); 
-            this.txSend = true
+        this.accountNow = this.allWallets[this.accountSelected]
+        await this.$store.dispatch('getBankModule', this.accountNow.address)
+        await this.$store.dispatch('getDistribModule', this.accountNow.address)
+        await this.$store.dispatch('getStakingModule', this.accountNow.address)
+        await this.$store.dispatch('getWalletAmount')
 
-            this.accountNow = this.allWallets[this.accountSelected]
-            await this.$store.dispatch('getBankModule', this.accountNow.address)
-            await this.$store.dispatch('getDistribModule', this.accountNow.address)
-            await this.$store.dispatch('getStakingModule', this.accountNow.address)
-            await this.$store.dispatch('getWalletAmount')
-
-          } catch (error) {
-            console.error(error); 
-          }
+      } catch (error) {
+        console.error(error); 
+      }
     },
   }
 }

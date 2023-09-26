@@ -14,7 +14,7 @@ import bitcannaConfig from '../bitcanna.config'
 
 export default createStore({
   state: {
-    network: 'mainnet',
+    network: 'testnet',
     rpcClient: null,
     rpcBase: null,
     masterPassExist: false,

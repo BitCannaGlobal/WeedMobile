@@ -69,6 +69,18 @@ const routes = [
       },
     ],
   }, 
+  {
+    path: '/addressbook',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Addressbook',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Addressbook.vue'),
+      },
+    ],
+  }, 
+  
 ]
 
 const router = createRouter({
