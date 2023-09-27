@@ -89,3 +89,36 @@ export async function removeAccount() {
   await Preferences.remove({ key: 'allWallets' });
 }
 
+// Address book
+export async function addContact(name, address) {
+  const { value } = await Preferences.get({ key: 'allContacts' });
+  let allContactData = JSON.parse(value)
+  if (!allContactData) {
+    allContactData = []
+  }   
+  
+  allContactData.push({ name: name, address: address })
+  await Preferences.set({
+    key: 'allContacts',
+    value: JSON.stringify(allContactData)
+  });        
+  // const list = await Preferences.keys();
+}
+
+export async function getAllContact() {
+  const { value } = await Preferences.get({ key: 'allContacts' });
+  return value
+}
+
+export async function removeContactId(id) {
+  console.log('Remove contact id', id)
+  const { value } = await Preferences.get({ key: 'allContacts' });
+  let allContactData = JSON.parse(value)
+ 
+  allContactData.splice(id, 1);
+  console.log(allContactData);
+  await Preferences.set({
+    key: 'allContacts',
+    value: JSON.stringify(allContactData)
+  });   
+}

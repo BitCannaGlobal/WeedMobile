@@ -75,6 +75,8 @@
                 color="#00b786" 
                 label="Recipient" 
                 class="mt-4"
+                append-inner-icon="mdi-book-open-page-variant-outline"
+                @click:append-inner="getAddressBook()"
             ></v-text-field>
           </v-list-item> 
           <v-list-item>
@@ -110,12 +112,44 @@
  
       </div>
 
-
+      <v-dialog
+      v-model="dialogAddressBook"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+    <v-card>
+      <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogAddressBook = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Select contact</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-card
+          v-for="(item, i) in allContacts"
+          class="ma-4" 
+          :title="item.name"
+          :subtitle="item.address"
+          @click="selectContact(i)"
+        >
+ 
+        </v-card>
+    </v-card>
+    </v-dialog>
 </template>
 
 <script>
 import QRCodeVue3 from "qrcode-vue3";
 import bech32 from "bech32";
+import { getAllContact } from '@/libs/storage.js';
 
 function bech32Validation(address) {
   try {
@@ -145,6 +179,8 @@ export default {
       memo: '', 
       loading: false,
       finalQr: '',
+      dialogAddressBook: false,
+      allContacts: [],
       amountRules: [
         (v) => !!v || "Amount is required",
         (v) => !isNaN(v) || "Amount must be number",
@@ -159,10 +195,18 @@ export default {
       ],
     }
   },
-  watch: {
-
+  async mounted() { 
+    let getAllContacts = await getAllContact()
+    this.allContacts = JSON.parse(getAllContacts)
   },
   methods: {
+    getAddressBook() {
+      this.dialogAddressBook = true;
+    },
+    selectContact(index) {
+      this.recipient = this.allContacts[index].address
+      this.dialogAddressBook = false
+    },
     backQrcode() {
       this.finalQr = ''
     },

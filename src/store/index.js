@@ -29,6 +29,7 @@ export default createStore({
     totalDelegations: 0,
     totalUnbound: 0,
     poolStaking: 0,
+    allContacts: [],
   },
   getters: {
   },

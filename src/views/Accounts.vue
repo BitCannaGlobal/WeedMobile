@@ -31,10 +31,34 @@
       v-for="(item, i) in allWalletsList"
       class="ma-4"
       :style="item.selected == true ? 'border: 2px solid #0FB786;' : 'border: 1px solid white;'"
-      :title="item.name"
-      :subtitle="item.addr"
+ 
       @click="changeAccount(i)"
     >
+      <v-card-title>
+        <v-row no-gutters>
+          <v-col 
+            cols="6" 
+          >
+            <v-sheet>
+              {{ item.name }}
+            </v-sheet>
+          </v-col>
+          <v-col 
+            cols="6" 
+          >
+            <v-sheet class="d-flex align-end flex-column">
+              <span class="mdi mdi-cog"></span>
+
+            </v-sheet>
+          </v-col>
+        </v-row>
+ 
+      </v-card-title>
+      <v-card-text>
+ 
+          {{ item.addr }}
+ 
+      </v-card-text>
       <v-card-actions> 
         <v-col class="text-right">
           <v-btn color="#0FB786" variant="outlined" @click.stop="editNowModal(i)">Edit</v-btn>
