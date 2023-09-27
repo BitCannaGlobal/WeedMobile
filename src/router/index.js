@@ -80,7 +80,17 @@ const routes = [
       },
     ],
   }, 
-  
+  {
+    path: '/transactions',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Transactions',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Transactions.vue'),
+      },
+    ],
+  },  
 ]
 
 const router = createRouter({

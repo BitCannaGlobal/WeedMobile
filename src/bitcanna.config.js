@@ -12,7 +12,9 @@ export default {
     },
     coingeckoId: 'bitcanna',
     feeMultiplier: 1.9,
-    gasPrice: 0.0025
+    gasPrice: 0.0025,
+    maxTxSender: 50,
+    maxTxRecipient: 50,
   },
   'testnet': {
     chainId: 'bitcanna-dev-1',
@@ -27,7 +29,9 @@ export default {
     },
     coingeckoId: 'bitcanna',
     feeMultiplier: 1.9,
-    gasPrice: 0.0025
+    gasPrice: 0.0025,
+    maxTxSender: 50,
+    maxTxRecipient: 50,
   },
   'devnet': {
     chainId: 'bitcanna-dev-6',
@@ -42,6 +46,8 @@ export default {
     },
     coingeckoId: 'bitcanna',
     feeMultiplier: 1.9,
-    gasPrice: 0.0025
+    gasPrice: 0.0025,
+    maxTxSender: 50,
+    maxTxRecipient: 50,
   },
 }

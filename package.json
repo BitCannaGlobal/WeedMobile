@@ -11,6 +11,7 @@
   "dependencies": {
     "@capacitor/android": "^5.0.4",
     "@capacitor/app": "^5.0.6",
+    "@capacitor/browser": "^5.1.0",
     "@capacitor/cli": "^5.0.4",
     "@capacitor/core": "^5.0.4",
     "@capacitor/device": "^5.0.6",
@@ -21,8 +22,10 @@
     "@mdi/font": "7.0.96",
     "axios": "^1.5.0",
     "core-js": "^3.29.0",
+    "dayjs": "^1.11.10",
     "express": "^4.18.2",
     "gsap": "^3.12.2",
+    "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "pinia": "^2.1.6",
     "qrcode-vue3": "^1.6.8",

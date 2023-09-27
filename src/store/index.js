@@ -30,6 +30,7 @@ export default createStore({
     totalUnbound: 0,
     poolStaking: 0,
     allContacts: [],
+    validators: [],
   },
   getters: {
   },
@@ -75,6 +76,7 @@ export default createStore({
     },
     async getStakingModule({ state }, addressSelected) {    
       const queryStaking = new staking.QueryClientImpl(state.rpcClient);
+      let allValidators = await queryStaking.Validators({ status: 2})
       let getPoolStaking = await queryStaking.Pool({});  
       let delegatorValidators = await queryStaking.DelegatorDelegations({ delegatorAddr: addressSelected, pagination: {
         countTotal: false,
@@ -104,6 +106,7 @@ export default createStore({
       state.totalDelegations = (total / 1000000).toFixed(2)
       state.totalUnbound = (totalUnbound / 1000000).toFixed(2)
       state.poolStaking = getPoolStaking.pool
+      state.validators = allValidators.validators
     }, 
     async getDistribModule({ state }, addressSelected) { 
       const queryDistrib = new distrib.QueryClientImpl(state.rpcClient);
