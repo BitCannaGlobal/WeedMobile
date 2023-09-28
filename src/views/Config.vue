@@ -46,7 +46,7 @@
 
       <v-list-subheader>Privacy</v-list-subheader>
 
-      <v-list-item
+<!--       <v-list-item
         :title="$t('config.viewMnemonic.title')"
         :subtitle="$t('config.viewMnemonic.subtitle')"
       >
@@ -61,10 +61,10 @@
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
-            @click=""
+            @click="dialogViewPassPhrase = true"
           ></v-btn>
         </template>
-      </v-list-item>
+      </v-list-item> -->
       <v-list-item
         :title="$t('config.masterPassChange.title')"
         :subtitle="$t('config.masterPassChange.subtitle')"
@@ -80,6 +80,7 @@
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
+            @click="openChangeMasterPass()"
           ></v-btn>
         </template>
       </v-list-item>
@@ -250,7 +251,7 @@
 
 
   <v-dialog
-      v-model="dialogViewPassPhrase"
+      v-model="dialogChangeMasterPass"
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
@@ -262,11 +263,11 @@
           <v-btn
             icon
             dark
-            @click="dialogViewPassPhrase = false"
+            @click="dialogChangeMasterPass = false"
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>View mnenomic</v-toolbar-title>
+          <v-toolbar-title>Change masterpass</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -292,11 +293,34 @@
  
       
           <v-list-item>
-            <v-text-field
+            <div v-if="!masterPasswordFinish">
+            <div v-if="!masterPasswordChanging">
+              <v-text-field
+                v-if="!enableButton"
                 v-model="password"
                 variant="outlined"
                 color="#00b786"
-                label="Password"
+                label="Your Password"
+                style="min-height: 96px"
+                type="password"
+                class="mt-6"
+              ></v-text-field>
+              <v-text-field
+                v-if="enableButton"
+                v-model="newPassword1"
+                variant="outlined"
+                color="#00b786"
+                label="New password"
+                style="min-height: 96px"
+                type="password"
+                class="mt-6"
+              ></v-text-field>
+              <v-text-field
+                v-if="enableButton"
+                v-model="newPassword2"
+                variant="outlined"
+                color="#00b786"
+                label="Repeat new password"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
@@ -306,13 +330,48 @@
                 class="flex-grow-1"
                 color="#00b786"  
                 block 
-                @click="viewMnenom"
+                @click="changeMassterPass()"
               >
-                View mnenomic
+                Change masterPass
               </v-btn> 
+              </div>
+            </div>
           </v-list-item>
           <v-list-item>
- 
+            <v-row
+              v-if="masterPasswordChanging"
+              class="fill-height"
+              align-content="center"
+              justify="center"
+            >
+              <v-col
+                class="text-subtitle-1 text-center"
+                cols="12"
+              >
+                Masterpassword change in progress
+              </v-col>
+              <v-col cols="6">
+                <v-progress-linear
+                  color="#00b786"
+                  indeterminate
+                  rounded
+                  height="9"
+                ></v-progress-linear>
+              </v-col>
+            </v-row>
+            <v-row
+                v-if="masterPasswordFinish"
+                class="fill-height"
+                align-content="center"
+                justify="center"
+              >
+                <v-col
+                  class="text-subtitle-1 text-center"
+                  cols="12"
+                >
+                  Masterpassword change is done!
+                </v-col>
+              </v-row>
           </v-list-item>
           <v-list-item>
  
@@ -331,7 +390,7 @@ import { Preferences } from '@capacitor/preferences';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
 import Accounts from '@/components/Accounts.vue'
 import md5 from 'md5' 
-import { removeAccountId, checkMasterPassword, addAccount } from '@/libs/storage.js';  
+import { removeAccountId, checkMasterPassword, addAccount, editMasterPassword } from '@/libs/storage.js';  
 import bitcannaWallets from '../bitcanna.wallet'
 
   export default {
@@ -344,17 +403,24 @@ import bitcannaWallets from '../bitcanna.wallet'
       checkbox1: true,
       password: '',
       enableButton: false,
-      dialogViewPassPhrase: false,
+      dialogChangeMasterPass: false,
       importDebugMnenomic: false,
       alertImported: false,
+      newPassword1: '',
+      newPassword2: '',
+      masterPasswordChanging: false,
+      masterPasswordFinish: false,
     }),
     watch: {
-      password: function (val) { 
-        if(val !== '') {
+      password: async function (val) { 
+        const hash = md5(this.password); 
+        const { value } = await Preferences.get({ key: 'masterPass' });
+
+        console.log(hash, value)
+        if(hash === value) {
           this.enableButton = true
-        } else {
-          this.enableButton = false
         }
+ 
       }
     },
     computed: {
@@ -365,10 +431,27 @@ import bitcannaWallets from '../bitcanna.wallet'
 
     },
     methods : {
+      async changeMassterPass() {
+        if(this.newPassword1 === this.newPassword2) {
+          this.masterPasswordChanging = true
+          await editMasterPassword(this.password, this.newPassword1) 
+          await this.$store.dispatch('getWallets')
+          this.masterPasswordChanging = false
+          this.masterPasswordFinish = true
+        }
+      },
       openImportDebugMnenomic() {
         this.alertImported = false
         this.importDebugMnenomic = true
         console.log(bitcannaWallets)
+      },
+      openChangeMasterPass() {
+        this.masterPass = ''
+        this.masterPass2 = ''
+        this.enableButton = false
+        this.password = ''
+        this.masterPasswordFinish = false
+        this.dialogChangeMasterPass = true
       },
       async importDebugMnenomicNow() {
 

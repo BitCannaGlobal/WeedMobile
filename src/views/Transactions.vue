@@ -1,15 +1,6 @@
 
 <template>
-  <v-container>
-    <v-expansion-panels>
-      <v-expansion-panel
-        v-for="i in 3"
-        :key="i"
-        title="Item"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-      ></v-expansion-panel>
-    </v-expansion-panels>
- 
+  <v-container> 
   <div>
     <v-row class="ma-2">
       <h1>
@@ -728,23 +719,6 @@ export default {
     isCopied: false,
   }),
   computed: {
-    //...mapState("keplr", [`accounts`, "logged"]),
-    /* ...mapState("data", [
-      "chainId",
-      "balances",
-      "rewards",
-      "delegations",
-      "priceNow",
-      "aprNow",
-      "totalDelegated",
-      "validatorDetails",
-      "validators",
-      "validatorsLoaded",
-      "allTxs",
-      "allTxsLoaded",
-    ]), */
-  },
-  computed: {
     ...mapState([
       'network', 
       'rpcBase', 
@@ -762,8 +736,6 @@ export default {
   watch: {},
 
   async beforeMount() {
-    //await this.$store.dispatch("keplr/checkLogin");
-    //await this.$store.dispatch("data/getAllValidators");
 
     if (this.isLogged) {
       this.accountNow = this.allWallets[this.accountSelected]
@@ -791,8 +763,6 @@ export default {
       this.rpcAllTxs = this.transactionsReducer(finalTxs);
       this.loading = false;
       this.firstLoad = false;
-
-      console.log(this.rpcAllTxs)
     }
   },
   methods: {
@@ -801,16 +771,13 @@ export default {
         url: 'https://explorer.bitcanna.io/transactions/' + hash,
       });
     },
-    groupedEvents() {
- 
+    groupedEvents() { 
         const test = orderBy(
           groupBy(this.categorizedEvents(), "section"),
           (group) => group[0].final.timestamp,
           "desc"
         );
-
-        return test;
- 
+        return test; 
     },    
     categorizedEvents() {
       return this.rpcAllTxs.map((event) => {

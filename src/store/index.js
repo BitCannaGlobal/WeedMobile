@@ -47,8 +47,7 @@ export default createStore({
       if(state.rpcClient) {
         state.rpcBase.disconnect();
       } 
-
-      console.log(bitcannaConfig)
+ 
       const client = await Tendermint37Client.connect(bitcannaConfig[state.network].rpcURL) 
       const queryClient = new QueryClient(client);
       const rpcClient = createProtobufRpcClient(queryClient);
@@ -119,8 +118,6 @@ export default createStore({
         returnValue = 0
       }
 
-      console.log('queryDistribResult', returnValue)
-
       //this.totalMyValidators = queryDistribResult.rewards.length
       //this.totalDelegationsRewards = queryDistribResult.rewards
       state.totalRewards = returnValue
@@ -142,7 +139,6 @@ export default createStore({
         state.allWallets = JSON.parse(value)
         state.allWalletsList = []
         for (const [index, element] of state.allWallets.entries()) {
-          console.log('index', index)
           //console.log('accountSelected', this.accountSelected)
           let selected = false
           if(index === state.accountSelected) {

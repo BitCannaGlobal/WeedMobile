@@ -1,4 +1,5 @@
 import { Preferences } from '@capacitor/preferences';
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import md5 from 'md5' 
 
 export async function getAccounts() {
@@ -29,6 +30,29 @@ export async function getMasterPassword() {
 }
 export async function addMasterPassword(password) {
   const hash = md5(password);
+  await Preferences.set({
+    key: 'masterPass',
+    value: hash
+  });
+}
+export async function editMasterPassword(oldPassword, newPassword) {
+  let allAccount = JSON.parse(await getAccounts())
+  for (const index in allAccount) {  
+    
+    // Decode wallet
+    const deserialized = await DirectSecp256k1HdWallet.deserialize(allAccount[index].data, oldPassword); 
+    // Encode wallet with new password
+    const wallet = await DirectSecp256k1HdWallet.fromMnemonic( deserialized.mnemonic, {
+      prefix: 'bcna'
+    })
+    var finalWallet = await wallet.serialize( newPassword )
+    allAccount[index].data = finalWallet
+  }
+  await Preferences.set({
+    key: 'allWallets',
+    value: JSON.stringify(allAccount)
+  }); 
+  const hash = md5(newPassword);
   await Preferences.set({
     key: 'masterPass',
     value: hash
