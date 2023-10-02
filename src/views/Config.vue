@@ -13,13 +13,12 @@
         </template>
 
         <template v-slot:append>
-          <!-- <v-btn
-            v-if="folder.id == 'language'"
+          <v-btn 
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
-            @click.stop="changeLang = !changeLang"
-          ></v-btn> -->
+            @click.stop="changeCurrency = !changeCurrency"
+          ></v-btn>
         </template>
       </v-list-item>
       <v-list-item
@@ -191,6 +190,32 @@
             :item-title="'locale-' + locale"
             :item-value="locale"
             variant="outlined"
+          ></v-select>                    
+        </v-card-text>
+      </v-card>
+    </v-bottom-sheet>
+  </div> 
+  <div class="text-center">
+    <v-bottom-sheet v-model="changeCurrency" inset>
+      <v-card
+        class="text-center"
+        height="200"
+      >
+        <v-card-text>
+          <v-btn
+            variant="text"
+            @click="changeCurrency = !changeCurrency"
+          >
+            close
+          </v-btn>
+
+          <br />
+          <br />
+
+          <v-select
+            v-model="selectCurrency"
+            label="Currency"
+            :items="['USD', 'EUR']"
           ></v-select>                    
         </v-card-text>
       </v-card>
@@ -398,8 +423,9 @@ import bitcannaWallets from '../bitcanna.wallet'
     data: (t) => ({
       drawer: false,
       deleteWallet: false,
-      deletedWallet: false,
       changeLang: false,
+      changeCurrency: false,
+      selectCurrency: 'USD',
       checkbox1: true,
       password: '',
       enableButton: false,
@@ -475,31 +501,6 @@ import bitcannaWallets from '../bitcanna.wallet'
           await addAccount( element.name, finalAddress[0].address, finalWallet )
         }
         this.alertImported = true
-      },
-      async openDeleteWallet() {
-        this.deleteWallet = true
-        this.deletedWallet = false
-        this.checkbox1 = false
-      },
-      async revemoAccount() {
-        console.log(this.password)
-        const hash = md5(this.password);
-        let checkPass = await checkMasterPassword(hash)
-        if(checkPass) {
-          console.log('Deleted!!')
-          await removeAccountId(this.accountSelected)
-          await this.$store.dispatch('getWallets')
-          await this.$store.dispatch('changeWallet', 0)
-          this.deletedWallet = true
-          if(this.allWallets.length === 0) {
-            // this.$store.commit('setIsLogged', false)
-            this.$router.push('/accounts') 
-          }  
-        } else {
-          console.log('Not Deleted :/')
-          this.alertError = true
-        }          
-
       }
     }
   }

@@ -39,6 +39,8 @@
         <v-btn
           color="#0FB786"
           v-bind="props"
+          min-height="48"
+          min-width="48"
         >
           {{ network }}
         </v-btn>

@@ -47,7 +47,7 @@
             cols="6" 
           >
             <v-sheet class="d-flex align-end flex-column">
-              <span class="mdi mdi-cog"></span>
+              <span class="mdi mdi-cog" @click.stop="viewMnenomicDial(i)"></span>
 
             </v-sheet>
           </v-col>
@@ -295,6 +295,74 @@
         </v-list>
       </v-card>
     </v-dialog>
+    <v-dialog
+      v-model="dialogViewMnemonic"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogViewMnemonic = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>View Mnemonic</v-toolbar-title>
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"> </v-list-item>
+        </v-list>
+        
+        <v-divider></v-divider>
+        <v-list
+        >
+        <v-alert
+            v-model="alertError"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Bad password
+          </v-alert>
+  
+          <v-list-item>
+            <v-text-field
+                v-if="!canViewMnemonic"
+                v-model="passwordView"
+                variant="outlined"
+                color="#00b786"
+                counter="6"
+                label="Password"
+                style="min-height: 96px"
+                type="password"
+                class="mt-6"
+              ></v-text-field>
+          </v-list-item>
+          <v-card
+            v-if="canViewMnemonic"
+            class="pa-2"
+            style="border: 2px solid #0FB786;"
+          >
+            {{ viewMnemonic }}
+
+          </v-card>
+          <v-btn v-if="canViewMnemonic" class="ma-2" >
+            Copy
+          </v-btn>
+        </v-list>
+      </v-card>
+    </v-dialog>
 
     <v-bottom-sheet v-model="deleteWallet" inset>
       <v-card
@@ -410,9 +478,11 @@ export default {
     dialogImport: false,
     dialogCreate: false,
     dialogCreateWallet: false,
+    dialogViewMnemonic: false,
     name: '',
     mnemonic: '',
     password: '',
+    passwordView: '',
     select: '',
     items: [],
     alertError: false,
@@ -428,6 +498,9 @@ export default {
     editedWallet: false,
     walletName: '',
     editThisWallet: null,
+    viewMnenomicFor: '',
+    viewMnemonic: '',
+    canViewMnemonic: false,
   }),
   watch: {
     password: function (val) {
@@ -437,6 +510,17 @@ export default {
       } else {
         this.enableButton = false
       }
+    },
+    passwordView: async function (val) {
+      const hash = md5(val); 
+      const { value } = await Preferences.get({ key: 'masterPass' });
+
+      if(hash === value) {        
+        const deserialized = await DirectSecp256k1HdWallet.deserialize(this.viewMnenomicFor.data, val);
+        this.viewMnemonic = deserialized.secret.data
+        this.canViewMnemonic = true
+      }
+      
     },
     mnemonic: function (val) {
       this.mnemonic = this.mnemonic.toLowerCase()      
@@ -455,6 +539,17 @@ export default {
 
   },
   methods: { 
+    viewMnenomicDial(i) {
+      this.viewMnenomicFor = this.allWallets[i]
+      this.dialogViewMnemonic = true
+      this.mnemonicView = ''
+      this.viewMnemonic = ''
+      this.passwordView = ''
+      this.canViewMnemonic = false
+    },
+    viewMnenomic() {
+      console.log(this.viewMnenomicFor) 
+    },
     async setData() {
       await this.$store.dispatch('getWallets')
 
