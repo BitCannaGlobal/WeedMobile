@@ -80,7 +80,11 @@
             ></v-text-field>
           </v-list-item> 
           <v-list-item>
-            <v-text-field
+            <v-row>
+        <v-col
+          cols="6"
+        >
+        <v-text-field
                 v-model="amount"
                 :rules="amountRules"
                 variant="outlined"
@@ -89,7 +93,23 @@
                 type="number"
                 inputmode="decimal"
                 class="mt-2" 
+            ></v-text-field> 
+        </v-col>
+        <v-col
+          cols="6"
+        >
+        <v-text-field
+                v-model="amountFiat" 
+                variant="outlined"
+                color="#00b786" 
+                :label="currencyNow" 
+                type="number"
+                inputmode="decimal"
+                class="mt-2" 
             ></v-text-field>
+        </v-col>
+      </v-row> 
+
           </v-list-item>
           <v-list-item>
             <v-text-field
@@ -147,6 +167,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import QRCodeVue3 from "qrcode-vue3";
 import bech32 from "bech32";
 import { getAllContact } from '@/libs/storage.js';
@@ -176,6 +197,7 @@ export default {
       form: false,
       recipient: '',
       amount: '',
+      amountFiat: '',
       memo: '', 
       loading: false,
       finalQr: '',
@@ -193,6 +215,20 @@ export default {
           'Address must start with bcna',
         (v) => bech32Validation(v) || "Bad address (not bech32)",
       ],
+    }
+  },
+  computed: {
+    ...mapState([
+      'priceNow',
+      'currencyNow'
+    ])
+  },
+  watch: {
+    amount: function (val) {
+      this.amountFiat = val * this.priceNow
+    },
+    amountFiat: function (val) {
+      this.amount = (val / this.priceNow).toFixed(6)
     }
   },
   async mounted() { 

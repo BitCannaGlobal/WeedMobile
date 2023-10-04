@@ -17,6 +17,7 @@ export default createStore({
     network: 'testnet',
     rpcClient: null,
     rpcBase: null,
+    currencyNow: 'usd',
     masterPassExist: false,
     isLogged: false,
     sessionMax: 1000000,
@@ -31,6 +32,7 @@ export default createStore({
     poolStaking: 0,
     allContacts: [],
     validators: [],
+    allDelegations: [],
   },
   getters: {
   },
@@ -55,8 +57,24 @@ export default createStore({
       state.rpcBase = client 
     },  
     async getPriceNow({ state }) {
-      const getPrice = await axios("https://api.coingecko.com/api/v3/simple/price?ids=bitcanna&vs_currencies=usd");
-      state.priceNow = getPrice.data.bitcanna.usd.toFixed(5); 
+      const getPrice = await axios("https://bcnaracle-api.bitcanna.io/api/all");
+      state.priceNow = getPrice.data.bitcanna[state.currencyNow.toLowerCase()].toFixed(5); 
+    },
+    async setCurrency({ state }) { 
+      const { value } = await Preferences.get({ key: 'currency' });
+      if (!value) {
+        await Preferences.set({
+          key: 'currency',
+          value: String('usd')
+        });
+        state.currencyNow = 'usd'
+      } else {
+        console.log('currency', value)
+        state.currencyNow = value
+      }
+    },    
+    async changeCurrency({ state }, currency) { 
+      state.currencyNow = currency
     },
     async getBankModule({ state }, addressSelected) {
       const queryBank = new bank.QueryClientImpl(state.rpcClient); 
@@ -88,6 +106,7 @@ export default createStore({
       let total = 0;  
       let allUnbound = await queryStaking.DelegatorUnbondingDelegations({ delegatorAddr: addressSelected });       
       let totalUnbound = 0;
+ 
 
       for (let i of delegatorValidators.delegationResponses) { 
         total += Number(i.balance.amount);
@@ -102,6 +121,7 @@ export default createStore({
         totalUnbound = 0.00
       }
  
+      state.allDelegations = delegatorValidators.delegationResponses
       state.totalDelegations = (total / 1000000).toFixed(2)
       state.totalUnbound = (totalUnbound / 1000000).toFixed(2)
       state.poolStaking = getPoolStaking.pool

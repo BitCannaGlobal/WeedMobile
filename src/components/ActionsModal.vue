@@ -1,6 +1,29 @@
-<template>
+<template> 
+  <v-btn v-if="type === 'sendTx'" block size="x-large" color="#0FB786" @click="openDialogSendToken">Send</v-btn> 
 
-  <v-btn block size="x-large" color="#0FB786" @click="openDialogSendToken">Send</v-btn> 
+  <v-btn 
+    v-if="type === 'claim'"
+    height="40"
+    block
+    flat
+    class="mt-2  white--text"
+    color="#333333" 
+    @click="openDialogClaim"
+  >
+    Claim
+  </v-btn>
+
+  <v-btn 
+    v-if="type === 'stake'"
+    height="40"
+    block
+    flat
+    class="mt-2  white--text"
+    color="#0FB786" 
+    @click="openDialogStake"
+  >
+    Stake
+  </v-btn>
   <v-dialog
       v-model="dialogSendToken"
       fullscreen
@@ -173,11 +196,234 @@
         </v-card>
     </v-card>
     </v-dialog>
+    
+    <v-dialog
+      v-model="dialogClaim"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+    <v-card v-if="txSend === false">
+      <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogClaim = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Claim rewards</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-card 
+            class="ma-2" 
+          > 
+            <v-card-text>
+              <v-row no-gutters>
+                <v-col
+                  cols="2" 
+                >
+                  <v-sheet>          
+                    <v-img   
+                    inline
+                      max-height="50"
+                      max-width="50"
+                      min-height="50"
+                      min-width="50"
+                      src="@/assets/icon-reward.png"
+                    ></v-img>                   
+                  </v-sheet>
+                </v-col>
+                <v-col
+                  class="ml-4 "
+                  cols="5" 
+                >
+                  <v-sheet>       
+                    <span class=" text-subtitle-1">
+                      Your rewards
+                    </span>
+                    <br />
+                    <span class="font-weight-black text-subtitle-1">
+                      {{ this.totalRewards }} BCNA
+                    </span>
+                    
+                  </v-sheet>
+                </v-col> 
+              </v-row>
+            </v-card-text>
+          </v-card>
+          <v-list-item>
+            <v-text-field
+                v-model="password"
+                variant="outlined"
+                color="#00b786" 
+                label="Password" 
+                type="password"
+                class="mt-2"
+              ></v-text-field>
+              <v-btn 
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="claimReward()
+            ">Claim</v-btn>              
+          </v-list-item>
+          
+    </v-card>
+    <v-card v-else class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
+          <v-icon
+          size="100"
+          color="#0FB786"
+          icon="mdi-check-outline"
+          class="returnIcon"
+        ></v-icon> 
+        <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
+          <v-card-title class="text-center">
+            <span class="font-weight-black text-subtitle-1">
+              Claim approved
+            </span>
+          </v-card-title>
+          <v-card-text class="text-center">
+            <span class="font-weight-black text-subtitle-1">
+              Your rewards has been claim and credited
+            </span>
+            <v-btn
+              class="mt-4"
+              color="#0FB786"
+              @click="dialogClaim = false"
+              block
+            >Back</v-btn>
+          </v-card-text>
+        </v-card> 
+      </v-card>
+    </v-dialog>   
+    
+    
+    <v-dialog
+      v-model="dialogStake"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+    <v-card v-if="txSend === false">
+      <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogStake = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Staking</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-card 
+            class="ma-2" 
+          > 
+            <v-card-text>
+              <v-tabs
+      v-model="tab"
+      color="#0FB786"
+      align-tabs="center"
+    >
+      <v-tab :value="1">Delegate</v-tab>
+      <v-tab :value="2">Undel</v-tab>
+      <v-tab :value="3">Redel</v-tab>
+    </v-tabs>
+    <v-window v-model="tab">
+      <v-window-item
+        v-for="n in 3"
+        :key="n"
+        :value="n"
+      >
+        <v-container fluid>
+          <v-row>
+            <v-col
+              cols="12"
+              md="4"
+            >
+            <v-text-field
+                v-model="password"
+                variant="outlined"
+                color="#00b786" 
+                label="Password" 
+                type="password"
+                class="mt-2"
+              ></v-text-field>
+              <v-btn 
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="claimReward()
+            ">send</v-btn>
+            </v-col>
+          </v-row>
+        </v-container>
+      </v-window-item>
+    </v-window>
+            </v-card-text>
+          </v-card>
+          <v-list-item>
+            <!-- <v-text-field
+                v-model="password"
+                variant="outlined"
+                color="#00b786" 
+                label="Password" 
+                type="password"
+                class="mt-2"
+              ></v-text-field>
+              <v-btn 
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="claimReward()
+            ">Claim</v-btn>   -->            
+          </v-list-item>
+          
+    </v-card>
+    <v-card v-else class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
+          <v-icon
+          size="100"
+          color="#0FB786"
+          icon="mdi-check-outline"
+          class="returnIcon"
+        ></v-icon> 
+        <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
+          <v-card-title class="text-center">
+            <span class="font-weight-black text-subtitle-1">
+              Claim approved
+            </span>
+          </v-card-title>
+          <v-card-text class="text-center">
+            <span class="font-weight-black text-subtitle-1">
+              Your rewards has been claim and credited
+            </span>
+            <v-btn
+              class="mt-4"
+              color="#0FB786"
+              @click="dialogStake = false"
+              block
+            >Back</v-btn>
+          </v-card-text>
+        </v-card> 
+      </v-card>
+    </v-dialog> 
+
+
 </template>
 <script>
 import { mapState } from 'vuex'
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosmjs/stargate";
+import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice, defaultRegistryTypes } from "@cosmjs/stargate";
 import { Preferences } from '@capacitor/preferences';
 import { getAllContact } from '@/libs/storage.js';
 import bitcannaConfig from '../bitcanna.config' 
@@ -201,10 +447,18 @@ function countPlaces(num) {
 
 export default {
   name: 'ActionsModal', 
+  props: {
+    type: {
+      type: String,
+      required: true
+    }
+  },
   data: () => ({
     bitcannaConfig: bitcannaConfig,
     dialogSendToken: false,
     dialogAddressBook: false,
+    dialogClaim: false,
+    dialogStake: false,
     alertError: false,
     actionSend: false,
     actionReceive: false,
@@ -215,6 +469,7 @@ export default {
     txSend: false,
     accountNow: '',
     loading: false,
+    tab: null,
     allContacts: [],
     amountRules: [
       (v) => !!v || "Amount is required",
@@ -230,7 +485,7 @@ export default {
     ],
   }),
   computed: {
-    ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
+    ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'totalRewards', 'allDelegations'])
   },
   async mounted() { 
     let getAllContacts = await getAllContact()
@@ -249,6 +504,17 @@ export default {
     },
     setAddress(address) {
       this.recipient = address;
+    },
+    openDialogStake() {
+      this.dialogStake = true;
+      this.txSend = false;
+      this.loading = false 
+    },
+    openDialogClaim() {
+      this.dialogClaim = true;
+      this.txSend = false;
+
+      this.loading = false 
     },
     openDialogSendToken() {
       this.dialogSendToken = true;
@@ -325,6 +591,84 @@ export default {
         console.error(error); 
       }
     },
+    async claimReward() {
+
+      //this.dialogClaim = false
+      /* const hash = md5(this.password); 
+      const { value } = await Preferences.get({ key: 'masterPass' });
+
+      if(hash !== value) {
+        this.alertError = true
+        return
+      } */
+
+      this.loading = true
+
+      const deserialized = await DirectSecp256k1HdWallet.deserialize(this.allWallets[this.accountSelected].data, this.password); 
+      
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(deserialized.secret.data, {
+        prefix: 'bcna'
+      });
+      const [accounts] = await wallet.getAccounts();
+ 
+      const client = await SigningStargateClient.connectWithSigner(
+        this.bitcannaConfig[this.network].rpcURL, 
+        wallet,
+        {
+          gasPrice: GasPrice.fromString(
+            this.bitcannaConfig[this.network].gasPrice +
+            this.bitcannaConfig[this.network].coinLookup.chainDenom
+          ),
+        }
+      );     
+
+
+      const foundMsgType = defaultRegistryTypes.find(
+        (element) =>
+          element[0] ===
+          "/cosmos.distribution.v1beta1.MsgWithdrawDelegatorReward"
+      );
+      //console.log(this.allDelegations)
+
+      const copieDelegator = [];
+      this.allDelegations.forEach(function (item) {
+        console.log(item)
+        copieDelegator.push({
+          typeUrl: foundMsgType[0],
+          value: foundMsgType[1].fromPartial({
+            delegatorAddress: item.delegation.delegatorAddress,
+            validatorAddress: item.delegation.validatorAddress,
+          }),
+        });
+      });  
+      console.log(accounts)
+
+      try {
+          const result = await client.signAndBroadcast(
+            accounts.address,
+            copieDelegator,
+            "auto",
+            ""
+          );
+          assertIsDeliverTxSuccess(result);
+          console.log(result);
+
+          this.txSend = true
+
+          this.accountNow = this.allWallets[this.accountSelected]
+          await this.$store.dispatch('getBankModule', this.accountNow.address)
+          await this.$store.dispatch('getDistribModule', this.accountNow.address)
+          await this.$store.dispatch('getStakingModule', this.accountNow.address)
+          await this.$store.dispatch('getWalletAmount')
+
+
+        } catch (error) {
+          console.error(error);
+        }
+
+
+
+    }
   }
 }
 

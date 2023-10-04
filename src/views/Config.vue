@@ -425,7 +425,7 @@ import bitcannaWallets from '../bitcanna.wallet'
       deleteWallet: false,
       changeLang: false,
       changeCurrency: false,
-      selectCurrency: 'USD',
+      selectCurrency: '',
       checkbox1: true,
       password: '',
       enableButton: false,
@@ -447,14 +447,21 @@ import bitcannaWallets from '../bitcanna.wallet'
           this.enableButton = true
         }
  
-      }
+      },
+      selectCurrency: async function (val) { 
+        console.log(val)
+        await Preferences.set({ key: 'currency', value: val });
+        this.$store.dispatch('changeCurrency', val)
+        await this.$store.dispatch('getPriceNow')
+
+      },
     },
     computed: {
       ...mapState(['allWallets', 'accountSelected'])
     },
-    mounted() {
+    async mounted() {
       console.log(this.$i18n.t('config.currency.title'))
-
+ 
     },
     methods : {
       async changeMassterPass() {

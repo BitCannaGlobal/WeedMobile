@@ -29,8 +29,10 @@
             <v-card-text>
               <h1 class="mb-2">{{ Number(this.totalTokens).toFixed(2) + ' ' + bitcannaConfig[network].coinLookup.viewDenom }}</h1>
               <h4>
-                <i>${{ (this.totalTokens * priceNow).toFixed(3) }}</i> 
-                <span class="text-green-lighten-1">  ({{ priceNow }})</span>
+                <i>
+                  <span v-if="currencyNow === 'USD'">$</span>{{ (this.totalTokens * priceNow).toFixed(3) }}<span v-if="currencyNow === 'EUR'">€</span>
+                </i> 
+                <span class="text-green-lighten-1"> (<span v-if="currencyNow === 'USD'">$</span>{{ priceNow }}<span v-if="currencyNow === 'EUR'">€</span>)</span>
               </h4>
               <br />
               <h4>{{ accountNow.address }}</h4>
@@ -77,16 +79,9 @@
                   cols="4" 
                 >
                   <v-sheet>          
-                  
-                    <v-btn 
-                    height="40"
-                    block
-                    flat
-                      class="mt-2  white--text"
-                      color="#0FB786" 
-                    >
-                      Stake
-                    </v-btn>
+ 
+                    <actionsModal type="stake" /> 
+                    
                   </v-sheet>
                 </v-col>
               </v-row>
@@ -131,16 +126,8 @@
                   cols="4" 
                 >
                   <v-sheet>          
-                  
-                    <v-btn 
-                      height="40"
-                      block
-                      flat
-                      class="mt-2  white--text"
-                      color="#333333" 
-                    >
-                      Claim
-                    </v-btn>
+                    <actionsModal type="claim" /> 
+
                   </v-sheet>
                 </v-col>
               </v-row>
@@ -157,7 +144,7 @@
         <v-col
           cols="6"
         >
-        <actionsModal type="getRewards" /> 
+        <actionsModal type="sendTx" /> 
         </v-col>
         <v-col
           cols="6"
@@ -201,7 +188,8 @@ export default {
       'spendableBalances', 
       'totalRewards', 
       'priceNow',
-      'totalTokens'
+      'totalTokens',
+      'currencyNow'
     ])
   },
  

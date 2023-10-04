@@ -129,7 +129,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       if (!this.isLogged) {
         this.$router.push('/')
       }
-
+      await this.$store.dispatch('setCurrency')
       await this.$store.dispatch('getPriceNow')
       
     },
