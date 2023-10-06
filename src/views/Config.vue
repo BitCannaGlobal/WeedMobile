@@ -1,7 +1,7 @@
 <template>
     <v-list bg-color="black" lines="two">
       <v-list-subheader>General</v-list-subheader>
-      <Accounts /> 
+      <!-- <Accounts />  -->
       <v-list-item
         :title="$t('config.currency.title')"
         :subtitle="$t('config.currency.subtitle')"
@@ -13,13 +13,12 @@
         </template>
 
         <template v-slot:append>
-          <!-- <v-btn
-            v-if="folder.id == 'language'"
+          <v-btn 
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
-            @click.stop="changeLang = !changeLang"
-          ></v-btn> -->
+            @click.stop="changeCurrency = !changeCurrency"
+          ></v-btn>
         </template>
       </v-list-item>
       <v-list-item
@@ -46,7 +45,7 @@
 
       <v-list-subheader>Privacy</v-list-subheader>
 
-      <v-list-item
+<!--       <v-list-item
         :title="$t('config.viewMnemonic.title')"
         :subtitle="$t('config.viewMnemonic.subtitle')"
       >
@@ -61,9 +60,10 @@
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
+            @click="dialogViewPassPhrase = true"
           ></v-btn>
         </template>
-      </v-list-item>
+      </v-list-item> -->
       <v-list-item
         :title="$t('config.masterPassChange.title')"
         :subtitle="$t('config.masterPassChange.subtitle')"
@@ -79,6 +79,7 @@
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
+            @click="openChangeMasterPass()"
           ></v-btn>
         </template>
       </v-list-item>
@@ -88,12 +89,12 @@
       <v-list-subheader>Other</v-list-subheader>
 
       <v-list-item
-        :title="$t('config.deleteWallet.title')"
-        :subtitle="$t('config.deleteWallet.subtitle')"
+        title="Import wallet"
+        subtitle="Only for dev mode"
       >
       <template v-slot:prepend>
           <v-avatar>
-            <v-icon color="red">mdi-delete-forever-outline</v-icon>
+            <v-icon color="#c409bb">mdi-swap-vertical-bold</v-icon>
           </v-avatar>
         </template>
 
@@ -102,19 +103,18 @@
             color="grey-lighten-1"
             icon="mdi-chevron-right"
             variant="text"
-            @click.stop="openDeleteWallet()"
+            @click.stop="openImportDebugMnenomic()"
           ></v-btn>
         </template>
-      </v-list-item>
+      </v-list-item> 
    
     </v-list>
  
-
+<!-- 
    <div class="text-center">
     <v-bottom-sheet v-model="deleteWallet" inset>
       <v-card
-        class="text-center"
-        height="300"
+        class="text-center" 
       >
         <v-card-text>
           <v-btn
@@ -131,28 +131,30 @@
             variant="outlined" 
             elevation="2"
             type="success"
+            class="m-4"
           >
             Wallet deleted
           </v-alert>
 
-          <!-- <v-checkbox
+            <v-checkbox
               v-if="!deletedWallet" 
               v-model="checkbox1"
               label="You agree to delete your wallet from the app?"
-            ></v-checkbox> -->
+            ></v-checkbox> 
             <v-text-field
+                v-if="!deletedWallet && checkbox1" 
                 v-model="password"
                 variant="outlined"
                 color="#00b786" 
                 label="Password"
-                style="min-height: 96px"
-                class="mt-6"
-                type="password"
+                style="min-height: 96px" 
+                type="password" 
             ></v-text-field>
-            <v-btn 
-              v-if="!deletedWallet" 
+             <v-btn 
+              v-if="!deletedWallet && checkbox1" 
               color="red"  
               block 
+              :disabled="!enableButton"
               @click="revemoAccount"
             >
               Delete this wallet
@@ -163,7 +165,7 @@
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
-  </div> 
+  </div>  -->
   <div class="text-center">
     <v-bottom-sheet v-model="changeLang" inset>
       <v-card
@@ -192,58 +194,320 @@
         </v-card-text>
       </v-card>
     </v-bottom-sheet>
-  </div>         
+  </div> 
+  <div class="text-center">
+    <v-bottom-sheet v-model="changeCurrency" inset>
+      <v-card
+        class="text-center"
+        height="200"
+      >
+        <v-card-text>
+          <v-btn
+            variant="text"
+            @click="changeCurrency = !changeCurrency"
+          >
+            close
+          </v-btn>
+
+          <br />
+          <br />
+
+          <v-select
+            v-model="selectCurrency"
+            label="Currency"
+            :items="['USD', 'EUR']"
+          ></v-select>                    
+        </v-card-text>
+      </v-card>
+    </v-bottom-sheet>
+  </div>     
+  
+  
+  <div class="text-center">
+    <v-bottom-sheet v-model="importDebugMnenomic" inset>
+      <v-card
+        class="text-center"
+        height="200"
+      >
+        <v-card-text>
+          <v-btn
+            variant="text"
+            @click="importDebugMnenomic = !importDebugMnenomic"
+          >
+            close
+          </v-btn>
+
+          <br />
+          
+          <v-alert
+            v-model="alertImported"
+            class="ma-4"
+            variant="outlined"
+            type="success"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Wallets imported!
+          </v-alert>
+          <v-text-field
+            v-model="password"
+            variant="outlined"
+            color="#00b786"
+            label="Password"
+            style="min-height: 96px"
+            type="password"
+            class="mt-6"
+          ></v-text-field>
+          <v-btn 
+            v-if="enableButton"
+            class="flex-grow-1"
+            color="#00b786"  
+            block 
+            @click="importDebugMnenomicNow()"
+          >
+            Import
+          </v-btn> 
+                              
+        </v-card-text>
+      </v-card>
+    </v-bottom-sheet>
+  </div>    
+
+
+  <v-dialog
+      v-model="dialogChangeMasterPass"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogChangeMasterPass = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Change masterpass</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list>
+          <!-- <v-alert
+            v-model="alertError"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Bad password
+          </v-alert> -->
+ 
+      
+          <v-list-item>
+            <div v-if="!masterPasswordFinish">
+            <div v-if="!masterPasswordChanging">
+              <v-text-field
+                v-if="!enableButton"
+                v-model="password"
+                variant="outlined"
+                color="#00b786"
+                label="Your Password"
+                style="min-height: 96px"
+                type="password"
+                class="mt-6"
+              ></v-text-field>
+              <v-text-field
+                v-if="enableButton"
+                v-model="newPassword1"
+                variant="outlined"
+                color="#00b786"
+                label="New password"
+                style="min-height: 96px"
+                type="password"
+                class="mt-6"
+              ></v-text-field>
+              <v-text-field
+                v-if="enableButton"
+                v-model="newPassword2"
+                variant="outlined"
+                color="#00b786"
+                label="Repeat new password"
+                style="min-height: 96px"
+                type="password"
+                class="mt-6"
+              ></v-text-field>
+              <v-btn 
+                v-if="enableButton"
+                class="flex-grow-1"
+                color="#00b786"  
+                block 
+                @click="changeMassterPass()"
+              >
+                Change masterPass
+              </v-btn> 
+              </div>
+            </div>
+          </v-list-item>
+          <v-list-item>
+            <v-row
+              v-if="masterPasswordChanging"
+              class="fill-height"
+              align-content="center"
+              justify="center"
+            >
+              <v-col
+                class="text-subtitle-1 text-center"
+                cols="12"
+              >
+                Masterpassword change in progress
+              </v-col>
+              <v-col cols="6">
+                <v-progress-linear
+                  color="#00b786"
+                  indeterminate
+                  rounded
+                  height="9"
+                ></v-progress-linear>
+              </v-col>
+            </v-row>
+            <v-row
+                v-if="masterPasswordFinish"
+                class="fill-height"
+                align-content="center"
+                justify="center"
+              >
+                <v-col
+                  class="text-subtitle-1 text-center"
+                  cols="12"
+                >
+                  Masterpassword change is done!
+                </v-col>
+              </v-row>
+          </v-list-item>
+          <v-list-item>
+ 
+          </v-list-item>
+          <v-list-item>
+ 
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-dialog>   
 </template>
 
 <script>
 import { mapState } from 'vuex'
+import { Preferences } from '@capacitor/preferences';
+import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
 import Accounts from '@/components/Accounts.vue'
 import md5 from 'md5' 
-import { removeAccountId, checkMasterPassword } from '@/libs/storage.js';  
+import { removeAccountId, checkMasterPassword, addAccount, editMasterPassword } from '@/libs/storage.js';  
+import bitcannaWallets from '../bitcanna.wallet'
 
   export default {
     components: { Accounts },
     data: (t) => ({
       drawer: false,
       deleteWallet: false,
-      deletedWallet: false,
       changeLang: false,
+      changeCurrency: false,
+      selectCurrency: '',
       checkbox1: true,
       password: '',
+      enableButton: false,
+      dialogChangeMasterPass: false,
+      importDebugMnenomic: false,
+      alertImported: false,
+      newPassword1: '',
+      newPassword2: '',
+      masterPasswordChanging: false,
+      masterPasswordFinish: false,
     }),
+    watch: {
+      password: async function (val) { 
+        const hash = md5(this.password); 
+        const { value } = await Preferences.get({ key: 'masterPass' });
+
+        console.log(hash, value)
+        if(hash === value) {
+          this.enableButton = true
+        }
+ 
+      },
+      selectCurrency: async function (val) { 
+        console.log(val)
+        await Preferences.set({ key: 'currency', value: val });
+        this.$store.dispatch('changeCurrency', val)
+        await this.$store.dispatch('getPriceNow')
+
+      },
+    },
     computed: {
       ...mapState(['allWallets', 'accountSelected'])
     },
-    mounted() {
+    async mounted() {
       console.log(this.$i18n.t('config.currency.title'))
-
+ 
     },
     methods : {
-      async openDeleteWallet() {
-        this.deleteWallet = true
-        this.deletedWallet = false
-        this.checkbox1 = false
+      async changeMassterPass() {
+        if(this.newPassword1 === this.newPassword2) {
+          this.masterPasswordChanging = true
+          await editMasterPassword(this.password, this.newPassword1) 
+          await this.$store.dispatch('getWallets')
+          this.masterPasswordChanging = false
+          this.masterPasswordFinish = true
+        }
       },
-      async revemoAccount() {
+      openImportDebugMnenomic() {
+        this.alertImported = false
+        this.importDebugMnenomic = true
+        console.log(bitcannaWallets)
+      },
+      openChangeMasterPass() {
+        this.masterPass = ''
+        this.masterPass2 = ''
+        this.enableButton = false
+        this.password = ''
+        this.masterPasswordFinish = false
+        this.dialogChangeMasterPass = true
+      },
+      async importDebugMnenomicNow() {
 
-        console.log(this.password)
+        const hash = md5(this.password); 
+        const { value } = await Preferences.get({ key: 'masterPass' });
 
-        const hash = md5(this.password);
-        let checkPass = await checkMasterPassword(hash)
-        if(checkPass) {
-          console.log('Deleted!!')
-        } else {
-          console.log('Not Deleted :/')
+        console.log(hash, value)
+        if(hash !== value) {
           this.alertError = true
-        }          
-        /* await removeAccountId(this.accountSelected)
-        await this.$store.dispatch('getWallets')
-        await this.$store.dispatch('changeWallet', 0)
-        this.deletedWallet = true
-        if(this.allWallets.length === 0) {
-          // this.$store.commit('setIsLogged', false)
-          this.$router.push('/accounts') 
-        }  */       
+          return
+        }
+        for (let i = 0; i < bitcannaWallets.length; i++) {
+          const element = bitcannaWallets[i];
+          console.log(element)
+          const wallet = await DirectSecp256k1HdWallet.fromMnemonic( element.mnenomic, {
+            prefix: 'bcna'
+          })
+          var finalWallet = await wallet.serialize( this.password )
+          var finalAddress = await wallet.getAccounts()
+
+          await addAccount( element.name, finalAddress[0].address, finalWallet )
+        }
+        this.alertImported = true
       }
     }
   }

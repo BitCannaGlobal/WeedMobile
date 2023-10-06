@@ -47,6 +47,50 @@ const routes = [
       },
     ],
   }, 
+  {
+    path: '/scan-qrcode',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Scan-qrcode',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Scan-qrcode.vue'),
+      },
+    ],
+  }, 
+  {
+    path: '/create-qrcode',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Create-qrcode',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Create-qrcode.vue'),
+      },
+    ],
+  }, 
+  {
+    path: '/addressbook',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Addressbook',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Addressbook.vue'),
+      },
+    ],
+  }, 
+  {
+    path: '/transactions',
+    component: () => import('@/layouts/default/Default.vue'),
+    children: [
+      {
+        path: '',
+        name: 'Transactions',
+        component: () => import(/* webpackChunkName: "home" */ '@/views/Transactions.vue'),
+      },
+    ],
+  },  
 ]
 
 const router = createRouter({

@@ -47,5 +47,7 @@
 	<true/>
 	<key>UIStatusBarHidden</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+  <string>To be able to scan qrcode</string>  
 </dict>
 </plist>

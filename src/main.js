@@ -25,7 +25,7 @@ const messages = {
       loginButton: 'Unlock',
     },
     dashboard: {
-      title: 'Welcome to your wallet', 
+      title: 'Welcome ', 
     },
     config: {
       currency: {
@@ -62,7 +62,7 @@ const messages = {
       loginButton: 'Ontgrendelen',
     },
     dashboard: {
-      title: 'Welkom bij uw portefeuille', 
+      title: 'Welkom ', 
     },
     config: {
       currency: {
