@@ -1,13 +1,9 @@
 <template>
-  <div id="login">
-    <v-row align="center" justify="center">
-  <v-img 
-    cover
-    src="@/assets/banner-home.png"
-  ></v-img>
- 
-  </v-row>
-  <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div> 
+  <div id="login"> 
+    <v-img    
+      src="@/assets/banner-home.png"
+    ></v-img>     
+   <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div> 
   <div v-else class="mt-10 text-center">Welcome to bitcanna app<br />Create first your password to use your wallet</div>
     <v-container> 
     <v-alert
