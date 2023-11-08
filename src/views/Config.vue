@@ -436,7 +436,7 @@ import bitcannaWallets from '../bitcanna.wallet'
       deleteWallet: false,
       changeLang: false,
       changeCurrency: false,
-      selectCurrency: '',
+      selectCurrency: 'USD',
       checkbox1: true,
       password: '',
       enableButton: false,
