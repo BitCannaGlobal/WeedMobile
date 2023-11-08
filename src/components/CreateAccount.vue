@@ -86,7 +86,7 @@
       
  
       <v-chip
-        v-for="(item, index) in shuffledMnenomic"
+        v-for="(item, index) in shuffledMnenomic.sort()"
         :key="index"      
         class="ma-2"
         outlined
@@ -314,7 +314,7 @@ import md5 from 'md5'
         var generateSecret = await DirectSecp256k1HdWallet.generate(12)      
         this.generatedMnenomicPlain = generateSecret.secret.data
         this.generatedMnenomic = this.generatedMnenomicPlain.split(' ')  
-        this.shuffle()  
+        this.shuffle(this.generatedMnenomic)  
       },
       step1() {
         this.step = 2
@@ -342,7 +342,7 @@ import md5 from 'md5'
             }
         }
       }, 
-      shuffle() {
+      shuffle(arr) {
         this.checkMnenomic = []
         let shuffled = this.generatedMnenomic
           .map(value => ({ value, sort: Math.random() }))
