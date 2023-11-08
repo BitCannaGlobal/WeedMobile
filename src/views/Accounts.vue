@@ -13,7 +13,7 @@
         <v-col
           cols="6"
         >
-        <v-btn block size="x-large" color="#1C1D20"  @click="dialogCreate = true">Import </v-btn> 
+        <v-btn block size="x-large" color="#1C1D20"  @click="openDialogImport()">Import </v-btn> 
         </v-col>
       </v-row>
     </v-card-text>
@@ -77,125 +77,6 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Create wallet</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn
-              variant="text"
-              size="x-large"
-              @click="importWallet"
-            >
-              Save
-            </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <v-list
-          lines="two"
-          subheader
-        >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
-        </v-list>
-        <v-divider></v-divider>
-        <v-list>
-          <v-alert
-            v-model="alertError"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Bad password
-          </v-alert>
-          <v-alert
-            v-model="alertErrorName"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Wallet name already taken
-          </v-alert>
-          <v-alert
-            v-model="alertErrorAddressExist"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Wallet address already taken
-          </v-alert>
-      
-        <v-list-item>
-            <v-text-field
-                v-model="name"
-                variant="outlined"
-                color="#00b786"
-                counter="6"
-                label="Wallet name"
-                style="min-height: 96px"
-                class="mt-6"
-              ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-btn
-              block
-              color="#00b786"
-              size="x-large"
-              @click="generateWallet"
-            >
-              Generate
-            </v-btn>
-          </v-list-item>
-          <v-list-item>
-            <v-textarea
-              v-model="mnemonic"
-              auto-grow
-              variant="outlined"
-              color="#00b786"
-              label="Mnemonic"
-              rows="4"
-              class="mt-6"
-            ></v-textarea>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-                v-model="password"
-                variant="outlined"
-                color="#00b786"
-                counter="6"
-                label="Password"
-                style="min-height: 96px"
-                type="password"
-                class="mt-6"
-              ></v-text-field>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog
-      v-model="dialogCreate"
-      fullscreen
-      :scrim="false"
-      transition="dialog-bottom-transition"
-    >
-      <v-card>
-        <v-toolbar
-          dark
-        >
-          <v-btn
-            icon
-            dark
-            @click="dialogCreate = false"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
           <v-toolbar-title>Import wallet</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
@@ -229,6 +110,18 @@
           >
             Bad password
           </v-alert>
+          <v-alert
+            v-model="alertErrorMnemonic"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+           Error Mnemonic
+          </v-alert>
+          
           <v-alert
             v-model="alertErrorName"
             class="ma-4"
@@ -466,6 +359,7 @@ export default {
     alertDelete: false,
     alertErrorName: false,
     alertErrorAddressExist: false,
+    alertErrorMnemonic: false,
     deleteWallet: false,
     deletedWallet: false,
     checkbox1: false,
@@ -545,26 +439,39 @@ export default {
       const wallet = await DirectSecp256k1HdWallet.generate(12)
       this.mnemonic = wallet.mnemonic
     },
+    openDialogImport() {
+      this.dialogImport = true
+      this.name = ''
+      this.mnemonic = ''
+      this.password = ''
+      this.alertError = false
+      this.alertErrorName = false
+      this.alertErrorAddressExist = false
+      this.alertErrorMnemonic = false
+    },
     async importWallet() {
       this.alertErrorName = false
       this.alertErrorAddressExist = false
 
       const hash = md5(this.password); 
-      const { value } = await Preferences.get({ key: 'masterPass' });
-
-      console.log(hash, value)
+      const { value } = await Preferences.get({ key: 'masterPass' }) 
       if(hash !== value) {
         this.alertError = true
         return
       }
+      const wallet = ""
+      try {
+        wallet = await DirectSecp256k1HdWallet.fromMnemonic( this.mnemonic, {
+          prefix: 'bcna'
+        })        
+      } catch (error) { 
+        this.alertErrorMnemonic = true
+        return 
+      }
 
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic( this.mnemonic, {
-        prefix: 'bcna'
-      })
       var finalWallet = await wallet.serialize( this.password )
-      var finalAddress = await wallet.getAccounts()
-
-      console.log(this.allWallets)
+      var finalAddress = await wallet.getAccounts() 
+      
       const foundName = this.allWallets.find((element) => element.name === this.name);
       const foundAddress = this.allWallets.find((element) => element.address === finalAddress[0].address);
       if (foundName) {
@@ -579,8 +486,7 @@ export default {
       await addAccount( this.name, finalAddress[0].address, finalWallet )
       await this.$store.dispatch('getWallets')
 
-      this.dialogImport = false
-      this.dialogCreate = false 
+      this.dialogImport = false 
     },    
     editNowModal(id) { 
       this.walletName = this.allWallets[id].name
@@ -607,8 +513,7 @@ export default {
           await removeAccountId(this.accountSelected)
           this.setData() 
           
-          this.dialogImport = false
-          this.dialogCreate = false 
+          this.dialogImport = false 
           await this.$store.dispatch('changeWallet', 0)
           this.deletedWallet = true
           if(this.allWallets.length === 0) {
