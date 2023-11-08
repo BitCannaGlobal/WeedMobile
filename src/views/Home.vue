@@ -138,7 +138,7 @@
       </v-row>
     </v-container> 
     
-    <v-card color="black" >
+    <v-card  v-if="allWallets.length > 0"  color="black" >
       <v-card-text  >
       <v-row>
         <v-col
@@ -154,8 +154,17 @@
       </v-row>
     </v-card-text>
     </v-card>
-
-
+    <v-card v-if="allWallets.length === 0" class="ma-4" color="black" >
+      <v-alert
+        variant="outlined"
+        type="success"
+        border="top"
+      >
+        Hey, there is no wallet available yet.
+      </v-alert>
+      <br />
+      <v-btn block size="x-large" color="#1C1D20" to="/accounts">Create one here</v-btn> 
+    </v-card>
 </template>
 
 <script>

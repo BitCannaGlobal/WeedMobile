@@ -19,14 +19,7 @@
     </v-card-text>
     </v-card> 
 
-
-
-   
-        
-  
-        
- 
-    <h4 class="ma-4">Select wallet</h4> 
+    <h4 v-if="allWallets.length > 0" class="ma-4">Select wallet</h4> 
     <v-card
       v-for="(item, i) in allWalletsList"
       class="ma-4"
