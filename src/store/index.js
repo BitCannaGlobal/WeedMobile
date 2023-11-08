@@ -20,7 +20,7 @@ export default createStore({
     currencyNow: 'usd',
     masterPassExist: false,
     isLogged: false,
-    sessionMax: 1000000,
+    sessionMax: 60, // In seconds
     allWallets: [],
     allWalletsList: [],
     accountSelected: 0,
