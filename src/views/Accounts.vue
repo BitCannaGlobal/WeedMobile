@@ -315,20 +315,6 @@
         </v-list>
         
         <v-divider></v-divider>
-        <v-list
-        >
-        <v-alert
-            v-model="alertError"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Bad password
-          </v-alert>
-  
           <v-list-item>
             <v-text-field
                 v-if="!canViewMnemonic"
@@ -342,18 +328,15 @@
                 class="mt-6"
               ></v-text-field>
           </v-list-item>
+          <h4 class="ma-4" v-if="canViewMnemonic">Your mnemonic (keep it secret!)</h4>
           <v-card
             v-if="canViewMnemonic"
-            class="pa-2"
+            color="black"
+            class="ma-4 pa-2"
             style="border: 2px solid #0FB786;"
           >
             {{ viewMnemonic }}
-
-          </v-card>
-          <v-btn v-if="canViewMnemonic" class="ma-2" >
-            Copy
-          </v-btn>
-        </v-list>
+          </v-card>  
       </v-card>
     </v-dialog>
 
