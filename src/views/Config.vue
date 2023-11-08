@@ -5,6 +5,7 @@
       <v-list-item
         :title="$t('config.currency.title')"
         :subtitle="$t('config.currency.subtitle')"
+        @click.stop="changeCurrency = !changeCurrency"
       >
       <template v-slot:prepend>
           <v-avatar>
@@ -24,6 +25,7 @@
       <v-list-item
         :title="$t('config.language.title')"
         :subtitle="$t('config.language.subtitle')"
+        @click.stop="changeLang = !changeLang"
       >
         <template v-slot:prepend>
           <v-avatar>
@@ -67,6 +69,7 @@
       <v-list-item
         :title="$t('config.masterPassChange.title')"
         :subtitle="$t('config.masterPassChange.subtitle')"
+        @click="openChangeMasterPass()"
       >
       <template v-slot:prepend>
           <v-avatar>
@@ -91,6 +94,7 @@
       <v-list-item
         title="Import wallet"
         subtitle="Only for dev mode"
+        @click.stop="openImportDebugMnenomic()"
       >
       <template v-slot:prepend>
           <v-avatar>
