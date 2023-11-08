@@ -395,6 +395,13 @@
                   cols="12"
                 >
                   Masterpassword change is done!
+                  <br /><br />
+                  <v-btn
+                    color="#00b786"
+                    @click="dialogChangeMasterPass = false"
+                  > 
+                    Close
+                  </v-btn>
                 </v-col>
               </v-row>
           </v-list-item>
