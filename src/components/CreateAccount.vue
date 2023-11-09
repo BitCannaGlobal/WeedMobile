@@ -378,7 +378,7 @@ import md5 from 'md5'
         }       
 
         await addAccount( this.name, finalAddress[0].address, finalWallet )
-        await addContact(this.name, finalAddress[0].address)
+        await addContact(this.name, finalAddress[0].address, '')
         //let getAllContacts = await getAllContact()
         await this.$store.dispatch('getWallets')
         this.dialogCreateWallet = false 

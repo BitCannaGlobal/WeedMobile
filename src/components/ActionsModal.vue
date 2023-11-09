@@ -190,7 +190,7 @@
         <v-card
           v-for="(item, i) in allContacts"
           class="ma-4" 
-          :title="item.name"
+          :title="item.name + ' (' + item.memo + ')'"
           :subtitle="item.address"
           @click="selectContact(i)"
         >
@@ -496,6 +496,7 @@ export default {
   methods: {
     selectContact(index) {
       this.recipient = this.allContacts[index].address
+      this.memo = this.allContacts[index].memo
       this.dialogAddressBook = false
     },
     getAddressBook() {

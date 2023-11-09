@@ -12,8 +12,8 @@
         
         
         :key="item.name"
-        :title="item.name"
-        :subtitle="item.address"
+        :title="item.name + ' (' + item.memo + ')'"
+        :subtitle="truncateString(item.address, 20)"
       >
  
         <template v-slot:prepend>
@@ -91,6 +91,15 @@
                 @click:append-inner="scanNow()"
             ></v-text-field>
           </v-list-item> 
+          <v-list-item>         
+            <v-text-field
+                v-model="memo" 
+                variant="outlined"
+                color="#00b786" 
+                label="Default memo" 
+                class="mt-4"  
+            ></v-text-field>
+          </v-list-item> 
           <qrcode-stream v-if="removeScan" :track="paintBoundingBox" @error="logErrors" /> 
           <v-list-item>
             <v-btn 
@@ -124,6 +133,7 @@ import { addContact, getAllContact, removeContactId } from '@/libs/storage.js';
       removeScan: false,
       recipient: '',
       allContacts: [],
+      memo: '',
       files: [
         {
           color: '#0FB786',
@@ -156,7 +166,7 @@ import { addContact, getAllContact, removeContactId } from '@/libs/storage.js';
       },
       async addContact() {
         this.dialog = false
-        await addContact(this.name, this.recipient)
+        await addContact(this.name, this.recipient, this.memo)
         let getAllContacts = await getAllContact()
         this.allContacts =  JSON.parse(getAllContacts)
       },
