@@ -504,7 +504,8 @@ export default {
     async openDeleteWallet() {
         this.deleteWallet = true
         this.deletedWallet = false
-        this.checkbox1 = false
+        this.checkbox1 = false        
+        this.password = ''
     },
     async revemoAccount() {
         console.log(this.password)
