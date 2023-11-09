@@ -30,9 +30,9 @@
               <h1 class="mb-2">{{ Number(this.totalTokens).toFixed(2) + ' ' + bitcannaConfig[network].coinLookup.viewDenom }}</h1>
               <h4>
                 <i>
-                  <span v-if="currencyNow === 'USD'">$</span>{{ (this.totalTokens * priceNow).toFixed(3) }}<span v-if="currencyNow === 'EUR'">€</span>
+                  <span v-if="currencyNow === 'USD'">$</span><span v-if="currencyNow === 'EUR'">€</span> {{ (this.totalTokens * priceNow).toFixed(3) }}
                 </i> 
-                <span class="text-green-lighten-1"> (<span v-if="currencyNow === 'USD'">$</span>{{ priceNow }}<span v-if="currencyNow === 'EUR'">€</span>)</span>
+                <span class="text-green-lighten-1"> (<span v-if="currencyNow === 'USD'">$</span><span v-if="currencyNow === 'EUR'">€</span> {{ priceNow }})</span>
               </h4>
               <br />
               <h4>{{ accountNow.address }}</h4>
