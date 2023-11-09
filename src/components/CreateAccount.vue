@@ -195,7 +195,7 @@
 import { mapState } from 'vuex'
 import { Preferences } from '@capacitor/preferences';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
-import { getAccounts, removeAccount, addAccount, addMasterPassword, getMasterPassword, removeMasterPassword } from '@/libs/storage.js';
+import { addContact, removeAccount, addAccount, addMasterPassword, getMasterPassword, removeMasterPassword } from '@/libs/storage.js';
 import md5 from 'md5' 
 // import { notifAccountAdded } from '~/libs/notifications'
 
@@ -378,6 +378,8 @@ import md5 from 'md5'
         }       
 
         await addAccount( this.name, finalAddress[0].address, finalWallet )
+        await addContact(this.name, finalAddress[0].address)
+        //let getAllContacts = await getAllContact()
         await this.$store.dispatch('getWallets')
         this.dialogCreateWallet = false 
         
