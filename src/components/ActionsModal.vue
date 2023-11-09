@@ -96,6 +96,8 @@
                 variant="outlined"
                 color="#00b786" 
                 label="Amount" 
+                type="number"
+                inputmode="decimal"
                 class="mt-2"
                 suffix="Max"
                 append-inner-icon="mdi-plus-box-outline"
