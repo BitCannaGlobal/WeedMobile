@@ -241,6 +241,7 @@ export default {
     },
     selectContact(index) {
       this.recipient = this.allContacts[index].address
+      this.memo = this.allContacts[index].memo
       this.dialogAddressBook = false
     },
     backQrcode() {
