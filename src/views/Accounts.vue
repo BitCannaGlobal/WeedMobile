@@ -208,18 +208,39 @@
         </v-list>
         
         <v-divider></v-divider>
-          <v-list-item>
+        <v-list-item> 
+        <v-alert
+            v-if="!canViewMnemonic"
+            v-model="alertError"
+            class="mt-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Bad password
+          </v-alert>
+          
             <v-text-field
                 v-if="!canViewMnemonic"
                 v-model="passwordView"
                 variant="outlined"
-                color="#00b786"
-                counter="6"
+                color="#00b786" 
                 label="Password"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
               ></v-text-field>
+            <v-btn 
+              v-if="!canViewMnemonic"
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="viewMnenomic()
+            ">View Mnemonic</v-btn> 
+
           </v-list-item>
           <h4 class="ma-4" v-if="canViewMnemonic">Your mnemonic (keep it secret!)</h4>
           <v-card
@@ -382,14 +403,14 @@ export default {
       }
     },
     passwordView: async function (val) {
-      const hash = md5(val); 
+      /* const hash = md5(val); 
       const { value } = await Preferences.get({ key: 'masterPass' });
 
       if(hash === value) {        
         const deserialized = await DirectSecp256k1HdWallet.deserialize(this.viewMnenomicFor.data, val);
         this.viewMnemonic = deserialized.secret.data
         this.canViewMnemonic = true
-      }
+      } */
       
     },
     mnemonic: function (val) {
@@ -401,12 +422,6 @@ export default {
   },
   async mounted() {
     this.setData() 
-
-
-      //console.log(await addAccount());
-      // console.log(await getAccounts());
-      //console.log(await removeAccount());
-
   },
   methods: { 
     viewMnenomicDial(i) {
@@ -416,9 +431,22 @@ export default {
       this.viewMnemonic = ''
       this.passwordView = ''
       this.canViewMnemonic = false
+      this.alertError = false
     },
-    viewMnenomic() {
-      console.log(this.viewMnenomicFor) 
+    async viewMnenomic() {
+      const hash = md5(this.passwordView); 
+      const { value } = await Preferences.get({ key: 'masterPass' });
+
+      if(hash !== value) {
+        this.alertError = true
+        return
+      }
+
+      if(hash === value) {        
+        const deserialized = await DirectSecp256k1HdWallet.deserialize(this.viewMnenomicFor.data, this.passwordView);
+        this.viewMnemonic = deserialized.secret.data
+        this.canViewMnemonic = true
+      }
     },
     async setData() {
       await this.$store.dispatch('getWallets')
