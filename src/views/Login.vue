@@ -1,11 +1,11 @@
 <template>
-  <div id="login"> 
-    <v-img    
+  <div id="login">
+    <v-img
       src="@/assets/banner-home.png"
-    ></v-img>     
-   <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div> 
+    ></v-img>
+   <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div>
   <div v-else class="mt-10 text-center">Welcome to bitcanna app<br />Create first your password to use your wallet</div>
-    <v-container> 
+    <v-container>
     <v-alert
       v-model="alertError"
       variant="outlined"
@@ -37,12 +37,12 @@
     >
       Session expired
     </v-alert>
-    
+
     <br />
       <v-row v-if="passExist">
         <v-col
           cols="12"
-        > 
+        >
           <v-text-field
             v-model="passWord"
             :label="$t('login.passInput')"
@@ -52,16 +52,16 @@
           ></v-text-field>
         </v-col>
       </v-row>
- 
-      <v-btn v-if="passExist" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">        
+
+      <v-btn v-if="passExist" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">
         {{ $t("login.loginButton") }}
-      </v-btn> 
+      </v-btn>
       <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="openDialogMasterPassword()">Set masterpass</v-btn>
       <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">Remove masterpass</v-btn>
     </v-container>
   </div>
 
- 
+
   <v-dialog
       v-model="dialogMasterPassword"
       fullscreen
@@ -118,9 +118,9 @@
               counter="6"
               label="Set your password"
               style="min-height: 96px"
-              class="mt-4"              
+              class="mt-4"
             ></v-text-field>
-          </v-list-item> 
+          </v-list-item>
           <v-list-item>
             <v-text-field
               v-model="masterPass2"
@@ -132,7 +132,7 @@
               style="min-height: 96px"
               class="mt-4"
             ></v-text-field>
-          </v-list-item> 
+          </v-list-item>
         </v-list>
       </v-card>
     </v-dialog>
@@ -141,11 +141,11 @@
 <script>
 import { Preferences } from '@capacitor/preferences';
 import { mapState } from 'vuex'
-import md5 from 'md5' 
+import md5 from 'md5'
 import { checkMasterPassword, addBcnaSession, getMasterPassword, addMasterPassword, removeMasterPassword } from '@/libs/storage.js';
 
 export default {
-  data: () => ({ 
+  data: () => ({
     passWord: '',
     dialogImport: false,
     dialogMasterPassword: false,
@@ -171,12 +171,12 @@ export default {
     if (typeof this.$route.query.expired !== 'undefined') {
       this.alertExpired = true
     }
-      
+
     let existPass = await getMasterPassword()
     if(existPass)
       this.passExist = existPass
   },
-  methods: { 
+  methods: {
     async openDialogMasterPassword() {
       this.masterPass = ''
       this.masterPass2 = ''
@@ -198,7 +198,7 @@ export default {
         this.$router.push('/dashboard')
       } else {
         this.alertError = true
-      }  
+      }
     },
     async saveMasterPassword() {
       if (this.masterPass == this.masterPass2) {
@@ -207,7 +207,7 @@ export default {
         // Refresh pass exist
         let existPass = await getMasterPassword()
         this.passExist = existPass
-      } else 
+      } else
         this.badMasterPass = true
     },
     async removePassword() {
