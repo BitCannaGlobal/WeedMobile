@@ -123,8 +123,17 @@
 </template>
 <script>
 import { ref } from 'vue'
-
+import bech32 from "bech32";
 import { addContact, getAllContact, removeContactId } from '@/libs/storage.js';
+
+function bech32Validation(address) {
+  try {
+    bech32.decode(address);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
   export default {
     data: () => ({
@@ -134,6 +143,13 @@ import { addContact, getAllContact, removeContactId } from '@/libs/storage.js';
       recipient: '',
       allContacts: [],
       memo: '',
+      addressRules: [
+        (v) => !!v || "Address is required",
+        (v) =>
+          v.startsWith('bcna') ||
+          'Address must start with bcna',
+        (v) => bech32Validation(v) || "Bad address (not bech32)",
+      ],
       files: [
         {
           color: '#0FB786',
@@ -165,6 +181,12 @@ import { addContact, getAllContact, removeContactId } from '@/libs/storage.js';
         this.removeScan = false
       },
       async addContact() {
+
+        const { valid } = await this.$refs.form.validate()
+        if (!valid) {
+          return
+        }
+
         this.dialog = false
         await addContact(this.name, this.recipient, this.memo)
         let getAllContacts = await getAllContact()
