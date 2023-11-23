@@ -71,7 +71,9 @@
           <v-list-item>
             <v-text-field
                 v-model="name"
+                counter="20"
                 :rules="nameRules"
+                
                 variant="outlined"
                 color="#00b786" 
                 label="Name" 
@@ -94,6 +96,8 @@
           <v-list-item>         
             <v-text-field
                 v-model="memo" 
+                counter="100"
+                :rules="memoRules"
                 variant="outlined"
                 color="#00b786" 
                 label="Default memo" 
@@ -142,13 +146,21 @@ function bech32Validation(address) {
       removeScan: false,
       recipient: '',
       allContacts: [],
+      name: '',
       memo: '',
+      nameRules: [
+        (v) => !!v || "Name is required", 
+        v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+      ],
       addressRules: [
         (v) => !!v || "Address is required",
         (v) =>
           v.startsWith('bcna') ||
           'Address must start with bcna',
         (v) => bech32Validation(v) || "Bad address (not bech32)",
+      ],
+      memoRules: [
+        v => (v && v.length <= 100) || 'Memo must be less than 100 characters',
       ],
       files: [
         {
