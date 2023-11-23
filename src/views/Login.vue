@@ -37,19 +37,31 @@
     >
       Session expired
     </v-alert>
-
+    <v-alert
+          v-model="maxMasterPass"
+          variant="outlined"
+          type="warning"
+          border="top"
+          closable
+          close-label="Close Alert"
+        >
+        Your password is too long
+        </v-alert>
     <br />
       <v-row v-if="passExist">
         <v-col
           cols="12"
         >
+        <v-form ref="form">
           <v-text-field
             v-model="passWord"
+            :rules="passRules"
             :label="$t('login.passInput')"
             required
             variant="outlined"
             type="password"
           ></v-text-field>
+        </v-form>
         </v-col>
       </v-row>
 
@@ -69,6 +81,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
+        <v-form ref="form"> 
         <v-toolbar
           dark
         >
@@ -110,12 +123,24 @@
         >
           Bad password
         </v-alert>
+        <v-alert
+          v-model="maxMasterPass"
+          variant="outlined"
+          type="warning"
+          border="top"
+          closable
+          close-label="Close Alert"
+        >
+        Your password is too long
+        </v-alert>
+        
             <v-text-field
               v-model="masterPass"
+              :rules="passRules"
               type="password"
               variant="outlined"
               color="#00b786"
-              counter="6"
+              counter="20"
               label="Set your password"
               style="min-height: 96px"
               class="mt-4"
@@ -124,16 +149,18 @@
           <v-list-item>
             <v-text-field
               v-model="masterPass2"
+              :rules="passRules"
               type="password"
               variant="outlined"
               color="#00b786"
-              counter="6"
+              counter="20"
               label="Repeat your password"
               style="min-height: 96px"
               class="mt-4"
             ></v-text-field>
           </v-list-item>
         </v-list>
+      </v-form>
       </v-card>
     </v-dialog>
 
@@ -161,7 +188,12 @@ export default {
     passExist: false,
     badMasterPass: false,
     masterPass: '',
-    masterPass2: ''
+    masterPass2: '',
+    maxMasterPass: false,
+    passRules: [
+      v => !!v || 'Password is required',
+      v => (v && v.length <= 20) || 'Password must be less than 20 characters',
+    ],    
   }),
   computed: {
     ...mapState(['allWallets', 'isLogged'])
@@ -181,8 +213,15 @@ export default {
       this.masterPass = ''
       this.masterPass2 = ''
       this.dialogMasterPassword = true
+      this.maxMasterPass = false
+      this.badMasterPass = false
     },
     async login() {
+      const { valid } = await this.$refs.form.validate()
+      if (!valid) {
+        this.maxMasterPass = true
+        return
+      }
       const hash = md5(this.passWord);
       let checkPass = await checkMasterPassword(hash)
       if(checkPass) {
@@ -201,6 +240,11 @@ export default {
       }
     },
     async saveMasterPassword() {
+      const { valid } = await this.$refs.form.validate()
+      if (!valid) {
+        this.maxMasterPass = true
+        return
+      }
       if (this.masterPass == this.masterPass2) {
         await addMasterPassword( this.masterPass )
         this.dialogMasterPassword = false
