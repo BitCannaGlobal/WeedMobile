@@ -154,7 +154,7 @@
  
         </v-toolbar>
         <v-card
-          v-for="(item, i) in allContacts"
+          v-for="(item, i) in allWallets"
           class="ma-4" 
           :title="item.name"
           :subtitle="item.address"
@@ -219,6 +219,7 @@ export default {
   },
   computed: {
     ...mapState([
+      'allWallets',
       'priceNow',
       'currencyNow'
     ])
@@ -240,8 +241,8 @@ export default {
       this.dialogAddressBook = true;
     },
     selectContact(index) {
-      this.recipient = this.allContacts[index].address
-      this.memo = this.allContacts[index].memo
+      this.recipient = this.allWallets[index].address
+      this.memo = this.allWallets[index].memo
       this.dialogAddressBook = false
     },
     backQrcode() {
