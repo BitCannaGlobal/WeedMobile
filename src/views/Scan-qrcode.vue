@@ -38,6 +38,17 @@
       </tr>
     </tbody>
     </v-table>
+    <v-alert
+      v-model="alertError"
+      class="mt-4"
+      variant="outlined"
+      type="warning"
+      border="top"
+      closable
+      close-label="Close Alert"
+    >
+      Bad password
+    </v-alert>
     <v-text-field
       v-if="removeScan"
       v-model="password"
@@ -114,8 +125,9 @@ export default {
     let result = ''
     let password = ''
     let txSend = false
+    let alertError = false
 
-    return { selected, options, result, removeScan, password, txSend }
+    return { selected, options, result, removeScan, password, txSend, alertError }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
