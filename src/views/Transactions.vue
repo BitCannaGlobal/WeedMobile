@@ -27,9 +27,9 @@
         large                          
         class="mt-2"
         color="#333333"
-        @click.stop="dialog = true"
+        to="/create-qrcode"
       >
-        Receive
+        Create qr
       </v-btn>
     </v-row>
     <v-divider class="mb-6" />
