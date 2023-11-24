@@ -62,6 +62,8 @@
       v-if="removeScan" 
       block 
       color="#0FB786" 
+      :disabled="loading"
+      :loading="loading"
       @click="sendTx()">Send
     </v-btn>
 
@@ -126,8 +128,9 @@ export default {
     let password = ''
     let txSend = false
     let alertError = false
+    let loading = false
 
-    return { selected, options, result, removeScan, password, txSend, alertError }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
@@ -183,7 +186,7 @@ export default {
         assertIsDeliverTxSuccess(result);
         console.log(result); 
         this.txSend = true
-
+        this.loading = false
         this.accountNow = this.allWallets[this.accountSelected]
         await this.$store.dispatch('getBankModule', this.accountNow.address)
         await this.$store.dispatch('getDistribModule', this.accountNow.address)
