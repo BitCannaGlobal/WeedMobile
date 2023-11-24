@@ -19,10 +19,14 @@
       ></v-select>
     </p> -->
 
-    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" /> 
-    <!-- <v-textarea class="mt-2" label="Result" variant="outlined"  :model-value="result"> </v-textarea> -->
-    <v-table v-if="removeScan">
-    
+    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
+    <v-alert 
+      v-if="JSON.parse(result).amount > spendableBalances" 
+      text="You don't have enough bitcanna! Fund your account" 
+      type="error"
+      class="mb-4"
+    ></v-alert>
+    <v-table v-if="removeScan">     
     <tbody> 
       <tr>
         <td>Address</td> 
