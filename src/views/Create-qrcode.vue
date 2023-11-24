@@ -84,6 +84,7 @@
         <v-col
           cols="6"
         >
+
         <v-text-field
                 v-model="amount"
                 :rules="amountRules"
@@ -106,6 +107,7 @@
                 type="number"
                 inputmode="decimal"
                 class="mt-2" 
+                readonly
             ></v-text-field>
         </v-col>
       </v-row> 
@@ -226,11 +228,11 @@ export default {
   },
   watch: {
     amount: function (val) {
-      this.amountFiat = val * this.priceNow
+      this.amountFiat = (val * this.priceNow).toFixed(6)
     },
-    amountFiat: function (val) {
+    /* amountFiat: function (val) {
       this.amount = (val / this.priceNow).toFixed(6)
-    }
+    } */
   },
   async mounted() { 
     let getAllContacts = await getAllContact()
