@@ -470,9 +470,9 @@ import bitcannaWallets from '../bitcanna.wallet'
     computed: {
       ...mapState(['allWallets', 'accountSelected'])
     },
-    async mounted() {
-      console.log(this.$i18n.t('config.currency.title'))
- 
+    async mounted() { 
+      const { value } = await Preferences.get({ key: 'currency'}) 
+      this.selectCurrency = value
     },
     methods : {
       async changeMassterPass() {
