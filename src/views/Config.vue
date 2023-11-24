@@ -86,7 +86,26 @@
           ></v-btn>
         </template>
       </v-list-item>
- 
+      <v-list-item
+        title="Auto logout"
+        subtitle="Define time for lockout"
+        @click="openSetTimeOut()"
+      >
+      <template v-slot:prepend>
+          <v-avatar>
+            <v-icon color="#33ffc9">mdi-clock-time-eight-outline</v-icon>
+          </v-avatar>
+        </template>
+
+        <template v-slot:append>
+          <v-btn
+            color="grey-lighten-1"
+            icon="mdi-chevron-right"
+            variant="text"
+            @click="openSetTimeOut()"
+          ></v-btn>
+        </template>
+      </v-list-item> 
       <v-divider></v-divider>
 
       <v-list-subheader>Other</v-list-subheader>
@@ -418,6 +437,121 @@
         </v-list>
       </v-card>
     </v-dialog>   
+    <v-dialog
+      v-model="dialogSetTimeOut"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogSetTimeOut = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Set timeout</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <v-list>
+          <!-- <v-alert
+            v-model="alertError"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Bad password
+          </v-alert> -->
+ 
+      
+          <v-list-item>
+            <div> 
+              <v-text-field 
+                v-model="password"
+                variant="outlined"
+                color="#00b786"
+                label="Select time out"
+                style="min-height: 96px" 
+                class="mt-6"
+              ></v-text-field> 
+              <v-btn  
+                class="flex-grow-1"
+                color="#00b786"  
+                block 
+                @click="changeMassterPass()"
+              >
+                Soon
+              </v-btn> 
+ 
+            </div>
+          </v-list-item>
+          <v-list-item>
+            <v-row
+              v-if="masterPasswordChanging"
+              class="fill-height"
+              align-content="center"
+              justify="center"
+            >
+              <v-col
+                class="text-subtitle-1 text-center"
+                cols="12"
+              >
+                Masterpassword change in progress
+              </v-col>
+              <v-col cols="6">
+                <v-progress-linear
+                  color="#00b786"
+                  indeterminate
+                  rounded
+                  height="9"
+                ></v-progress-linear>
+              </v-col>
+            </v-row>
+            <v-row
+                v-if="masterPasswordFinish"
+                class="fill-height"
+                align-content="center"
+                justify="center"
+              >
+                <v-col
+                  class="text-subtitle-1 text-center"
+                  cols="12"
+                >
+                  Masterpassword change is done!
+                  <br /><br />
+                  <v-btn
+                    color="#00b786"
+                    @click="dialogChangeMasterPass = false"
+                  > 
+                    Close
+                  </v-btn>
+                </v-col>
+              </v-row>
+          </v-list-item>
+          <v-list-item>
+ 
+          </v-list-item>
+          <v-list-item>
+ 
+          </v-list-item>
+        </v-list>
+      </v-card>
+    </v-dialog>      
 </template>
 
 <script>
@@ -441,6 +575,7 @@ import bitcannaWallets from '../bitcanna.wallet'
       password: '',
       enableButton: false,
       dialogChangeMasterPass: false,
+      dialogSetTimeOut: false,
       importDebugMnenomic: false,
       alertImported: false,
       newPassword1: '',
@@ -483,6 +618,9 @@ import bitcannaWallets from '../bitcanna.wallet'
           this.masterPasswordChanging = false
           this.masterPasswordFinish = true
         }
+      },
+      openSetTimeOut() {
+        this.dialogSetTimeOut = true
       },
       openImportDebugMnenomic() {
         this.alertImported = false
