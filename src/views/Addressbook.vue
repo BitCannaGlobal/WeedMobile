@@ -14,6 +14,7 @@
         :key="item.name"
         :title="item.name + ' (' + item.memo + ')'"
         :subtitle="truncateString(item.address, 20)"
+        @click="openEditDialog(index, item)"
       >
  
         <template v-slot:prepend>
@@ -119,6 +120,94 @@
  
       </v-card>
     </v-dialog>
+
+
+    <v-dialog
+      v-model="dialogEdit"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+ 
+      <v-card>
+
+        <v-form ref="form"> 
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogEdit = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Edit contact</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+        </v-list>
+        
+        <v-divider></v-divider>
+        <v-list>
+          <v-list-item>
+            <v-text-field
+                v-model="name"
+                counter="20"
+                :rules="nameRules"
+                
+                variant="outlined"
+                color="#00b786" 
+                label="Name" 
+                class="mt-2" 
+                
+            ></v-text-field>
+          </v-list-item>
+        <v-list-item>         
+            <v-text-field
+                v-model="recipient"
+                :rules="addressRules"
+                variant="outlined"
+                color="#00b786" 
+                label="Address" 
+                class="mt-4" 
+                append-inner-icon="mdi-qrcode-scan"
+                @click:append-inner="scanNow()"
+            ></v-text-field>
+          </v-list-item> 
+          <v-list-item>         
+            <v-text-field
+                v-model="memo" 
+                counter="100"
+                :rules="memoRules"
+                variant="outlined"
+                color="#00b786" 
+                label="Default memo" 
+                class="mt-4"  
+            ></v-text-field>
+          </v-list-item> 
+          <qrcode-stream v-if="removeScan" :track="paintBoundingBox" @error="logErrors" /> 
+          <v-list-item>
+            <v-btn 
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="editContact()
+            ">Edit contact</v-btn>
+          </v-list-item>
+        </v-list>   
+      </v-form>
+ 
+      </v-card>
+    </v-dialog>
+
+
   </v-row>
 
 
@@ -128,7 +217,7 @@
 <script>
 import { ref } from 'vue'
 import bech32 from "bech32";
-import { addContact, getAllContact, removeContactId } from '@/libs/storage.js';
+import { addContact, getAllContact, removeContactId, editContactId } from '@/libs/storage.js';
 
 function bech32Validation(address) {
   try {
@@ -142,6 +231,8 @@ function bech32Validation(address) {
   export default {
     data: () => ({
       dialog: false,
+      dialogEdit: false,
+      contactId: '',
       notifications: false,
       removeScan: false,
       recipient: '',
@@ -192,6 +283,15 @@ function bech32Validation(address) {
         this.recipient = ''
         this.removeScan = false
       },
+      openEditDialog(index, item) {
+        console.log(item)
+        this.dialogEdit = true
+        this.contactId = index
+        this.name = item.name
+        this.recipient = item.address
+        this.memo = item.memo
+        this.removeScan = false
+      },
       async addContact() {
 
         const { valid } = await this.$refs.form.validate()
@@ -203,6 +303,13 @@ function bech32Validation(address) {
         await addContact(this.name, this.recipient, this.memo)
         let getAllContacts = await getAllContact()
         this.allContacts =  JSON.parse(getAllContacts)
+      },
+      async editContact() {
+        await editContactId(this.contactId, this.name, this.recipient, this.memo) 
+        this.dialogEdit = false
+
+        let getAllContacts = await getAllContact()
+        this.allContacts = JSON.parse(getAllContacts)
       },
       scanNow() {
         this.removeScan = true

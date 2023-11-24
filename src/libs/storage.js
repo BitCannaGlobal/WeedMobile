@@ -129,22 +129,19 @@ export async function addContact(name, address, memo) {
   // const list = await Preferences.keys();
 }
 
-/* export async function editContactId(id, name, address, memo) {
-  console.log('Edit contact id')
-  console.log(id, name)
+export async function editContactId(id, name, address, memo) {
   const { value } = await Preferences.get({ key: 'allContacts' });
   let allContactData = JSON.parse(value)
  
   allContactData[id].name = name
   allContactData[id].address = address
-  // allContactData[id].memo = memo
-  console.log(allContactData);
+  allContactData[id].memo = memo
+
   await Preferences.set({
     key: 'allContacts',
     value: JSON.stringify(allContactData)
   }); 
-} */
-  
+}
 
 export async function getAllContact() {
   const { value } = await Preferences.get({ key: 'allContacts' });
