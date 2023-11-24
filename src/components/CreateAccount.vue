@@ -311,6 +311,8 @@ import md5 from 'md5'
         this.alertErrorName = false
         this.alertErrorMnemonic = false
         this.step = 1
+        this.name = ''
+        this.password = ''
         var generateSecret = await DirectSecp256k1HdWallet.generate(12)      
         this.generatedMnenomicPlain = generateSecret.secret.data
         this.generatedMnenomic = this.generatedMnenomicPlain.split(' ')  
