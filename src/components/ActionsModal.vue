@@ -31,7 +31,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card v-if="txSend === false">
-        <v-form ref="form"> 
+        <v-form v-if="step1" ref="form"> 
         <v-toolbar
           dark
         >
@@ -54,19 +54,8 @@
         </v-list>
         
         <v-divider></v-divider>
-        <v-list
-        >
-        <v-alert
-            v-model="alertError"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Bad password
-          </v-alert>
+        <v-list>
+
         <v-list-item>
           <v-chip @click="setAddress('bcna148ml2tghqkfvzj8q27dlxw6ghe3vlmprhru76x')" class="mr-2">
             Wallet1
@@ -76,8 +65,7 @@
           </v-chip>
           <v-chip @click="setAddress('bcna1l6c9uc9f9ulx8925790t9g7zzhavfr2e6nh68u')" class="mr-2">
             Wallet3
-          </v-chip>
-          
+          </v-chip>          
             <v-text-field
                 v-model="recipient"
                 :rules="addressRules"
@@ -113,7 +101,73 @@
                 class="mt-2"
             ></v-text-field>
           </v-list-item>
+
           <v-list-item>
+            <v-btn 
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="checkTx()
+            ">Send</v-btn>
+          </v-list-item>
+        </v-list>   
+      </v-form>  
+      <v-form v-if="step2" ref="form"> 
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogSendToken = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>Send token</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+        </v-list>
+        
+        <v-divider></v-divider>
+        <v-list>
+      <v-list-item>
+      <v-table >
+    
+    <tbody> 
+      <tr>
+        <td>Address</td> 
+        <td>{{ this.truncateString(recipient, 15) }}</td> 
+      </tr>
+      <tr>
+        <td>Amount</td> 
+        <td>{{ amount }} BCNA</td>
+      </tr>
+      <tr>
+        <td>Memo</td> 
+        <td>{{ memo }}</td>
+      </tr>
+    </tbody>
+    </v-table>
+  </v-list-item>
+  <v-list-item>
+            <v-alert
+            v-model="alertError"
+            class="mt-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            Bad password
+          </v-alert>
             <v-text-field
                 v-model="password"
                 variant="outlined"
@@ -121,8 +175,7 @@
                 label="Password" 
                 type="password"
                 class="mt-2"
-              ></v-text-field>
-              
+              ></v-text-field>              
           </v-list-item>
           <v-list-item>
             <v-btn 
@@ -132,10 +185,11 @@
               :loading="loading"
               @click="sendToken()
             ">Send</v-btn>
-          </v-list-item>
-        </v-list>   
-      </v-form>     
+          </v-list-item>  
+      </v-list>   
+      </v-form>   
       </v-card>
+
 
 
       <v-card v-else class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
@@ -485,6 +539,9 @@ export default {
         'Address must start with bcna',
       (v) => bech32Validation(v) || "Bad address (not bech32)",
     ],
+    step1: true,
+    step2: false,
+    step3: false,
   }),
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'totalRewards', 'allDelegations'])
@@ -494,6 +551,10 @@ export default {
     this.allContacts = JSON.parse(getAllContacts)
   },
   methods: {
+    checkTx() {
+      this.step1 = false
+      this.step2 = true
+    },
     selectContact(index) {
       this.recipient = this.allContacts[index].address
       this.memo = this.allContacts[index].memo
@@ -527,6 +588,8 @@ export default {
       this.memo = '';
       this.password = '';
       this.loading = false
+      this.step1 = true
+      this.step2 = false
     },
     closeModal() {
       this.actionSend = false;
@@ -671,7 +734,13 @@ export default {
 
 
 
-    }
+    },
+    truncateString(str, num) {
+        if (str.length <= num) {
+          return str
+        }
+        return str.slice(0, num) + '...'
+      },
   }
 }
 
