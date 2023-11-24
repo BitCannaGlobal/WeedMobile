@@ -207,7 +207,43 @@
       </v-card>
     </v-dialog>
 
+    <v-bottom-sheet v-model="dialDeleteContact" inset>
+      <v-card
+        class="text-center" 
+      >
+        <v-card-text>
+          <v-btn
+            variant="text"
+            @click="dialDeleteContact = !dialDeleteContact"
+          >
+            close
+          </v-btn>
+          <v-alert
+            v-if="deletedContact"
+            variant="outlined" 
+            elevation="2"
+            type="success"
+            class="m-4"
+          >
+            Delete contact
+          </v-alert>
 
+            <v-checkbox
+              v-if="!deletedContact" 
+              v-model="checkbox1"
+              label="You agree to delete this contact?"
+            ></v-checkbox>  
+             <v-btn 
+              v-if="!deletedContact && checkbox1" 
+              color="red"  
+              block  
+              @click="removeContactNow"
+            >
+              Delete contact
+            </v-btn>                 
+        </v-card-text>
+      </v-card>
+    </v-bottom-sheet>
   </v-row>
 
 
@@ -232,9 +268,12 @@ function bech32Validation(address) {
     data: () => ({
       dialog: false,
       dialogEdit: false,
+      dialDeleteContact: false,
       contactId: '',
       notifications: false,
       removeScan: false,
+      deletedContact: false,
+      checkbox1: false,
       recipient: '',
       allContacts: [],
       name: '',
@@ -274,9 +313,16 @@ function bech32Validation(address) {
     },
     methods: {
       removeContact(index) {
-        removeContactId(index)
-        this.allContacts.splice(index, 1)
+        //removeContactId(index)
+        //this.allContacts.splice(index, 1)
+        this.dialDeleteContact = true
       },
+      removeContactNow() {
+        removeContactId(this.contactId)
+        this.allContacts.splice(this.contactId, 1)
+        this.dialDeleteContact = false
+        this.deletedContact = true
+      }, 
       openDial() {
         this.dialog = true
         this.name = ''
