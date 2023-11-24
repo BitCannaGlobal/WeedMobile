@@ -88,7 +88,7 @@
       </v-list-item>
       <v-list-item
         title="Auto logout"
-        subtitle="Define time for lockout"
+        :subtitle="'Define time for lockout ('+timeout+')'"
         @click="openSetTimeOut()"
       >
       <template v-slot:prepend>
@@ -481,21 +481,20 @@
       
           <v-list-item>
             <div> 
-              <v-text-field 
-                v-model="password"
+              <v-select
+                v-model="timeout"
+                label="Select timeout"
                 variant="outlined"
-                color="#00b786"
-                label="Select time out"
-                style="min-height: 96px" 
-                class="mt-6"
-              ></v-text-field> 
+                :items="['1 mn', '5 mn', '1 hour', '6 hours', '1 day', 'Never']"
+                class="mt-4"
+              ></v-select>
               <v-btn  
                 class="flex-grow-1"
                 color="#00b786"  
                 block 
-                @click="changeMassterPass()"
+                @click="updateTimeout()"
               >
-                Soon
+                Update timeout
               </v-btn> 
  
             </div>
@@ -582,6 +581,7 @@ import bitcannaWallets from '../bitcanna.wallet'
       newPassword2: '',
       masterPasswordChanging: false,
       masterPasswordFinish: false,
+      timeout: ''
     }),
     watch: {
       password: async function (val) { 
@@ -603,11 +603,12 @@ import bitcannaWallets from '../bitcanna.wallet'
       },
     },
     computed: {
-      ...mapState(['allWallets', 'accountSelected'])
+      ...mapState(['allWallets', 'accountSelected', 'sessionMax'])
     },
     async mounted() { 
       const { value } = await Preferences.get({ key: 'currency'}) 
       this.selectCurrency = value
+      this.displayTimeout()
     },
     methods : {
       async changeMassterPass() {
@@ -621,11 +622,11 @@ import bitcannaWallets from '../bitcanna.wallet'
       },
       openSetTimeOut() {
         this.dialogSetTimeOut = true
+        this.displayTimeout()
       },
       openImportDebugMnenomic() {
         this.alertImported = false
-        this.importDebugMnenomic = true
-        console.log(bitcannaWallets)
+        this.importDebugMnenomic = true 
       },
       openChangeMasterPass() {
         this.masterPass = ''
@@ -634,6 +635,51 @@ import bitcannaWallets from '../bitcanna.wallet'
         this.password = ''
         this.masterPasswordFinish = false
         this.dialogChangeMasterPass = true
+      },
+      async updateTimeout() {
+        let finalTimeout = 0
+        switch(this.timeout) {
+          case '1 mn':
+            finalTimeout = 60
+            break;
+          case '5 mn':
+            finalTimeout = 300
+            break;
+          case '1 hour':
+            finalTimeout = 3600
+            break;
+          case '6 hours':
+            finalTimeout = 21600
+            break;
+          case '1 day':
+            finalTimeout = 86400
+            break; 
+          case 'Never':
+            finalTimeout = 0
+        }
+        await this.$store.dispatch('updateDefaultTimeout', finalTimeout)
+        this.dialogSetTimeOut = false
+      },
+      displayTimeout() {
+        switch(this.sessionMax) {
+          case 60:
+            this.timeout = '1 mn'
+            break;
+          case 300:
+            this.timeout = '5 mn'
+            break;
+          case 3600:
+            this.timeout = '1 hour'
+            break;
+          case 21600:
+            this.timeout = '6 hours'
+            break;
+          case 86400:
+            this.timeout = '1 day'
+            break; 
+          case 0:
+            this.timeout = 'Never'
+        }
       },
       async importDebugMnenomicNow() {
 

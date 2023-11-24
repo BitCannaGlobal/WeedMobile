@@ -131,6 +131,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       }
       await this.$store.dispatch('setCurrency')
       await this.$store.dispatch('getPriceNow')
+      await this.$store.dispatch('setDefaultTimeout')
       
     },
     methods: {
