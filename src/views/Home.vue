@@ -149,7 +149,7 @@
         <v-col
           cols="6"
         >
-        <v-btn block size="x-large" color="#1C1D20"  @click="actionReceive = true">Receive</v-btn> 
+        <v-btn block size="x-large" color="#1C1D20" to="/create-qrcode">Create QR</v-btn> 
         </v-col>
       </v-row>
     </v-card-text>
