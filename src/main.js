@@ -13,9 +13,13 @@ import { createApp } from 'vue'
 // Capacitore info device
 import { Device } from '@capacitor/device';
 
+
+
 // Plugins
 import { registerPlugins } from '@/plugins'
 import store from './store'
+
+
 
 const messages = {
   English: {

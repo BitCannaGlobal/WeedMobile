@@ -5,7 +5,17 @@
     ></v-img>
    <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div>
   <div v-else class="mt-10 text-center">Welcome to bitcanna app<br />Create first your password to use your wallet</div>
-    <v-container>
+    <v-container> 
+    <v-alert
+      v-model="checkCameraPermissions"
+      variant="outlined"
+      type="warning"
+      border="top"
+      closable
+      close-label="Close Alert"
+    >
+      checkCameraPermissions
+    </v-alert>
     <v-alert
       v-model="alertError"
       variant="outlined"
@@ -167,6 +177,7 @@
 </template>
 <script>
 import { Preferences } from '@capacitor/preferences';
+import { Camera } from '@capacitor/camera';
 import { mapState } from 'vuex'
 import md5 from 'md5'
 import { checkMasterPassword, addBcnaSession, getMasterPassword, addMasterPassword, removeMasterPassword } from '@/libs/storage.js';
@@ -190,6 +201,7 @@ export default {
     masterPass: '',
     masterPass2: '',
     maxMasterPass: false,
+    checkCameraPermissions: false,
     passRules: [
       v => !!v || 'Password is required',
       v => (v && v.length <= 20) || 'Password must be less than 20 characters',
@@ -207,6 +219,10 @@ export default {
     let existPass = await getMasterPassword()
     if(existPass)
       this.passExist = existPass
+
+    const testCamera = await Camera.checkPermissions()
+    console.log(testCamera)  
+    this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
   },
   methods: {
     async openDialogMasterPassword() {

@@ -464,7 +464,7 @@ export default {
       this.alertDelete = true
     },
     async generateWallet() {
-      const wallet = await DirectSecp256k1HdWallet.generate(12)
+      let wallet = await DirectSecp256k1HdWallet.generate(12)
       this.mnemonic = wallet.mnemonic
     },
     openDialogImport() {
@@ -487,7 +487,7 @@ export default {
         this.alertError = true
         return
       }
-      const wallet = ""
+      let wallet = ""
       try {
         wallet = await DirectSecp256k1HdWallet.fromMnemonic( this.mnemonic, {
           prefix: 'bcna'

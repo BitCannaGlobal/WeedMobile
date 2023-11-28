@@ -18,14 +18,23 @@
         single-line
       ></v-select>
     </p> -->
-
+    <v-alert
+      v-model="checkCameraPermissions"
+      variant="outlined"
+      type="warning"
+      border="top"
+      closable
+      close-label="Close Alert"
+    >
+      checkCameraPermissions
+    </v-alert>
     <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
-    <v-alert 
+    <!-- <v-alert 
       v-if="JSON.parse(result).amount > spendableBalances" 
       text="You don't have enough bitcanna! Fund your account" 
       type="error"
       class="mb-4"
-    ></v-alert>
+    ></v-alert> -->
     <v-table v-if="removeScan">     
     <tbody> 
       <tr>
@@ -109,6 +118,7 @@
 
 <script> 
 import { mapState } from 'vuex'
+import { Camera } from '@capacitor/camera';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosmjs/stargate";
 import { Preferences } from '@capacitor/preferences';
@@ -133,11 +143,17 @@ export default {
     let txSend = false
     let alertError = false
     let loading = false
+    let checkCameraPermissions = false
 
-    return { selected, options, result, removeScan, password, txSend, alertError, loading }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
+  },
+  async mounted() {
+    const testCamera = await Camera.checkPermissions()
+    console.log(testCamera)  
+    this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
   },
   methods: {
     retry() {
