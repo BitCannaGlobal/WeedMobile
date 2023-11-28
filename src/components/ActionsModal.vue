@@ -96,6 +96,8 @@
             <v-text-field
                 v-model="memo"
                 variant="outlined"
+                counter="100"
+                :rules="memoRules"
                 color="#00b786" 
                 label="Memo" 
                 class="mt-2"
@@ -538,6 +540,9 @@ export default {
         v.startsWith('bcna') ||
         'Address must start with bcna',
       (v) => bech32Validation(v) || "Bad address (not bech32)",
+    ],
+    memoRules: [
+      v => (v && v.length <= 100) || 'Memo must be less than 100 characters',
     ],
     step1: true,
     step2: false,

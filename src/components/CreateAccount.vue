@@ -156,8 +156,7 @@
             <v-text-field
                 v-model="name"
                 variant="outlined"
-                color="#00b786"
-                counter="6"
+                color="#00b786" 
                 label="Wallet name"
                 style="min-height: 96px"
                 class="mt-6"
@@ -167,8 +166,7 @@
             <v-text-field
                 v-model="password"
                 variant="outlined"
-                color="#00b786"
-                counter="6"
+                color="#00b786" 
                 label="Password"
                 style="min-height: 96px"
                 type="password"

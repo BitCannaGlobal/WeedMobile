@@ -29,12 +29,14 @@
       checkCameraPermissions
     </v-alert>
     <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
-    <!-- <v-alert 
+    <div v-if="removeScan">
+    <v-alert 
       v-if="JSON.parse(result).amount > spendableBalances" 
       text="You don't have enough bitcanna! Fund your account" 
       type="error"
       class="mb-4"
-    ></v-alert> -->
+    ></v-alert>
+    </div>
     <v-table v-if="removeScan">     
     <tbody> 
       <tr>
