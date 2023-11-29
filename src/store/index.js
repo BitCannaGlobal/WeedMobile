@@ -75,6 +75,7 @@ export default createStore({
     },    
     async setDefaultTimeout({ state }) {
       const { value } = await Preferences.get({ key: 'timeout' });
+      console.log('timeout', value)
       if (!value) {
         Preferences.set({
           key: 'timeout',
