@@ -63,7 +63,9 @@
       <!-- <div class="mt-10 text-center">{{ height }}</div> -->
       
       <router-view></router-view>
-      <mainFooter v-if="isLogged" />      
+      <div v-if="viewFooter">
+      <mainFooter v-if="isLogged" />    
+      </div>  
     </v-main>
   </v-app>
 </template>
@@ -84,6 +86,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       timeLeft: '',
       bitcannaConfig: bitcannaConfig,
       accountNow: '',
+      viewFooter: true,
+      currentPage: ''
     }),
     setup () {
 //       const { name } = useDisplay()
@@ -108,7 +112,14 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
 //
 //       return { height }
     },
-
+    watch: {
+      async $route(to, from) { 
+        this.currentPage = to.name 
+        if (to.name === 'Create-qrcode') {
+          this.viewFooter = false
+        }
+      }
+    },
     computed: {
       ...mapState(['allWallets', 'network', 'isLogged', 'sessionMax', 'accountSelected'])
     },
