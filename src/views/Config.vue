@@ -111,6 +111,27 @@
       <v-list-subheader>Other</v-list-subheader>
 
       <v-list-item
+        title="App info"
+        subtitle="View all app informations"
+        @click.stop="openAppInfo()"
+      >
+      <template v-slot:prepend>
+          <v-avatar>
+            <v-icon color="#33ffc9">mdi-information-outline</v-icon>
+          </v-avatar>
+        </template>
+
+        <template v-slot:append>
+          <v-btn
+            color="grey-lighten-1"
+            icon="mdi-chevron-right"
+            variant="text"
+            @click.stop="openAppInfo()"
+          ></v-btn>
+        </template>
+      </v-list-item> 
+
+      <v-list-item
         title="Import wallet"
         subtitle="Only for dev mode"
         @click.stop="openImportDebugMnenomic()"
@@ -550,17 +571,73 @@
           </v-list-item>
         </v-list>
       </v-card>
-    </v-dialog>      
+    </v-dialog>     
+    <v-dialog
+      v-model="dialogAppInfo"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+      <v-card>
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogAppInfo = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>App info</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+        </v-list>
+        <v-divider></v-divider>
+        <h3 class="ml-4 mt-4">App Version</h3>
+        <v-table> 
+          <tbody>
+            <tr>
+              <td>Version</td>
+              <td>{{ appVersion }}</td>
+            </tr>
+          </tbody>
+        </v-table> 
+        <v-divider></v-divider>
+        <h3 class="ml-4 mt-4">Device info</h3>
+        <v-table> 
+          <tbody>
+            <tr
+              v-for="(value, name, index) in deviceInfo"
+              :key="name"
+            >
+              <td>{{ name }}</td>
+              <td>{{ value }}</td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-card>
+    </v-dialog>     
 </template>
 
 <script>
 import { mapState } from 'vuex'
 import { Preferences } from '@capacitor/preferences';
+import { Device } from '@capacitor/device';
+
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
 import Accounts from '@/components/Accounts.vue'
 import md5 from 'md5' 
 import { removeAccountId, checkMasterPassword, addAccount, editMasterPassword } from '@/libs/storage.js';  
 import bitcannaWallets from '../bitcanna.wallet'
+import pjson from '@/../package.json' 
+
 
   export default {
     components: { Accounts },
@@ -581,7 +658,10 @@ import bitcannaWallets from '../bitcanna.wallet'
       newPassword2: '',
       masterPasswordChanging: false,
       masterPasswordFinish: false,
-      timeout: ''
+      timeout: '',
+      dialogAppInfo: false,
+      appVersion: '',
+      deviceInfo: {}
     }),
     watch: {
       password: async function (val) { 
@@ -609,6 +689,14 @@ import bitcannaWallets from '../bitcanna.wallet'
       const { value } = await Preferences.get({ key: 'currency'}) 
       this.selectCurrency = value
       this.displayTimeout()
+
+      console.log(pjson.version)
+      this.appVersion = pjson.version
+
+      const info = await Device.getInfo();
+      this.deviceInfo = info;
+
+console.log(info);
     },
     methods : {
       async changeMassterPass() {
@@ -619,6 +707,9 @@ import bitcannaWallets from '../bitcanna.wallet'
           this.masterPasswordChanging = false
           this.masterPasswordFinish = true
         }
+      },
+      openAppInfo() {
+        this.dialogAppInfo = true 
       },
       openSetTimeOut() {
         this.dialogSetTimeOut = true
