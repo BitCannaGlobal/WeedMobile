@@ -117,6 +117,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
         this.currentPage = to.name 
         if (to.name === 'Create-qrcode') {
           this.viewFooter = false
+        } else {
+          this.viewFooter = true
         }
       }
     },
