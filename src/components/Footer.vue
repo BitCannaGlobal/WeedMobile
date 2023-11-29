@@ -1,6 +1,6 @@
 <template>
  
-  <v-bottom-navigation absolute grow mode="shift">
+  <v-bottom-navigation grow mode="shift">
     <v-btn value="recent" to="/dashboard">
       <v-icon >mdi-view-dashboard</v-icon>      
       <span><strong>{{ $t("footer.title1") }}</strong></span>
