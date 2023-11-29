@@ -125,21 +125,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
     },
     computed: {
       ...mapState(['allWallets', 'network', 'isLogged', 'sessionMax', 'accountSelected'])
-    },
-    beforeCreate() {
-      App.addListener('appStateChange', async ({ isActive }) => {
-        console.log('App state changed. Is active?', isActive);
-        if (!isActive) { 
-          await addBcnaSession();
-          //console.log('App will close in ' + this.sessionMax + ' seconds');
-        } else {
-          let getFinalSession = await getBcnaSession();
-          this.remainingTime(getFinalSession)
-          //console.log('App is active, reset session data: ' + getFinalSession);
-          // removeBcnaSession();
-        }
-      }); 
-    },
+    }, 
     async mounted() {
       // await this.$store.dispatch('setDefaultTimeout')
       
@@ -154,6 +140,19 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
           value: Number(this.sessionMax)
         }); 
       }
+
+      App.addListener('appStateChange', async ({ isActive }) => {
+        console.log('App state changed. Is active?', isActive);
+        if (!isActive) { 
+          await addBcnaSession();
+          //console.log('App will close in ' + this.sessionMax + ' seconds');
+        } else {
+          let getFinalSession = await getBcnaSession();
+          this.remainingTime(getFinalSession)
+          //console.log('App is active, reset session data: ' + getFinalSession);
+          // removeBcnaSession();
+        }
+      }); 
 
       await this.$store.dispatch('initRpc')
       
