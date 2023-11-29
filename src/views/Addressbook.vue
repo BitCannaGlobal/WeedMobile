@@ -290,7 +290,7 @@ function bech32Validation(address) {
         (v) => bech32Validation(v) || "Bad address (not bech32)",
       ],
       memoRules: [
-        v => (v && v.length <= 100) || 'Memo must be less than 100 characters',
+        v => (v.length <= 100) || 'Memo must be less than 100 characters',
       ],
       files: [
         {
