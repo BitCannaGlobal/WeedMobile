@@ -307,6 +307,11 @@ function bech32Validation(address) {
         },
       ]
     }),
+    watch: {
+      recipient (val) {
+        this.recipient = val.toLowerCase()
+      },
+    },
     async mounted() { 
       let getAllContacts = await getAllContact()
       this.allContacts = JSON.parse(getAllContacts)
