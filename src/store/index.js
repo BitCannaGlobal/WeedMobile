@@ -17,7 +17,7 @@ export default createStore({
     network: 'testnet',
     rpcClient: null,
     rpcBase: null,
-    currencyNow: 'usd',
+    currencyNow: 'USD',
     masterPassExist: false,
     isLogged: false,
     sessionMax: 60, // In seconds
@@ -72,8 +72,11 @@ export default createStore({
         console.log('currency', value)
         state.currencyNow = value
       }
-    },    
-    async setDefaultTimeout({ state }) {
+    },   
+    async setDefaultTimeout({ state }, max) {
+      state.sessionMax = Number(max)
+    },     
+    /* async setDefaultTimeout({ state }) {
       const { value } = await Preferences.get({ key: 'timeout' }); 
       console.log('timeout', value)
       console.log('test', typeof value === 'string')
@@ -85,7 +88,7 @@ export default createStore({
           value: Number(state.sessionMax)
         });         
       }
-    },
+    }, */
     async updateDefaultTimeout({ state }, max) {
       await Preferences.set({
         key: 'timeout',

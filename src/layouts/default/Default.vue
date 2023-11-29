@@ -72,6 +72,7 @@
 
 <script>
 import { App } from '@capacitor/app';
+import { Preferences } from '@capacitor/preferences';
 import bitcannaConfig from '../../bitcanna.config'
 
 import { mapState } from 'vuex'
@@ -137,10 +138,23 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
           //console.log('App is active, reset session data: ' + getFinalSession);
           // removeBcnaSession();
         }
-      });
+      }); 
     },
     async mounted() {
-      await this.$store.dispatch('setDefaultTimeout')
+      // await this.$store.dispatch('setDefaultTimeout')
+      
+      const { value } = await Preferences.get({ key: 'timeout' }); 
+      console.log('timeout', value)
+
+      if (value) { 
+        await this.$store.dispatch('setDefaultTimeout', value)
+      } else {
+        await Preferences.set({
+          key: 'timeout',
+          value: Number(this.sessionMax)
+        }); 
+      }
+
       await this.$store.dispatch('initRpc')
       
       /* App.addListener('appStateChange', async ({ isActive }) => {
