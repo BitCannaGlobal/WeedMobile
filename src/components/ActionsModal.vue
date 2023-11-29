@@ -73,8 +73,8 @@
                 color="#00b786" 
                 label="Recipient" 
                 class="mt-4"
-                append-inner-icon="mdi-book-open-page-variant-outline"
-                @click:append-inner="getAddressBook()"
+                append-icon="mdi-book-open-page-variant-outline"
+                @click:append="getAddressBook()"
             ></v-text-field>
           </v-list-item> 
           <v-list-item>
