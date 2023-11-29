@@ -75,7 +75,9 @@ export default createStore({
     },    
     async setDefaultTimeout({ state }) {
       const { value } = await Preferences.get({ key: 'timeout' }); 
-      if (value) {
+      console.log('timeout', value)
+      console.log('test', typeof value === 'string')
+      if (typeof value === 'string') {
         state.sessionMax = Number(value)
       } else {
         await Preferences.set({
