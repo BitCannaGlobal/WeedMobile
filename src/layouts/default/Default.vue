@@ -63,8 +63,9 @@
       <!-- <div class="mt-10 text-center">{{ height }}</div> -->
       
       <router-view></router-view>
+      {{ value }}
       <div v-if="viewFooter">
-      <mainFooter v-if="isLogged" />    
+        <mainFooter v-if="isLogged" />    
       </div>  
     </v-main>
   </v-app>
@@ -88,7 +89,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       bitcannaConfig: bitcannaConfig,
       accountNow: '',
       viewFooter: true,
-      currentPage: ''
+      currentPage: '',
+      value: ''
     }),
     setup () {
 //       const { name } = useDisplay()
@@ -131,15 +133,15 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       
       const { value } = await Preferences.get({ key: 'timeout' }); 
       console.log('timeout', value)
-
-      if (value) { 
-        await this.$store.dispatch('setDefaultTimeout', value)
-      } else {
+      if (value === null) {
         await Preferences.set({
           key: 'timeout',
           value: Number(this.sessionMax)
         }); 
-      }
+      } else 
+        await this.$store.dispatch('setDefaultTimeout', value)
+      this.value = value // Debug
+ 
 
       App.addListener('appStateChange', async ({ isActive }) => {
         console.log('App state changed. Is active?', isActive);
