@@ -91,7 +91,7 @@ export default createStore({
     }, */
     async updateDefaultTimeout({ state }, max) {
       await Preferences.set({
-        key: 'timeout',
+        key: 'bcnaTimeout',
         value: Number(max)
       });
       state.sessionMax = Number(max) 

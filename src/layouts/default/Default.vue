@@ -131,8 +131,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
     async mounted() {
       // await this.$store.dispatch('setDefaultTimeout')
       
-      const { value } = await Preferences.get({ key: 'timeout' }); 
-      console.log('timeout', value)
+      const { value } = await Preferences.get({ key: 'bcnaTimeout' }); 
+      console.log('bcnaTimeout', value)
       /* if (value === null) {
         await Preferences.set({
           key: 'timeout',
