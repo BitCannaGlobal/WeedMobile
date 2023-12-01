@@ -164,6 +164,11 @@ export async function removeContactId(id) {
 export async function setSessionTimeOut(max) {
   await Preferences.set({
     key: 'bcnaTimeout',
-    value: Number(max)
+    value: String(max)
   }); 
+}
+
+export async function getSessionTimeOut() {
+  const { value } = await Preferences.get({ key: 'bcnaTimeout' });
+  return value
 }

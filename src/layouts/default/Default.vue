@@ -78,7 +78,7 @@ import bitcannaConfig from '../../bitcanna.config'
 
 import { mapState } from 'vuex'
 import mainFooter from '@/components/Footer.vue' 
-import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut } from '@/libs/storage.js'; 
+import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut, getSessionTimeOut } from '@/libs/storage.js'; 
 
   export default {
     components: { mainFooter },
@@ -129,17 +129,10 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut } 
       ...mapState(['allWallets', 'network', 'isLogged', 'sessionMax', 'accountSelected'])
     }, 
     async mounted() {
-      const { value } = await Preferences.get({ key: 'bcnaTimeout' }); 
-      console.log('bcnaTimeout', value)
-      /* if (value === null) {
-        await Preferences.set({
-          key: 'timeout',
-          value: Number(this.sessionMax)
-        }); 
-      } else  */
-      // await this.$store.dispatch('setDefaultTimeout', value)
-      await setSessionTimeOut(value);
-      this.value = value // Debug
+      let sessionTimeOut = await getSessionTimeOut();
+ 
+      // await setSessionTimeOut(sessionTimeOut);
+      this.value = sessionTimeOut // Debug
 
       
       
@@ -192,8 +185,10 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut } 
         await this.$store.dispatch('getWalletAmount')
       },
       async remainingTime(getFinalSession) { 
+        let sessionTimeOut = await getSessionTimeOut();
+
         let timeNow = Math.floor(Date.now() / 1000)        
-        this.timeLeft = timeNow - (Number(getFinalSession) + this.sessionMax)
+        this.timeLeft = timeNow - (Number(getFinalSession) + sessionTimeOut)
 
         if (this.timeLeft > 0) { 
           this.$store.commit('setIsLogged', false)
