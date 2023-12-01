@@ -63,6 +63,7 @@
       <!-- <div class="mt-10 text-center">{{ height }}</div> -->
       
       <router-view></router-view>
+      {{ value }}
       <div v-if="viewFooter">
         <mainFooter v-if="isLogged" />    
       </div>  
@@ -88,7 +89,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut } 
       bitcannaConfig: bitcannaConfig,
       accountNow: '',
       viewFooter: true,
-      currentPage: ''
+      currentPage: '',
+      value: ''
     }),
     setup () {
 //       const { name } = useDisplay()
@@ -127,9 +129,17 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut } 
       ...mapState(['allWallets', 'network', 'isLogged', 'sessionMax', 'accountSelected'])
     }, 
     async mounted() {
-      // await this.$store.dispatch('setDefaultTimeout')
-      
-
+      const { value } = await Preferences.get({ key: 'bcnaTimeout' }); 
+      console.log('bcnaTimeout', value)
+      /* if (value === null) {
+        await Preferences.set({
+          key: 'timeout',
+          value: Number(this.sessionMax)
+        }); 
+      } else  */
+      // await this.$store.dispatch('setDefaultTimeout', value)
+      await setSessionTimeOut(value);
+      this.value = value // Debug
 
       
       
@@ -182,13 +192,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut } 
         await this.$store.dispatch('getWalletAmount')
       },
       async remainingTime(getFinalSession) { 
-        
-        const { value } = await Preferences.get({ key: 'bcnaTimeout' }); 
-        await this.$store.dispatch('setDefaultTimeout', value)
-        // await setSessionTimeOut();
-
         let timeNow = Math.floor(Date.now() / 1000)        
-        this.timeLeft = timeNow - (Number(getFinalSession) + value)
+        this.timeLeft = timeNow - (Number(getFinalSession) + this.sessionMax)
 
         if (this.timeLeft > 0) { 
           this.$store.commit('setIsLogged', false)

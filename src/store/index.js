@@ -90,10 +90,10 @@ export default createStore({
       }
     }, */
     async updateDefaultTimeout({ state }, max) {
-      /* await Preferences.set({
+      await Preferences.set({
         key: 'bcnaTimeout',
         value: Number(max)
-      }); */
+      });
       state.sessionMax = Number(max) 
     },
     async changeCurrency({ state }, currency) { 
