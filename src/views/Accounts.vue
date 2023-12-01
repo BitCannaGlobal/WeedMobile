@@ -13,13 +13,13 @@
         <v-col
           cols="6"
         >
-        <v-btn block size="x-large" color="#1C1D20"  @click="openDialogImport()">Import </v-btn> 
+        <v-btn block size="x-large" color="#1C1D20"  @click="openDialogImport()">{{ $t("accounts.importAccount") }} </v-btn> 
         </v-col>
       </v-row>
     </v-card-text>
     </v-card> 
 
-    <h4 v-if="allWallets.length > 0" class="ma-4">Select wallet</h4> 
+    <h4 v-if="allWallets.length > 0" class="ma-4">{{ $t("accounts.selectWallet") }}</h4> 
     <v-card
       v-for="(item, i) in allWalletsList"
       class="ma-4"
@@ -54,8 +54,8 @@
       </v-card-text>
       <v-card-actions> 
         <v-col class="text-right">
-          <v-btn color="#0FB786" variant="outlined" @click.stop="editNowModal(i)">Edit</v-btn>
-          <v-btn color="red" variant="outlined" @click="openDeleteWallet()">Delete</v-btn>
+          <v-btn color="#0FB786" variant="outlined" @click.stop="editNowModal(i)">{{ $t("accounts.btnEditAccount") }}</v-btn>
+          <v-btn color="red" variant="outlined" @click="openDeleteWallet()">{{ $t("accounts.btnDeleteAccount") }}</v-btn>
         </v-col> 
       </v-card-actions>
     </v-card>

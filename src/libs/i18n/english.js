@@ -5,7 +5,7 @@ export default {
     loginButton: 'Unlock',
   },
   dashboard: {
-    title: 'Welcome ', 
+    title: '🇬🇧 Welcome ', 
     titleBlock: 'Wallet value', 
     available: 'Available',
     rewards: 'Your rewards',
@@ -17,6 +17,21 @@ export default {
   accounts: {
     title: 'Accounts', 
     createAccount: 'Create',
+    importAccount: 'Import',
+    selectWallet: 'Select wallet',
+    btnEditAccount: 'Edit',
+    btnDeleteAccount: 'Delete',
+    btnStartVerification: 'Start verification',
+    mdlCreateAccount: {
+      title: 'Create account',
+      name: 'Name',
+      address: 'Address',
+      btnCreate: 'Create',
+      step1: 'Step 1',
+      step2: 'Step 2',
+      step3: 'Step 3', 
+      words: 'words',     
+    },
   },
   config: {
     currency: {

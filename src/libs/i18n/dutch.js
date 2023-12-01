@@ -5,7 +5,7 @@ export default {
     loginButton: 'Ontgrendelen',
   },
   dashboard: {
-    title: 'Welkom ', 
+    title: '🇳🇱 Welkom ', 
     titleBlock: 'Geldbörsenwert', 
     available: 'Verfügbar',
     rewards: 'Ihre Belohnungen',
@@ -17,6 +17,21 @@ export default {
   accounts: {
     title: 'Rekeningen', 
     createAccount: 'Erstellen',
+    importAccount: 'Importieren',
+    selectWallet: 'Wallet auswählen',
+    btnEditAccount: 'Bearbeiten',
+    btnDeleteAccount: 'Löschen',
+    btnStartVerification: 'Startverifizierung',
+    mdlCreateAccount: {
+      title: 'Konto erstellen',
+      name: 'Name',
+      address: 'Adresse',
+      btnCreate: 'Erstellen',
+      step1: 'Schritt 1',
+      step2: 'Schritt 2',
+      step3: 'Schritt 3', 
+      words: 'wörter',
+    },
   },
   config: {
     currency: {
