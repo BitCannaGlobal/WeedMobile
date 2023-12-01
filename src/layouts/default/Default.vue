@@ -63,7 +63,6 @@
       <!-- <div class="mt-10 text-center">{{ height }}</div> -->
       
       <router-view></router-view>
-      {{ value }}
       <div v-if="viewFooter">
         <mainFooter v-if="isLogged" />    
       </div>  
@@ -78,7 +77,7 @@ import bitcannaConfig from '../../bitcanna.config'
 
 import { mapState } from 'vuex'
 import mainFooter from '@/components/Footer.vue' 
-import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut, getSessionTimeOut } from '@/libs/storage.js'; 
+import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } from '@/libs/storage.js'; 
 
   export default {
     components: { mainFooter },
@@ -89,8 +88,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut, g
       bitcannaConfig: bitcannaConfig,
       accountNow: '',
       viewFooter: true,
-      currentPage: '',
-      value: ''
+      currentPage: ''
     }),
     setup () {
 //       const { name } = useDisplay()
@@ -130,12 +128,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut, g
     }, 
     async mounted() {
       let sessionTimeOut = await getSessionTimeOut();
- 
-      // await setSessionTimeOut(sessionTimeOut);
-      this.value = sessionTimeOut // Debug
-
-      
-      
+      this.$store.dispatch('setDefaultTimeout', sessionTimeOut)
 
       App.addListener('appStateChange', async ({ isActive }) => {
         console.log('App state changed. Is active?', isActive);
@@ -185,10 +178,9 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut, g
         await this.$store.dispatch('getWalletAmount')
       },
       async remainingTime(getFinalSession) { 
-        let sessionTimeOut = await getSessionTimeOut();
-
+        
         let timeNow = Math.floor(Date.now() / 1000)        
-        this.timeLeft = timeNow - (Number(getFinalSession) + sessionTimeOut)
+        this.timeLeft = timeNow - (Number(getFinalSession) + this.sessionMax)
 
         if (this.timeLeft > 0) { 
           this.$store.commit('setIsLogged', false)
