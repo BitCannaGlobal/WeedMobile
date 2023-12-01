@@ -697,6 +697,8 @@ import pjson from '@/../package.json'
       this.deviceInfo = info;
 
 console.log(info);
+
+
     },
     methods : {
       async changeMassterPass() {
@@ -752,8 +754,9 @@ console.log(info);
         await setSessionTimeOut(finalTimeout);
         this.dialogSetTimeOut = false
       },
-      displayTimeout() {
-        switch(this.sessionMax) {
+      async displayTimeout() {
+        const { value } = await Preferences.get({ key: 'bcnaTimeout' });  
+        switch(Number(value)) {
           case 60:
             this.timeout = '1 mn'
             break;
@@ -771,7 +774,7 @@ console.log(info);
             break; 
           case 0:
             this.timeout = 'Never'
-        }
+        } 
       },
       async importDebugMnenomicNow() {
 
