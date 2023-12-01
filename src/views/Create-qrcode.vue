@@ -81,37 +81,62 @@
           </v-list-item> 
           <v-list-item>
             <v-row>
-        <v-col
-          cols="6"
-        >
+              <v-col
+                cols="6"
+              >
 
-        <v-text-field
-                v-model="amount"
-                :rules="amountRules"
-                variant="outlined"
-                color="#00b786" 
-                label="Amount" 
-                type="number"
-                inputmode="decimal"
-                class="mt-2" 
-            ></v-text-field> 
-        </v-col>
-        <v-col
-          cols="6"
-        >
-        <v-text-field
-                v-model="amountFiat" 
-                variant="outlined"
-                color="#00b786" 
-                :label="currencyNow" 
-                type="number"
-                inputmode="decimal"
-                class="mt-2" 
-                readonly
-            ></v-text-field>
-        </v-col>
-      </v-row> 
+              <v-text-field
+                      v-model="amountFiat"
+                      :rules="amountRules"
+                      variant="outlined"
+                      color="#00b786" 
+                      label="Amount" 
+                      type="number"
+                      inputmode="decimal"
+                      class="mt-2" 
+                  ></v-text-field> 
+              </v-col>
+              <v-col
+                cols="6"
+              >
+              <v-select
+            v-model="selectCurrency"
+            label="Currency"
+            variant="outlined"
+            :items="['USD', 'EUR']"
+            class="mt-2" 
+          ></v-select> 
+              </v-col>
+            </v-row> 
+            <v-row>
+              <v-col
+                cols="6"
+              >
 
+              <v-text-field
+                      v-model="amount"
+                      :rules="amountRules"
+                      variant="outlined"
+                      color="#00b786" 
+                      label="Amount" 
+                      type="number"
+                      inputmode="decimal"
+                      class="mt-2" 
+                      readonly
+                  ></v-text-field> 
+              </v-col>
+              <v-col
+                cols="6"
+              >
+              <v-text-field
+                      value="BCNA" 
+                      variant="outlined"
+                      color="#00b786"   
+                      class="mt-2" 
+                      readonly
+                  ></v-text-field>
+              </v-col>
+            </v-row> 
           </v-list-item>
           <v-list-item>
             <v-text-field
@@ -121,8 +146,7 @@
                 label="Memo" 
                 class="mt-2"
             ></v-text-field>
-          </v-list-item>
- 
+          </v-list-item> 
           <v-list-item>
             <v-btn 
               block 
@@ -170,8 +194,10 @@
 
 <script>
 import { mapState } from 'vuex'
+import axios from "axios";
 import QRCodeVue3 from "qrcode-vue3";
 import bech32 from "bech32";
+import { Preferences } from '@capacitor/preferences';
 import { getAllContact } from '@/libs/storage.js';
 
 function bech32Validation(address) {
@@ -205,6 +231,8 @@ export default {
       finalQr: '',
       dialogAddressBook: false,
       allContacts: [],
+      selectCurrency: '',
+      getConvertPrices: '',
       amountRules: [
         (v) => !!v || "Amount is required",
         (v) => !isNaN(v) || "Amount must be number",
@@ -227,16 +255,27 @@ export default {
     ])
   },
   watch: {
-    amount: function (val) {
+    /*amount: function (val) {
       this.amountFiat = (val * this.priceNow).toFixed(6)
+    }, */
+    amountFiat: function (val) {
+      console.log(this.getConvertPrices.data.bitcanna[this.selectCurrency.toLowerCase()].toFixed(5))      
+      this.amount = (val / this.getConvertPrices.data.bitcanna[this.selectCurrency.toLowerCase()].toFixed(5)).toFixed(6)
     },
-    /* amountFiat: function (val) {
-      this.amount = (val / this.priceNow).toFixed(6)
-    } */
+    selectCurrency: function (val) {
+      this.amount = (this.amountFiat / this.getConvertPrices.data.bitcanna[val.toLowerCase()].toFixed(5)).toFixed(6)
+    }
   },
   async mounted() { 
+
+    this.getConvertPrices = await axios("https://bcnaracle-api.bitcanna.io/api/all");
+    //state.priceNow = getPrice.data.bitcanna[state.currencyNow.toLowerCase()].toFixed(5); 
+
     let getAllContacts = await getAllContact()
     this.allContacts = JSON.parse(getAllContacts)
+
+    const { value } = await Preferences.get({ key: 'currency'}) 
+    this.selectCurrency = value
   },
   methods: {
     getAddressBook() {

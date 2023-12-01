@@ -161,8 +161,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
         this.$router.push('/')
         return
       }
-      await this.$store.dispatch('setCurrency')
-      await this.$store.dispatch('getPriceNow')
+
       
       
     },

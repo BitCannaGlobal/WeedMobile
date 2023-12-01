@@ -65,9 +65,9 @@ export default createStore({
       if (!value) {
         await Preferences.set({
           key: 'currency',
-          value: String('usd')
+          value: String('USD')
         });
-        state.currencyNow = 'usd'
+        state.currencyNow = 'USD'
       } else {
         console.log('currency', value)
         state.currencyNow = value

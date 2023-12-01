@@ -253,6 +253,9 @@ export default {
           this.$router.push('/create')
         } */
 
+        await this.$store.dispatch('setCurrency')
+        await this.$store.dispatch('getPriceNow')
+
         this.$router.push('/dashboard')
       } else {
         this.alertError = true

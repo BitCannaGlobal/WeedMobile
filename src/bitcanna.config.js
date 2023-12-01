@@ -15,6 +15,15 @@ export default {
     gasPrice: 0.0025,
     maxTxSender: 50,
     maxTxRecipient: 50,
+    fiatCurrency: [{
+        viewDenom: 'USD',
+        name: 'Dollar'
+      },
+      { 
+        viewDenom: 'EUR',
+        name: 'Euro'
+      }
+    ]
   },
   'testnet': {
     chainId: 'bitcanna-dev-1',
@@ -32,6 +41,15 @@ export default {
     gasPrice: 0.0025,
     maxTxSender: 50,
     maxTxRecipient: 50,
+    fiatCurrency: [{
+      viewDenom: 'USD',
+      name: 'Dollar'
+    },
+    { 
+      viewDenom: 'EUR',
+      name: 'Euro'
+    }
+  ]
   },
   'devnet': {
     chainId: 'bitcanna-dev-6',
@@ -49,5 +67,14 @@ export default {
     gasPrice: 0.0025,
     maxTxSender: 50,
     maxTxRecipient: 50,
+    fiatCurrency: [{
+      viewDenom: 'USD',
+      name: 'Dollar'
+    },
+    { 
+      viewDenom: 'EUR',
+      name: 'Euro'
+    }
+  ]
   },
 }
