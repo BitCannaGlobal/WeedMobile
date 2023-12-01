@@ -1,6 +1,6 @@
 {
   "name": "WeedMobile",
-  "version": "1.10.51",
+  "version": "1.10.52",
   "private": true,
   "scripts": {
     "dev": "vite",

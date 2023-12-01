@@ -133,13 +133,13 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       
       const { value } = await Preferences.get({ key: 'timeout' }); 
       console.log('timeout', value)
-      if (value === null) {
+      /* if (value === null) {
         await Preferences.set({
           key: 'timeout',
           value: Number(this.sessionMax)
         }); 
-      } else 
-        await this.$store.dispatch('setDefaultTimeout', value)
+      } else  */
+      await this.$store.dispatch('setDefaultTimeout', value)
       this.value = value // Debug
  
 
