@@ -25,7 +25,7 @@
           <v-card 
             v-if="allWallets.length > 0" 
           >
-            <v-card-title class="mb-4 text-h6">Wallet value</v-card-title>
+            <v-card-title class="mb-4 text-h6">{{ $t("dashboard.titleBlock") }}</v-card-title>
             <v-card-text>
               <h1 class="mb-2">{{ Number(this.totalTokens).toFixed(2) + ' ' + bitcannaConfig[network].coinLookup.viewDenom }}</h1>
               <h4>
@@ -66,7 +66,7 @@
                 >
                   <v-sheet>       
                     <span class=" text-subtitle-1">
-                      Available
+                      {{ $t("dashboard.available") }}
                     </span>
                     <br /> 
                     <span class="font-weight-black text-subtitle-1">
@@ -113,7 +113,7 @@
                 >
                   <v-sheet>       
                     <span class=" text-subtitle-1">
-                      Your rewards
+                      {{ $t("dashboard.rewards") }}
                     </span>
                     <br />
                     <span class="font-weight-black text-subtitle-1">
@@ -149,7 +149,7 @@
         <v-col
           cols="6"
         >
-        <v-btn block size="x-large" color="#1C1D20" to="/create-qrcode">Create QR</v-btn> 
+        <v-btn block size="x-large" color="#1C1D20" to="/create-qrcode">{{ $t("dashboard.btnQrCode") }}</v-btn> 
         </v-col>
       </v-row>
     </v-card-text>

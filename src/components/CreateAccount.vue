@@ -1,5 +1,5 @@
 <template>
-  <v-btn  block size="x-large" color="#0FB786" @click="openCreateWallet()">Create</v-btn> 
+  <v-btn  block size="x-large" color="#0FB786" @click="openCreateWallet()">{{ $t("accounts.createAccount") }}</v-btn> 
   <v-dialog
       v-model="dialogCreateWallet"
       fullscreen

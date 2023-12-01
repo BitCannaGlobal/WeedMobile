@@ -1,5 +1,5 @@
 <template> 
-  <v-btn v-if="type === 'sendTx'" block size="x-large" color="#0FB786" @click="openDialogSendToken">Send</v-btn> 
+  <v-btn v-if="type === 'sendTx'" block size="x-large" color="#0FB786" @click="openDialogSendToken">{{ $t("dashboard.btnSend") }}</v-btn> 
 
   <v-btn 
     v-if="type === 'claim'"
@@ -10,7 +10,7 @@
     color="#333333" 
     @click="openDialogClaim"
   >
-    Claim
+  {{ $t("dashboard.btnClaim") }}  
   </v-btn>
 
   <v-btn 
@@ -22,7 +22,7 @@
     color="#0FB786" 
     @click="openDialogStake"
   >
-    Stake
+  {{ $t("dashboard.btnStake") }} 
   </v-btn>
   <v-dialog
       v-model="dialogSendToken"
