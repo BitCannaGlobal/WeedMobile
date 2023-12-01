@@ -634,7 +634,7 @@ import { Device } from '@capacitor/device';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
 import Accounts from '@/components/Accounts.vue'
 import md5 from 'md5' 
-import { removeAccountId, checkMasterPassword, addAccount, editMasterPassword } from '@/libs/storage.js';  
+import { removeAccountId, checkMasterPassword, addAccount, editMasterPassword, setSessionTimeOut } from '@/libs/storage.js';  
 import bitcannaWallets from '../bitcanna.wallet'
 import pjson from '@/../package.json' 
 
@@ -749,6 +749,7 @@ console.log(info);
             finalTimeout = 0
         }
         await this.$store.dispatch('updateDefaultTimeout', finalTimeout)
+        await setSessionTimeOut(finalTimeout);
         this.dialogSetTimeOut = false
       },
       displayTimeout() {

@@ -78,7 +78,7 @@ import bitcannaConfig from '../../bitcanna.config'
 
 import { mapState } from 'vuex'
 import mainFooter from '@/components/Footer.vue' 
-import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storage.js'; 
+import { addBcnaSession, getBcnaSession, removeBcnaSession, setSessionTimeOut } from '@/libs/storage.js'; 
 
   export default {
     components: { mainFooter },
@@ -140,8 +140,11 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
         }); 
       } else  */
       await this.$store.dispatch('setDefaultTimeout', value)
+      // await setSessionTimeOut();
       this.value = value // Debug
- 
+
+      
+      
 
       App.addListener('appStateChange', async ({ isActive }) => {
         console.log('App state changed. Is active?', isActive);

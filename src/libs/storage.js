@@ -160,3 +160,10 @@ export async function removeContactId(id) {
     value: JSON.stringify(allContactData)
   });   
 }
+
+export async function setSessionTimeOut(max) {
+  await Preferences.set({
+    key: 'bcnaTimeout',
+    value: Number(max)
+  }); 
+}
