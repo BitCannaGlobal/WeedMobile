@@ -13,6 +13,15 @@ export default {
     btnQrCode: 'QR erstellen',
     btnStake: 'Einsatz',
     btnClaim: 'Belohnen',
+    mdlSendTx: {
+      title: 'Token senden',
+      subTitle: 'Hier können Sie Ihren auf Ihrem Wallet verfügbaren Bitcanna-Token senden',
+      inpRecipient: 'Empfängerin',
+      inpAmount: 'Menge',
+      inpMemo: 'Memo',   
+      inpPassword: 'Passwort',
+      btnSend: 'Schicken'
+    },
   },
   accounts: {
     title: 'Rekeningen', 
@@ -59,5 +68,13 @@ export default {
     title1: 'Dashboard', 
     title2: 'Rekeningen', 
     title3: 'Config',  
+  },
+  errors: {
+    badPassword: 'Falsches Passwort',
+  },
+  approved: {
+    title: 'Transaktion genehmigt',
+    subtitle: 'Ihre Transaktion wurde erfolgreich gesendet',
+    back: 'Zurück zum Dashboard',
   }
 } 

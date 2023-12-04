@@ -42,7 +42,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Send token</v-toolbar-title>
+          <v-toolbar-title>{{ $t("dashboard.mdlSendTx.title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -50,7 +50,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -71,7 +71,7 @@
                 :rules="addressRules"
                 variant="outlined"
                 color="#00b786" 
-                label="Recipient" 
+                :label="this.$t('dashboard.mdlSendTx.inpRecipient')" 
                 class="mt-4"
                 append-icon="mdi-book-open-page-variant-outline"
                 @click:append="getAddressBook()"
@@ -83,7 +83,7 @@
                 :rules="amountRules"
                 variant="outlined"
                 color="#00b786" 
-                label="Amount" 
+                :label="this.$t('dashboard.mdlSendTx.inpAmount')" 
                 type="number"
                 inputmode="decimal"
                 class="mt-2"
@@ -99,7 +99,7 @@
                 counter="100"
                 :rules="memoRules"
                 color="#00b786" 
-                label="Memo" 
+                :label="this.$t('dashboard.mdlSendTx.inpMemo')"
                 class="mt-2"
             ></v-text-field>
           </v-list-item>
@@ -111,7 +111,7 @@
               :disabled="loading"
               :loading="loading"
               @click="checkTx()
-            ">Send</v-btn>
+            ">{{ $t('dashboard.mdlSendTx.btnSend') }}</v-btn>
           </v-list-item>
         </v-list>   
       </v-form>  
@@ -126,7 +126,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Send token</v-toolbar-title>
+          <v-toolbar-title>{{ $t("dashboard.mdlSendTx.title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -134,7 +134,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -144,15 +144,15 @@
     
     <tbody> 
       <tr>
-        <td>Address</td> 
+        <td>{{ $t('dashboard.mdlSendTx.inpRecipient') }}</td> 
         <td>{{ this.truncateString(recipient, 15) }}</td> 
       </tr>
       <tr>
-        <td>Amount</td> 
+        <td>{{ $t('dashboard.mdlSendTx.inpAmount') }}</td> 
         <td>{{ amount }} BCNA</td>
       </tr>
       <tr>
-        <td>Memo</td> 
+        <td>{{ $t('dashboard.mdlSendTx.inpMemo') }}</td> 
         <td>{{ memo }}</td>
       </tr>
     </tbody>
@@ -168,13 +168,13 @@
             closable
             close-label="Close Alert"
           >
-            Bad password
+            {{ $t('errors.badPassword') }}
           </v-alert>
             <v-text-field
                 v-model="password"
                 variant="outlined"
                 color="#00b786" 
-                label="Password" 
+                :label="this.$t('dashboard.mdlSendTx.inpPassword')" 
                 type="password"
                 class="mt-2"
               ></v-text-field>              
@@ -186,14 +186,11 @@
               :disabled="loading"
               :loading="loading"
               @click="sendToken()
-            ">Send</v-btn>
+            ">{{ $t('dashboard.mdlSendTx.btnSend') }}</v-btn>
           </v-list-item>  
       </v-list>   
       </v-form>   
       </v-card>
-
-
-
       <v-card v-else class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
           <v-icon
           size="100"
@@ -204,19 +201,19 @@
         <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
           <v-card-title class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Transaction approved
+              {{ $t('approved.title') }}
             </span>
           </v-card-title>
           <v-card-text class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Your transaction has been successfully sent
+              {{ $t('approved.subtitle') }}
             </span>
             <v-btn
               class="mt-4"
               color="#0FB786"
               @click="dialogSendToken = false"
               block
-            >Back</v-btn>
+            >{{ $t('approved.back') }}</v-btn>
           </v-card-text>
         </v-card> 
       </v-card>
