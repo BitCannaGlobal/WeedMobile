@@ -28,15 +28,15 @@
  
     <tbody> 
       <tr>
-        <td>Address</td> 
+        <td>{{ $t('createQrcode.recipient') }}</td> 
         <td>{{ this.truncateString(JSON.parse(finalQr).address, 15) }}</td> 
       </tr>
       <tr>
-        <td>Amount</td> 
+        <td>{{ $t('createQrcode.amount') }}</td> 
         <td>{{ JSON.parse(finalQr).amount }}</td>
       </tr>
       <tr>
-        <td>Memo</td> 
+        <td>{{ $t('createQrcode.memo') }}</td> 
         <td>{{ JSON.parse(finalQr).memo }}</td>
       </tr>
     </tbody>
@@ -46,7 +46,7 @@
           v-if="finalQr !== ''"
           block 
           color="#0FB786" 
-          @click="backQrcode()">Back</v-btn>
+          @click="backQrcode()">{{ $t('createQrcode.btnBack') }}</v-btn>
   </div>
 
 
@@ -54,7 +54,7 @@
  
  
  <div v-if="finalQr == ''" >
-        <h3 class="ma-4">Qr code generator</h3>
+        <h3 class="ma-4">{{ $t("createQrcode.title") }} </h3>
         <v-divider></v-divider>
         <v-list style="background-color: rgb(0, 0, 0);">
           <v-form ref="form">
@@ -73,7 +73,7 @@
                 :rules="addressRules"                
                 variant="outlined"
                 color="#00b786" 
-                label="Recipient" 
+                :label="$t('createQrcode.recipient')" 
                 class="mt-4"
                 append-inner-icon="mdi-book-open-page-variant-outline"
                 @click:append-inner="getAddressBook()"
@@ -90,7 +90,7 @@
                       :rules="amountRules"
                       variant="outlined"
                       color="#00b786" 
-                      label="Amount" 
+                      :label="$t('createQrcode.amount')" 
                       type="number"
                       inputmode="decimal"
                       class="mt-2" 
@@ -101,7 +101,7 @@
               >
               <v-select
             v-model="selectCurrency"
-            label="Currency"
+            :label="$t('createQrcode.currency')"
             variant="outlined"
             :items="['USD', 'EUR']"
             class="mt-2" 
@@ -118,7 +118,7 @@
                       :rules="amountRules"
                       variant="outlined"
                       color="#00b786" 
-                      label="Amount" 
+                      :label="$t('createQrcode.amount')"  
                       type="number"
                       inputmode="decimal"
                       class="mt-2" 
@@ -143,7 +143,7 @@
                 v-model="memo"
                 variant="outlined"
                 color="#00b786" 
-                label="Memo" 
+                :label="$t('createQrcode.memo')" 
                 class="mt-2"
             ></v-text-field>
           </v-list-item> 
@@ -175,7 +175,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Select contact</v-toolbar-title>
+          <v-toolbar-title>{{ $t('createQrcode.selectContact') }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -234,16 +234,16 @@ export default {
       selectCurrency: '',
       getConvertPrices: '',
       amountRules: [
-        (v) => !!v || "Amount is required",
-        (v) => !isNaN(v) || "Amount must be number",
-        (v) => countPlaces(v) < 7 || "Bad decimal",
+        (v) => !!v || this.$t('createQrcode.rules.amountRequire'),
+        (v) => !isNaN(v) || this.$t('createQrcode.rules.amountNumber'),
+        (v) => countPlaces(v) < 7 || this.$t('createQrcode.rules.amountDecimal'),
       ],
       addressRules: [
-        (v) => !!v || "Address is required",
+        (v) => !!v || this.$t('createQrcode.rules.recipientRequire'),
         (v) =>
           v.startsWith('bcna') ||
-          'Address must start with bcna',
-        (v) => bech32Validation(v) || "Bad address (not bech32)",
+          this.$t('createQrcode.rules.recipientPrefix'),
+        (v) => bech32Validation(v) || this.$t('createQrcode.rules.recipientBech32'),
       ],
     }
   },

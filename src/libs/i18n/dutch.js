@@ -42,6 +42,24 @@ export default {
       words: 'wörter',
     },
   },
+  createQrcode: {
+    title: 'QR-Code erstellen', 
+    recipient: 'Empfänger',
+    amount: 'Menge',
+    currency: 'Währung',
+    memo: 'Memo',
+    btnCreate: 'Generieren',
+    btnBack: 'Zurück',
+    selectContact: 'Kontakt auswählen',
+    rules: {
+      amountRequire: 'Betrag ist erforderlich',
+      amountNumber: 'Der Betrag muss eine Zahl sein',
+      amountDecimal: 'Schlechte Dezimalzahl',
+      recipientRequire: 'Adresse ist erforderlich',
+      recipientPrefix: 'Die Adresse muss mit bcna beginnen',
+      recipientBech32: 'Falsche Adresse (nicht bech32)',
+    }
+  },
   config: {
     currency: {
       title: 'Munteenheid',

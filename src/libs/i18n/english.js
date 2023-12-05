@@ -42,6 +42,24 @@ export default {
       words: 'words',     
     },
   },
+  createQrcode: {
+    title: 'Create QR code', 
+    recipient: 'Recipient',
+    amount: 'Amount',
+    currency: 'Currency',
+    memo: 'Memo',
+    btnCreate: 'Generate',
+    btnBack: 'Back',
+    selectContact: 'Select contact',
+    rules: {
+      amountRequire: 'Amount is required',
+      amountNumber: 'Amount must be number',
+      amountDecimal: 'Bad decimal',
+      recipientRequire: 'Address is required',
+      recipientPrefix: 'Address must start with bcna',
+      recipientBech32: 'Bad address (not bech32)',
+    }
+  },
   config: {
     currency: {
       title: 'Currency',
