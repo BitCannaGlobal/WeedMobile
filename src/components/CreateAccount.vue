@@ -63,9 +63,9 @@
             closable
             close-label="Close Alert"
           >
-            Bad mnemonic
+            {{ $t("errors.badMnemonic") }} 
           </v-alert>
-        <h3 class="text-h6">Check Mnenomic</h3>
+        <h3 class="text-h6">{{ $t("accounts.mdlCreateAccount.checkMnemonic") }}</h3>
           <v-chip
             v-for="(item, index) in checkMnenomic"
             :key="item"      
@@ -100,7 +100,7 @@
             class="ma-2" 
             @click="step = 1"
           >
-            Return
+          {{ $t("accounts.mdlCreateAccount.return") }} 
           </v-btn>
           <v-btn
             class="ma-2"
@@ -108,7 +108,7 @@
             :disabled="!mnenomicVerified"
             @click="step2"
           >
-            Next step 
+            {{ $t("accounts.mdlCreateAccount.nextStep") }}  
           </v-btn>
           <v-btn
             class="ma-2"
@@ -137,7 +137,7 @@
           closable
           close-label="Close Alert"
         >
-          Bad password
+        {{ $t("errors.badPassword") }}
         </v-alert>   
         <v-alert
           v-model="alertErrorName"
@@ -148,14 +148,14 @@
           closable
           close-label="Close Alert"
         >
-          Wallet name already taken
+        {{ $t("errors.walletAlreadyExist") }} 
         </v-alert>          
           <v-list-item>
               <v-text-field
                   v-model="name"
                   variant="outlined"
                   color="#00b786" 
-                  label="Wallet name"
+                  :label="$t('accounts.mdlCreateAccount.walletName')" 
                   style="min-height: 96px"
                   class="mt-6"
                 ></v-text-field>
@@ -165,7 +165,7 @@
                   v-model="password"
                   variant="outlined"
                   color="#00b786" 
-                  label="Password"
+                  :label="$t('accounts.mdlCreateAccount.walletPassword')"
                   style="min-height: 96px"
                   type="password"
                   class="mt-6"
@@ -178,7 +178,7 @@
                 color="#0eb786" 
                 @click="importWallet"
               >
-                Save
+              {{ $t("accounts.mdlCreateAccount.save") }} 
             </v-btn>
           </v-list-item>
           </v-list>
@@ -216,8 +216,8 @@ import md5 from 'md5'
         alertError: false,
         alertErrorName: false,
         rules: {
-          required: value => !!value || 'Required.',
-          counter: value => value.length <= 10 || 'Max 10 characters',
+          required: value => !!value || this.$t("accounts.mdlCreateAccount.rules.required"),
+          counter: value => value.length <= 10 || this.$t("accounts.mdlCreateAccount.rules.counter"),
         },  
         ticksLabels: [
           '12 ' + this.$t("accounts.mdlCreateAccount.words"),

@@ -40,7 +40,17 @@ export default {
       step2: 'Schritt 2',
       step3: 'Schritt 3', 
       words: 'wörter',
+      checkMnemonic: 'Überprüfen Sie die Mnemonik', 
+      return: 'Zurückkehren',
+      nextStep: 'Nächster Schritt',
+      walletName: 'Wallet-Name',
+      walletPassword: 'Wallet-Passwort',
+      save: 'Speichern',
     },
+    rules: {
+      required: 'Erforderlich',
+      counter: 'Maximal 10 Zeichen' 
+    }
   },
   createQrcode: {
     title: 'QR-Code erstellen', 
@@ -89,10 +99,12 @@ export default {
   },
   errors: {
     badPassword: 'Falsches Passwort',
+    badMnemonic: 'Schlechte Gedächtnisstütze',
+    walletAlreadyExist: 'Der Wallet-Name ist bereits vergeben',
   },
   approved: {
     title: 'Transaktion genehmigt',
     subtitle: 'Ihre Transaktion wurde erfolgreich gesendet',
     back: 'Zurück zum Dashboard',
   }
-} 
+}

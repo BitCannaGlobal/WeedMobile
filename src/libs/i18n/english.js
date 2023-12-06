@@ -39,8 +39,18 @@ export default {
       step1: 'Step 1',
       step2: 'Step 2',
       step3: 'Step 3', 
-      words: 'words',     
+      words: 'words',    
+      checkMnemonic: 'Check mnemonic', 
+      return: 'Return',
+      nextStep: 'Next step',
+      walletName: 'Wallet name',
+      walletPassword: 'Wallet password',
+      save: 'Save',
     },
+    rules: {
+      required: 'Required',
+      counter: 'Max 10 characters' 
+    }
   },
   createQrcode: {
     title: 'Create QR code', 
@@ -89,6 +99,8 @@ export default {
   },
   errors: {
     badPassword: 'Wrong password',
+    badMnemonic: 'Bad mnemonic',
+    walletAlreadyExist: 'Wallet name already taken',
   },
   approved: {
     title: 'Transaction approved',
