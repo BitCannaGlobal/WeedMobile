@@ -18,11 +18,11 @@ import { registerPlugins } from '@/plugins'
 import store from './store'
 
 import English from './libs/i18n/english.js'
-import Dutch from './libs/i18n/dutch.js'
+import German from './libs/i18n/german.js'
 
 const messages = {
   English,
-  Dutch 
+  German 
 } 
  
 const getLocalLang = async () => {
@@ -35,7 +35,7 @@ const getLocalLang = async () => {
       language = 'English'      
       break;
     case 'nl':
-      language = 'Dutch'
+      language = 'German'
       break;
     default:
       language = 'English'
