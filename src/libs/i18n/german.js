@@ -59,6 +59,13 @@ export default {
       title: 'Mnemonischer Samen',
       subtitle: 'Sehen Sie sich Ihre Mnemonik an',
     },
+    deleteWallet: {
+      btnClose: 'Schließen',
+      btnDelete: 'Löschen',
+      altSuccess: 'Wallet gelöscht',
+      agreeDelete: 'Sind Sie damit einverstanden, Ihr Wallet aus der App zu löschen?',
+      password: 'Passwort',
+    },
     rules: {
       required: 'Erforderlich',
       counter: 'Maximal 10 Zeichen' 

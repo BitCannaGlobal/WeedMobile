@@ -263,7 +263,7 @@
             variant="text"
             @click="deleteWallet = !deleteWallet"
           >
-            close
+            {{ $t("accounts.deleteWallet.close") }}
           </v-btn>
 
  
@@ -275,20 +275,20 @@
             type="success"
             class="m-4"
           >
-            Wallet deleted
+            {{ $t("accounts.deleteWallet.altSuccess") }}
           </v-alert>
-
+          
             <v-checkbox
               v-if="!deletedWallet" 
               v-model="checkbox1"
-              label="You agree to delete your wallet from the app?"
+              :label="$t('accounts.deleteWallet.agreeDelete')"
             ></v-checkbox> 
             <v-text-field
                 v-if="!deletedWallet && checkbox1" 
                 v-model="password"
                 variant="outlined"
                 color="#00b786" 
-                label="Password"
+                :label="$t('accounts.deleteWallet.password')"
                 style="min-height: 96px" 
                 type="password" 
             ></v-text-field>
@@ -299,7 +299,7 @@
               :disabled="!enableButton"
               @click="revemoAccount"
             >
-              Delete this wallet
+              {{ $t("accounts.deleteWallet.btnDelete") }}
             </v-btn>
 
                    

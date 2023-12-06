@@ -59,6 +59,13 @@ export default {
       title: 'Mnemonic Seed',
       subtitle: 'View your mnemonic',
     },
+    deleteWallet: {
+      btnClose: 'Close',
+      btnDelete: 'Delete',
+      altSuccess: 'Wallet deleted',
+      agreeDelete: 'You agree to delete your wallet from the app?',
+      password: 'Password',
+    },
     rules: {
       required: 'Required',
       counter: 'Max 10 characters' 
