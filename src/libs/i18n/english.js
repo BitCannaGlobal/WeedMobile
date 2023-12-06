@@ -47,6 +47,18 @@ export default {
       walletPassword: 'Wallet password',
       save: 'Save',
     },
+    mdlImportAccount: {
+      title: 'Import wallet',
+      save: 'Save',
+      subtitle: 'Here you can import your mnenomics safely! Your passphrase will be encrypted with your masterpassword',
+      name: 'Wallet name',
+      address: 'Address',
+      password: 'Password',
+    },
+    viewMnemonic: {
+      title: 'Mnemonic Seed',
+      subtitle: 'View your mnemonic',
+    },
     rules: {
       required: 'Required',
       counter: 'Max 10 characters' 
@@ -101,6 +113,7 @@ export default {
     badPassword: 'Wrong password',
     badMnemonic: 'Bad mnemonic',
     walletAlreadyExist: 'Wallet name already taken',
+    walletAddressExist: 'Wallet address already taken',
   },
   approved: {
     title: 'Transaction approved',

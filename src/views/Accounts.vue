@@ -13,7 +13,7 @@
         <v-col
           cols="6"
         >
-        <v-btn block size="x-large" color="#1C1D20"  @click="openDialogImport()">{{ $t("accounts.importAccount") }} </v-btn> 
+        <v-btn block size="x-large" color="#1C1D20"  @click="openDialogImport()">{{ $t("accounts.importAccount") }}</v-btn> 
         </v-col>
       </v-row>
     </v-card-text>
@@ -77,7 +77,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Import wallet</v-toolbar-title>
+          <v-toolbar-title>{{ $t("accounts.mdlImportAccount.title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
@@ -85,7 +85,7 @@
               size="x-large"
               @click="importWallet"
             >
-              Save
+            {{ $t("accounts.mdlImportAccount.save") }}
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
@@ -93,7 +93,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('accounts.mdlImportAccount.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -108,7 +108,7 @@
             closable
             close-label="Close Alert"
           >
-            Bad password
+            {{ $t("errors.badPassword") }}
           </v-alert>
           <v-alert
             v-model="alertErrorMnemonic"
@@ -119,7 +119,7 @@
             closable
             close-label="Close Alert"
           >
-           Error Mnemonic
+            {{ $t("errors.badMnemonic") }}
           </v-alert>
           
           <v-alert
@@ -131,7 +131,7 @@
             closable
             close-label="Close Alert"
           >
-            Wallet name already taken
+            {{ $t("errors.walletAlreadyExist") }}
           </v-alert>
           <v-alert
             v-model="alertErrorAddressExist"
@@ -142,7 +142,7 @@
             closable
             close-label="Close Alert"
           >
-            Wallet address already taken
+            {{ $t("errors.walletAddressExist") }}
           </v-alert>     
         <v-list-item>
             <v-text-field
@@ -150,7 +150,7 @@
                 variant="outlined"
                 color="#00b786"
                 counter="6"
-                label="Wallet name"
+                :label="$t('accounts.mdlImportAccount.name')"
                 style="min-height: 96px"
                 class="mt-6"
               ></v-text-field>
@@ -172,7 +172,7 @@
                 variant="outlined"
                 color="#00b786"
                 counter="6"
-                label="Password"
+                :label="$t('accounts.mdlImportAccount.password')"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
@@ -198,13 +198,13 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>View Mnemonic</v-toolbar-title>
+          <v-toolbar-title>{{ $t("accounts.viewMnemonic.title") }}</v-toolbar-title>
         </v-toolbar>
         <v-list
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"> </v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('accounts.viewMnemonic.subtitle')"> </v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -219,7 +219,7 @@
             closable
             close-label="Close Alert"
           >
-            Bad password
+            {{ $t("errors.badPassword") }}
           </v-alert>
           
             <v-text-field
@@ -227,7 +227,7 @@
                 v-model="passwordView"
                 variant="outlined"
                 color="#00b786" 
-                label="Password"
+                :label="$t('accounts.mdlImportAccount.password')"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
@@ -239,7 +239,7 @@
               :disabled="loading"
               :loading="loading"
               @click="viewMnenomic()
-            ">View Mnemonic</v-btn> 
+            ">{{ $t("accounts.viewMnemonic.title") }}</v-btn> 
 
           </v-list-item>
           <h4 class="ma-4" v-if="canViewMnemonic">Your mnemonic (keep it secret!)</h4>

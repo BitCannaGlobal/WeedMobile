@@ -47,6 +47,18 @@ export default {
       walletPassword: 'Wallet-Passwort',
       save: 'Speichern',
     },
+    mdlImportAccount: {
+      title: 'Wallet importieren',
+      save: 'Speichern',
+      subtitle: 'Hier können Sie Ihre Mnenomics sicher importieren! Ihr Passwort wird mit Ihrem Masterpasswort verschlüsselt',
+      name: 'Wallet-Name',
+      address: 'Address',
+      password: 'Passwort',
+    },
+    viewMnemonic: {
+      title: 'Mnemonischer Samen',
+      subtitle: 'Sehen Sie sich Ihre Mnemonik an',
+    },
     rules: {
       required: 'Erforderlich',
       counter: 'Maximal 10 Zeichen' 
