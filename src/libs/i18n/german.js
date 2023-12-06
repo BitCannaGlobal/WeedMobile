@@ -66,6 +66,12 @@ export default {
       agreeDelete: 'Sind Sie damit einverstanden, Ihr Wallet aus der App zu löschen?',
       password: 'Passwort',
     },
+    editWallet: {
+      btnClose: 'Schließen',
+      btnEdit: 'Wallet bearbeiten',
+      altSuccess: 'Brieftasche bearbeitet',
+      inputName: 'Wallet-Name',
+    },
     rules: {
       required: 'Erforderlich',
       counter: 'Maximal 10 Zeichen' 

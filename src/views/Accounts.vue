@@ -263,7 +263,7 @@
             variant="text"
             @click="deleteWallet = !deleteWallet"
           >
-            {{ $t("accounts.deleteWallet.close") }}
+            {{ $t("accounts.deleteWallet.btnClose") }}
           </v-btn>
 
  
@@ -318,7 +318,7 @@
             variant="text"
             @click="editNow = !editNow"
           >
-            close
+            {{ $t("accounts.editWallet.btnClose") }}
           </v-btn>
 
           <br>
@@ -330,12 +330,12 @@
             elevation="2"
             type="success"
           >
-            Wallet edited
+          {{ $t("accounts.editWallet.altSuccess") }}
           </v-alert>
           <v-text-field
             v-if="!editedWallet"
             v-model="walletName"
-            label="Wallet name"
+            :label="$t('accounts.editWallet.inputName')"
             variant="outlined"
           ></v-text-field>  
         <v-btn
@@ -345,7 +345,7 @@
           block 
           @click="editAccount"
         >
-          Edit wallet
+          {{ $t("accounts.editWallet.btnEdit") }}
         </v-btn>
         </v-card-text>
       </v-card>

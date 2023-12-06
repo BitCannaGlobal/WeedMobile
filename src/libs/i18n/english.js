@@ -66,6 +66,12 @@ export default {
       agreeDelete: 'You agree to delete your wallet from the app?',
       password: 'Password',
     },
+    editWallet: {
+      btnClose: 'Close',
+      btnEdit: 'Edit wallet',
+      altSuccess: 'Wallet edited',
+      inputName: 'Wallet name',
+    },
     rules: {
       required: 'Required',
       counter: 'Max 10 characters' 
