@@ -96,6 +96,11 @@ export default {
     }
   },
   config: {
+    subheader: {
+      general: 'Allgemein',
+      privacy: 'Privatsphäre',
+      other: 'Andere',
+    },
     currency: {
       title: 'Munteenheid',
       subtitle: 'Selecteer uw valuta',
@@ -103,6 +108,7 @@ export default {
     language: {
       title: 'Taal',
       subtitle: 'Selecteer uw taal',
+      close: 'Schließen',
     },
     viewMnemonic: {
       title: 'Mnemonic Seed',

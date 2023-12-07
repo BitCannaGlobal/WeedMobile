@@ -96,6 +96,11 @@ export default {
     }
   },
   config: {
+    subheader: {
+      general: 'General',
+      privacy: 'Privacy',
+      other: 'Other',
+    },
     currency: {
       title: 'Currency',
       subtitle: 'Select your currency',
@@ -103,6 +108,7 @@ export default {
     language: {
       title: 'Language',
       subtitle: 'Select your language',
+      close: 'Close',
     },
     viewMnemonic: {
       title: 'Mnemonic Seed',

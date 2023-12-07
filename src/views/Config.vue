@@ -1,6 +1,6 @@
 <template>
     <v-list bg-color="black" lines="two">
-      <v-list-subheader>General</v-list-subheader>
+      <v-list-subheader>{{ $t('config.subheader.general') }}</v-list-subheader>
       <!-- <Accounts />  -->
       <v-list-item
         :title="$t('config.currency.title')"
@@ -45,27 +45,7 @@
 
       <v-divider></v-divider>
 
-      <v-list-subheader>Privacy</v-list-subheader>
-
-<!--       <v-list-item
-        :title="$t('config.viewMnemonic.title')"
-        :subtitle="$t('config.viewMnemonic.subtitle')"
-      >
-      <template v-slot:prepend>
-          <v-avatar>
-            <v-icon color="#33ffc9">mdi-shield-lock-open-outline</v-icon>
-          </v-avatar>
-        </template>
-
-        <template v-slot:append>
-          <v-btn
-            color="grey-lighten-1"
-            icon="mdi-chevron-right"
-            variant="text"
-            @click="dialogViewPassPhrase = true"
-          ></v-btn>
-        </template>
-      </v-list-item> -->
+      <v-list-subheader>{{ $t('config.subheader.privacy') }}</v-list-subheader>
       <v-list-item
         :title="$t('config.masterPassChange.title')"
         :subtitle="$t('config.masterPassChange.subtitle')"
@@ -108,7 +88,7 @@
       </v-list-item> 
       <v-divider></v-divider>
 
-      <v-list-subheader>Other</v-list-subheader>
+      <v-list-subheader>{{ $t('config.subheader.other') }}</v-list-subheader>
 
       <v-list-item
         title="App info"
@@ -150,66 +130,9 @@
             @click.stop="openImportDebugMnenomic()"
           ></v-btn>
         </template>
-      </v-list-item> 
-   
+      </v-list-item>    
     </v-list>
- 
-<!-- 
-   <div class="text-center">
-    <v-bottom-sheet v-model="deleteWallet" inset>
-      <v-card
-        class="text-center" 
-      >
-        <v-card-text>
-          <v-btn
-            variant="text"
-            @click="deleteWallet = !deleteWallet"
-          >
-            close
-          </v-btn>
-
- 
-
-          <v-alert
-            v-if="deletedWallet"
-            variant="outlined" 
-            elevation="2"
-            type="success"
-            class="m-4"
-          >
-            Wallet deleted
-          </v-alert>
-
-            <v-checkbox
-              v-if="!deletedWallet" 
-              v-model="checkbox1"
-              label="You agree to delete your wallet from the app?"
-            ></v-checkbox> 
-            <v-text-field
-                v-if="!deletedWallet && checkbox1" 
-                v-model="password"
-                variant="outlined"
-                color="#00b786" 
-                label="Password"
-                style="min-height: 96px" 
-                type="password" 
-            ></v-text-field>
-             <v-btn 
-              v-if="!deletedWallet && checkbox1" 
-              color="red"  
-              block 
-              :disabled="!enableButton"
-              @click="revemoAccount"
-            >
-              Delete this wallet
-            </v-btn>
-
-                   
- 
-        </v-card-text>
-      </v-card>
-    </v-bottom-sheet>
-  </div>  -->
+  <!-- start modal -->
   <div class="text-center">
     <v-bottom-sheet v-model="changeLang" inset>
       <v-card
@@ -221,7 +144,7 @@
             variant="text"
             @click="changeLang = !changeLang"
           >
-            close
+            {{ $t('config.language.close') }}
           </v-btn>
 
           <br />
@@ -229,7 +152,7 @@
 
           <v-select
             v-model="$i18n.locale"
-            label="Language"
+            :label="$t('config.language.title')"
             :items="$i18n.availableLocales"
             :item-title="'locale-' + locale"
             :item-value="locale"
@@ -348,18 +271,6 @@
         </v-list>
         <v-divider></v-divider>
         <v-list>
-          <!-- <v-alert
-            v-model="alertError"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Bad password
-          </v-alert> -->
- 
       
           <v-list-item>
             <div v-if="!masterPasswordFinish">
