@@ -117,6 +117,15 @@ export default {
       subtitle: 'Portemonnee van telefoon verwijderen',
     },
   },
+  addressBook: {
+    title: 'Adresskontakt',
+    btnAdd: 'Kontakt hinzufügen',
+    subtitle: 'Hier können Sie Ihre Kontakte speichern',
+    name: 'Name',
+    address: 'Adresse',
+    memo: 'Standard-Memo',
+    btnAddContact: 'Kontakt hinzufügen',
+  },
   footer: {
     title1: 'Dashboard', 
     title2: 'Rekeningen', 

@@ -117,6 +117,15 @@ export default {
       subtitle: 'Delete wallet from phone',
     },
   },
+  addressBook: {
+    title: 'Address contact',
+    btnAdd: 'Add contact',
+    subtitle: 'Here you can save your contacts',
+    name: 'Name',
+    address: 'Address',
+    memo: 'Default Memo',
+    btnAddContact: 'Add contact',
+  },
   footer: {
     title1: 'Dashboard',  
     title2: 'Account', 
