@@ -126,6 +126,13 @@ export default {
       success: 'Masterpassword change is done!',
       close: 'Close',
     },
+    timeout: {
+      title: 'Set Timeout',
+      subtitle: 'Select your timeout',
+      close: 'Close',
+      select: 'Select timeout',
+      btnUpdate: 'Update timeout',
+    },
     deleteWallet: {
       title: 'Delete wallet',
       subtitle: 'Delete wallet from phone',

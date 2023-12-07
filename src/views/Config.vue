@@ -386,7 +386,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Set timeout</v-toolbar-title>
+          <v-toolbar-title>{{ $t('config.timeout.title') }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -394,28 +394,15 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('config.timeout.subtitle')"></v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list>
-          <!-- <v-alert
-            v-model="alertError"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Bad password
-          </v-alert> -->
- 
-      
           <v-list-item>
             <div> 
               <v-select
                 v-model="timeout"
-                label="Select timeout"
+                :label="$t('config.timeout.select')"
                 variant="outlined"
                 :items="['1 mn', '5 mn', '1 hour', '6 hours', '1 day', 'Never']"
                 class="mt-4"
@@ -426,59 +413,13 @@
                 block 
                 @click="updateTimeout()"
               >
-                Update timeout
-              </v-btn> 
- 
+              {{ $t('config.timeout.btnUpdate') }}
+              </v-btn>  
             </div>
           </v-list-item>
-          <v-list-item>
-            <v-row
-              v-if="masterPasswordChanging"
-              class="fill-height"
-              align-content="center"
-              justify="center"
-            >
-              <v-col
-                class="text-subtitle-1 text-center"
-                cols="12"
-              >
-                Masterpassword change in progress
-              </v-col>
-              <v-col cols="6">
-                <v-progress-linear
-                  color="#00b786"
-                  indeterminate
-                  rounded
-                  height="9"
-                ></v-progress-linear>
-              </v-col>
-            </v-row>
-            <v-row
-                v-if="masterPasswordFinish"
-                class="fill-height"
-                align-content="center"
-                justify="center"
-              >
-                <v-col
-                  class="text-subtitle-1 text-center"
-                  cols="12"
-                >
-                  Masterpassword change is done!
-                  <br /><br />
-                  <v-btn
-                    color="#00b786"
-                    @click="dialogChangeMasterPass = false"
-                  > 
-                    Close
-                  </v-btn>
-                </v-col>
-              </v-row>
+          <v-list-item> 
           </v-list-item>
-          <v-list-item>
- 
-          </v-list-item>
-          <v-list-item>
- 
+          <v-list-item> 
           </v-list-item>
         </v-list>
       </v-card>

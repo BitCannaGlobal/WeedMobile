@@ -126,6 +126,13 @@ export default {
       success: 'Die Änderung des Masterpassworts ist abgeschlossen!',
       close: 'Schließen',
     },
+    timeout: {
+      title: 'Timeout festlegen',
+      subtitle: 'Wählen Sie Ihr Timeout',
+      close: 'Schließen',
+      select: 'Wählen Sie Timeout',
+      btnUpdate: 'Aktualisierungszeitüberschreitung',
+    },
     deleteWallet: {
       title: 'Portemonnee verwijderen',
       subtitle: 'Portemonnee van telefoon verwijderen',
