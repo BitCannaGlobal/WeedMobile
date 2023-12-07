@@ -259,7 +259,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Change masterpass</v-toolbar-title>
+          <v-toolbar-title>{{ $t('config.masterPassChange.title') }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -267,7 +267,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('config.masterPassChange.subtitle')"></v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list>
@@ -280,7 +280,7 @@
                 v-model="password"
                 variant="outlined"
                 color="#00b786"
-                label="Your Password"
+                :label="$t('config.masterPassChange.password1')"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
@@ -290,7 +290,7 @@
                 v-model="newPassword1"
                 variant="outlined"
                 color="#00b786"
-                label="New password"
+                :label="$t('config.masterPassChange.password2')"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
@@ -300,7 +300,7 @@
                 v-model="newPassword2"
                 variant="outlined"
                 color="#00b786"
-                label="Repeat new password"
+                :label="$t('config.masterPassChange.password3')"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
@@ -312,7 +312,7 @@
                 block 
                 @click="changeMassterPass()"
               >
-                Change masterPass
+                {{ $t('config.masterPassChange.btnChange') }}
               </v-btn> 
               </div>
             </div>
@@ -328,7 +328,7 @@
                 class="text-subtitle-1 text-center"
                 cols="12"
               >
-                Masterpassword change in progress
+                {{ $t('config.masterPassChange.progress') }}
               </v-col>
               <v-col cols="6">
                 <v-progress-linear
@@ -349,13 +349,13 @@
                   class="text-subtitle-1 text-center"
                   cols="12"
                 >
-                  Masterpassword change is done!
+                  {{ $t('config.masterPassChange.success') }}
                   <br /><br />
                   <v-btn
                     color="#00b786"
                     @click="dialogChangeMasterPass = false"
                   > 
-                    Close
+                    {{ $t('config.masterPassChange.close') }}
                   </v-btn>
                 </v-col>
               </v-row>

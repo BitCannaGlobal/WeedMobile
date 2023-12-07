@@ -104,7 +104,7 @@ export default {
     currency: {
       title: 'Munteenheid',
       subtitle: 'Selecteer uw valuta',
-      close: 'Schließen',
+      
     },
     language: {
       title: 'Taal',
@@ -118,6 +118,13 @@ export default {
     masterPassChange: {
       title: 'Master password',
       subtitle: 'Hoofdwachtwoord wijzigen',
+      password1: 'Ihr Passwort',
+      password2: 'Neues Kennwort',
+      password3: 'Wiederhole das neue Passwort',
+      btnChange: 'MasterPass ändern',
+      progress: 'Änderung des Masterpassworts wird durchgeführt',
+      success: 'Die Änderung des Masterpassworts ist abgeschlossen!',
+      close: 'Schließen',
     },
     deleteWallet: {
       title: 'Portemonnee verwijderen',

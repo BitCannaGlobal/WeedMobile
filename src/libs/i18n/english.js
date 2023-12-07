@@ -118,6 +118,13 @@ export default {
     masterPassChange: {
       title: 'Master password',
       subtitle: 'Change master password',
+      password1: 'Your Password',
+      password2: 'New password',
+      password3: 'Repeat new password',
+      btnChange: 'Change masterPass',
+      progress: 'Masterpassword change in progress',
+      success: 'Masterpassword change is done!',
+      close: 'Close',
     },
     deleteWallet: {
       title: 'Delete wallet',
