@@ -173,7 +173,7 @@
             variant="text"
             @click="changeCurrency = !changeCurrency"
           >
-            close
+            {{ $t('config.currency.close') }}
           </v-btn>
 
           <br />
@@ -181,7 +181,7 @@
 
           <v-select
             v-model="selectCurrency"
-            label="Currency"
+            :label="$t('config.currency.title')"
             :items="['USD', 'EUR']"
           ></v-select>                    
         </v-card-text>

@@ -104,6 +104,7 @@ export default {
     currency: {
       title: 'Currency',
       subtitle: 'Select your currency',
+      close: 'Close',
     },
     language: {
       title: 'Language',

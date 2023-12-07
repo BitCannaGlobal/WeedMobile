@@ -104,6 +104,7 @@ export default {
     currency: {
       title: 'Munteenheid',
       subtitle: 'Selecteer uw valuta',
+      close: 'Schließen',
     },
     language: {
       title: 'Taal',
