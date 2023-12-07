@@ -129,6 +129,11 @@ export default {
       title: 'Edit contact',
       subtitle: 'Here you can edit your contacts'
     }, 
+    delete: {
+      title: 'Delete contact',
+      close: 'Close',
+      agree: 'You agree to delete this contact?',
+    },
   },
   footer: {
     title1: 'Dashboard',  

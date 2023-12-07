@@ -218,13 +218,13 @@
             type="success"
             class="m-4"
           >
-            Delete contact
+            {{ $t("addressBook.delete.title") }}
           </v-alert>
 
             <v-checkbox
               v-if="!deletedContact" 
               v-model="checkbox1"
-              label="You agree to delete this contact?"
+              :label="$t('addressBook.delete.agree')"
             ></v-checkbox>  
              <v-btn 
               v-if="!deletedContact && checkbox1" 
@@ -232,7 +232,7 @@
               block  
               @click="removeContactNow"
             >
-              Delete contact
+              {{ $t("addressBook.delete.title") }}
             </v-btn>                 
         </v-card-text>
       </v-card>

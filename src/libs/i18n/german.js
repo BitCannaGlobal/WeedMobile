@@ -129,6 +129,11 @@ export default {
       title: 'Kontakt bearbeiten',
       subtitle: 'Hier können Sie Ihre Kontakte bearbeiten'
     }, 
+    delete: {
+      title: 'Kontakt löschen',
+      close: 'Schließen',
+      agree: 'Sind Sie damit einverstanden, diesen Kontakt zu löschen?',
+    },
   },
   footer: {
     title1: 'Dashboard', 
