@@ -125,6 +125,10 @@ export default {
     address: 'Adresse',
     memo: 'Standard-Memo',
     btnAddContact: 'Kontakt hinzufügen',
+    edit: {
+      title: 'Kontakt bearbeiten',
+      subtitle: 'Hier können Sie Ihre Kontakte bearbeiten'
+    }, 
   },
   footer: {
     title1: 'Dashboard', 

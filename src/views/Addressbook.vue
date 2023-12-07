@@ -136,7 +136,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Edit contact</v-toolbar-title>
+          <v-toolbar-title>{{ $t("addressBook.edit.title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -144,7 +144,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" subtitle="$t('addressBook.edit.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -153,11 +153,10 @@
             <v-text-field
                 v-model="name"
                 counter="20"
-                :rules="nameRules"
-                
+                :rules="nameRules"                
                 variant="outlined"
                 color="#00b786" 
-                label="Name" 
+                :label="$t('addressBook.name')" 
                 class="mt-2" 
                 
             ></v-text-field>
@@ -168,7 +167,7 @@
                 :rules="addressRules"
                 variant="outlined"
                 color="#00b786" 
-                label="Address" 
+                :label="$t('addressBook.address')" 
                 class="mt-4" 
                 append-inner-icon="mdi-qrcode-scan"
                 @click:append-inner="scanNow()"
@@ -181,7 +180,7 @@
                 :rules="memoRules"
                 variant="outlined"
                 color="#00b786" 
-                label="Default memo" 
+                :label="$t('addressBook.memo')"  
                 class="mt-4"  
             ></v-text-field>
           </v-list-item> 
@@ -193,7 +192,7 @@
               :disabled="loading"
               :loading="loading"
               @click="editContact()
-            ">Edit contact</v-btn>
+            ">{{ $t("addressBook.edit.title") }}</v-btn>
           </v-list-item>
         </v-list>   
       </v-form>
