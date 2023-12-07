@@ -135,6 +135,11 @@ export default {
       agree: 'Sind Sie damit einverstanden, diesen Kontakt zu löschen?',
     },
   },
+  transactions: {
+    title: 'Transaktionen',
+    btnCreateQr: 'QR erstellen',
+    btnViewTx: 'Transaktion anzeigen',
+  },
   footer: {
     title1: 'Dashboard', 
     title2: 'Rekeningen', 

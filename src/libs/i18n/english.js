@@ -135,6 +135,11 @@ export default {
       agree: 'You agree to delete this contact?',
     },
   },
+  transactions: {
+    title: 'Transactions',
+    btnCreateQr: 'Create QR',
+    btnViewTx: 'View transaction',
+  },
   footer: {
     title1: 'Dashboard',  
     title2: 'Account', 
