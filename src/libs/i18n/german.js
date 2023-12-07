@@ -149,6 +149,7 @@ export default {
     badPassword: 'Falsches Passwort',
     badMnemonic: 'Schlechte Gedächtnisstütze',
     walletAlreadyExist: 'Der Wallet-Name ist bereits vergeben',
+    walletAddressExist: 'Wallet-Adresse bereits vergeben',
   },
   approved: {
     title: 'Transaktion genehmigt',
