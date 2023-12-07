@@ -133,6 +133,13 @@ export default {
       select: 'Select timeout',
       btnUpdate: 'Update timeout',
     },
+    appInfo: {
+      title: 'App info',
+      subtitle: 'Here you can see app info',
+      appVersion: 'App Version',
+      version: 'Version',
+      deviceInfo: 'Device info',
+    },
     deleteWallet: {
       title: 'Delete wallet',
       subtitle: 'Delete wallet from phone',

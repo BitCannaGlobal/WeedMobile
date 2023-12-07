@@ -441,7 +441,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>App info</v-toolbar-title>
+          <v-toolbar-title>{{ $t('config.appInfo.title') }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -449,24 +449,24 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('config.appInfo.subtitle')"></v-list-item>
         </v-list>
         <v-divider></v-divider>
-        <h3 class="ml-4 mt-4">App Version</h3>
+        <h3 class="ml-4 mt-4">{{ $t('config.appInfo.appVersion') }}</h3>
         <v-table> 
           <tbody>
             <tr>
-              <td>Version</td>
+              <td>{{ $t('config.appInfo.version') }}</td>
               <td>{{ appVersion }}</td>
             </tr>
           </tbody>
         </v-table> 
         <v-divider></v-divider>
-        <h3 class="ml-4 mt-4">Device info</h3>
+        <h3 class="ml-4 mt-4">{{ $t('config.appInfo.deviceInfo') }}</h3>
         <v-table> 
           <tbody>
             <tr
-              v-for="(value, name, index) in deviceInfo"
+              v-for="(value, name) in deviceInfo"
               :key="name"
             >
               <td>{{ name }}</td>

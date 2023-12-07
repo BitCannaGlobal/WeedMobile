@@ -133,6 +133,13 @@ export default {
       select: 'Wählen Sie Timeout',
       btnUpdate: 'Aktualisierungszeitüberschreitung',
     },
+    appInfo: {
+      title: 'App-Information',
+      subtitle: 'Hier können Sie App-Informationen sehen',
+      appVersion: 'App Version',
+      version: 'Version',
+      deviceInfo: 'Geräteinformationen',
+    },
     deleteWallet: {
       title: 'Portemonnee verwijderen',
       subtitle: 'Portemonnee van telefoon verwijderen',
