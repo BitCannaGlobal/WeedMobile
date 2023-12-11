@@ -1,23 +1,5 @@
 <template>
   <div v-if="txSend === false" class="ma-4">
-    <!-- <p>
-      Track function:
-      <select v-model="selected">
-        <option v-for="option in options" :key="option.text" :value="option">
-          {{ option.text }}
-        </option>
-      </select>
-      <v-select
-        v-model="selected" 
-        :items="options"
-        variant="outlined"
-        item-title="text"
-        item-value="value"
-        label="Select" 
-        return-object
-        single-line
-      ></v-select>
-    </p> -->
     <v-alert
       v-model="checkCameraPermissions"
       variant="outlined"
@@ -32,7 +14,7 @@
     <div v-if="removeScan">
     <v-alert 
       v-if="JSON.parse(result).amount > spendableBalances" 
-      text="You don't have enough bitcanna! Fund your account" 
+      text="$t('scanQrcode.scanned.error')" 
       type="error"
       class="mb-4"
     ></v-alert>
@@ -40,15 +22,15 @@
     <v-table v-if="removeScan">     
     <tbody> 
       <tr>
-        <td>Address</td> 
+        <td>{{ $t("scanQrcode.scanned.address") }}</td> 
         <td>{{ this.truncateString(JSON.parse(result).address, 15) }}</td> 
       </tr>
       <tr>
-        <td>Amount</td> 
+        <td>{{ $t("scanQrcode.scanned.amount") }}</td> 
         <td>{{ JSON.parse(result).amount }}</td>
       </tr>
       <tr>
-        <td>Memo</td> 
+        <td>{{ $t("scanQrcode.scanned.memo") }}</td> 
         <td>{{ JSON.parse(result).memo }}</td>
       </tr>
     </tbody>
@@ -62,7 +44,7 @@
       closable
       close-label="Close Alert"
     >
-      Bad password
+      {{ $t("scanQrcode.scanned.badPass") }}
     </v-alert>
     <v-text-field
       v-if="removeScan"
@@ -79,7 +61,8 @@
       color="#0FB786" 
       :disabled="loading"
       :loading="loading"
-      @click="sendTx()">Send
+      @click="sendTx()">
+        {{ $t("scanQrcode.scanned.btnSend") }}
     </v-btn>
 
     <v-btn 
@@ -87,7 +70,8 @@
       class="mt-2"
       block 
       color="orange" 
-      @click="retry()">Rescan
+      @click="retry()"> 
+      {{ $t("scanQrcode.scanned.rescan") }}
     </v-btn>
   </div>
   <v-card v-else height="550"  class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
@@ -100,19 +84,19 @@
         <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
           <v-card-title class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Transaction approved
+              {{ $t('approved.title') }}
             </span>
           </v-card-title>
           <v-card-text class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Your transaction has been successfully sent
+              {{ $t('approved.subtitle') }}
             </span>
             <v-btn
               class="mt-4"
               color="#0FB786"
               to="/dashboard"
               block
-            >Back</v-btn>
+            >{{ $t('approved.back') }}</v-btn>
           </v-card-text>
         </v-card> 
       </v-card>

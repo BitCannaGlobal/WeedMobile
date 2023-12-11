@@ -95,6 +95,17 @@ export default {
       recipientBech32: 'Falsche Adresse (nicht bech32)',
     }
   },
+  scanQrcode: {
+    scanned: {
+      address: 'Address',
+      amount: 'Menge',
+      memo: 'Memo',
+      error: 'Du hast nicht genug Bitcanna! Auf dein Konto einzahlen',
+      badPass: 'Schlechtes Passwort',
+      btnSend: 'Schicken',
+      rescan: 'Erneut scannen',
+    }
+  },
   config: {
     subheader: {
       general: 'Allgemein',

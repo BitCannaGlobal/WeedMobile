@@ -95,6 +95,17 @@ export default {
       recipientBech32: 'Bad address (not bech32)',
     }
   },
+  scanQrcode: {
+    scanned: {
+      address: 'Address',
+      amount: 'Amount',
+      memo: 'Memo',
+      error: 'You don\'t have enough bitcanna! Fund your account',
+      badPass: 'Bad password',
+      btnSend: 'Send',
+      rescan: 'Rescan',
+    }
+  },
   config: {
     subheader: {
       general: 'General',
