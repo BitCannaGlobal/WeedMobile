@@ -114,19 +114,33 @@ export async function removeAccount() {
 }
 
 // Address book
-export async function addContact(name, address) {
+export async function addContact(name, address, memo) {
   const { value } = await Preferences.get({ key: 'allContacts' });
   let allContactData = JSON.parse(value)
   if (!allContactData) {
     allContactData = []
   }   
   
-  allContactData.push({ name: name, address: address })
+  allContactData.push({ name: name, address: address, memo: memo })
   await Preferences.set({
     key: 'allContacts',
     value: JSON.stringify(allContactData)
   });        
   // const list = await Preferences.keys();
+}
+
+export async function editContactId(id, name, address, memo) {
+  const { value } = await Preferences.get({ key: 'allContacts' });
+  let allContactData = JSON.parse(value)
+ 
+  allContactData[id].name = name
+  allContactData[id].address = address
+  allContactData[id].memo = memo
+
+  await Preferences.set({
+    key: 'allContacts',
+    value: JSON.stringify(allContactData)
+  }); 
 }
 
 export async function getAllContact() {
@@ -145,4 +159,16 @@ export async function removeContactId(id) {
     key: 'allContacts',
     value: JSON.stringify(allContactData)
   });   
+}
+
+export async function setSessionTimeOut(max) {
+  await Preferences.set({
+    key: 'bcnaTimeout',
+    value: String(max)
+  }); 
+}
+
+export async function getSessionTimeOut() {
+  const { value } = await Preferences.get({ key: 'bcnaTimeout' });
+  return value
 }

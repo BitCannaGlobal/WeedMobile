@@ -1,19 +1,15 @@
 <template>
   <v-container>
   <v-btn block color="#0FB786" class="mb-4" @click="openDial()">
-    Add contact
+    {{ $t("addressBook.btnAdd") }}
   </v-btn>
 <v-card v-for="(item, index) in allContacts" class="mb-4">
-
-
-    <v-list v-if="allContacts.length > 0" lines="two" >
- 
+    <v-list v-if="allContacts.length > 0" lines="two"> 
       <v-list-item
-        
-        
         :key="item.name"
-        :title="item.name"
-        :subtitle="item.address"
+        :title="item.name + ' (' + item.memo + ')'"
+        :subtitle="truncateString(item.address, 20)"
+        @click="openEditDialog(index, item)"
       >
  
         <template v-slot:prepend>
@@ -55,7 +51,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Add contact</v-toolbar-title>
+          <v-toolbar-title>{{ $t("addressBook.title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -63,7 +59,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('addressBook.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -71,10 +67,11 @@
           <v-list-item>
             <v-text-field
                 v-model="name"
-                :rules="nameRules"
+                counter="20"
+                :rules="nameRules"                
                 variant="outlined"
                 color="#00b786" 
-                label="Name" 
+                :label="$t('addressBook.name')" 
                 class="mt-2" 
                 
             ></v-text-field>
@@ -85,10 +82,21 @@
                 :rules="addressRules"
                 variant="outlined"
                 color="#00b786" 
-                label="Address" 
+                :label="$t('addressBook.address')" 
                 class="mt-4" 
                 append-inner-icon="mdi-qrcode-scan"
                 @click:append-inner="scanNow()"
+            ></v-text-field>
+          </v-list-item> 
+          <v-list-item>         
+            <v-text-field
+                v-model="memo" 
+                counter="100"
+                :rules="memoRules"
+                variant="outlined"
+                color="#00b786" 
+                :label="$t('addressBook.memo')" 
+                class="mt-4"  
             ></v-text-field>
           </v-list-item> 
           <qrcode-stream v-if="removeScan" :track="paintBoundingBox" @error="logErrors" /> 
@@ -99,13 +107,136 @@
               :disabled="loading"
               :loading="loading"
               @click="addContact()
-            ">Add contact</v-btn>
+            ">{{ $t("addressBook.btnAddContact") }}</v-btn>
           </v-list-item>
         </v-list>   
       </v-form>
  
       </v-card>
     </v-dialog>
+
+
+    <v-dialog
+      v-model="dialogEdit"
+      fullscreen
+      :scrim="false"
+      transition="dialog-bottom-transition"
+    >
+ 
+      <v-card>
+
+        <v-form ref="form"> 
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogEdit = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{ $t("addressBook.edit.title") }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" subtitle="$t('addressBook.edit.subtitle')"></v-list-item>
+        </v-list>
+        
+        <v-divider></v-divider>
+        <v-list>
+          <v-list-item>
+            <v-text-field
+                v-model="name"
+                counter="20"
+                :rules="nameRules"                
+                variant="outlined"
+                color="#00b786" 
+                :label="$t('addressBook.name')" 
+                class="mt-2" 
+                
+            ></v-text-field>
+          </v-list-item>
+        <v-list-item>         
+            <v-text-field
+                v-model="recipient"
+                :rules="addressRules"
+                variant="outlined"
+                color="#00b786" 
+                :label="$t('addressBook.address')" 
+                class="mt-4" 
+                append-inner-icon="mdi-qrcode-scan"
+                @click:append-inner="scanNow()"
+            ></v-text-field>
+          </v-list-item> 
+          <v-list-item>         
+            <v-text-field
+                v-model="memo" 
+                counter="100"
+                :rules="memoRules"
+                variant="outlined"
+                color="#00b786" 
+                :label="$t('addressBook.memo')"  
+                class="mt-4"  
+            ></v-text-field>
+          </v-list-item> 
+          <qrcode-stream v-if="removeScan" :track="paintBoundingBox" @error="logErrors" /> 
+          <v-list-item>
+            <v-btn 
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="editContact()
+            ">{{ $t("addressBook.edit.title") }}</v-btn>
+          </v-list-item>
+        </v-list>   
+      </v-form>
+ 
+      </v-card>
+    </v-dialog>
+
+    <v-bottom-sheet v-model="dialDeleteContact" inset>
+      <v-card
+        class="text-center" 
+      >
+        <v-card-text>
+          <v-btn
+            variant="text"
+            @click="dialDeleteContact = !dialDeleteContact"
+          >
+            close
+          </v-btn>
+          <v-alert
+            v-if="deletedContact"
+            variant="outlined" 
+            elevation="2"
+            type="success"
+            class="m-4"
+          >
+            {{ $t("addressBook.delete.title") }}
+          </v-alert>
+
+            <v-checkbox
+              v-if="!deletedContact" 
+              v-model="checkbox1"
+              :label="$t('addressBook.delete.agree')"
+            ></v-checkbox>  
+             <v-btn 
+              v-if="!deletedContact && checkbox1" 
+              color="red"  
+              block  
+              @click="removeContactNow"
+            >
+              {{ $t("addressBook.delete.title") }}
+            </v-btn>                 
+        </v-card-text>
+      </v-card>
+    </v-bottom-sheet>
   </v-row>
 
 
@@ -114,16 +245,46 @@
 </template>
 <script>
 import { ref } from 'vue'
+import bech32 from "bech32";
+import { addContact, getAllContact, removeContactId, editContactId } from '@/libs/storage.js';
 
-import { addContact, getAllContact, removeContactId } from '@/libs/storage.js';
+function bech32Validation(address) {
+  try {
+    bech32.decode(address);
+    return true;
+  } catch (error) {
+    return false;
+  }
+}
 
   export default {
     data: () => ({
       dialog: false,
+      dialogEdit: false,
+      dialDeleteContact: false,
+      contactId: '',
       notifications: false,
       removeScan: false,
+      deletedContact: false,
+      checkbox1: false,
       recipient: '',
       allContacts: [],
+      name: '',
+      memo: '',
+      nameRules: [
+        (v) => !!v || "Name is required", 
+        v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+      ],
+      addressRules: [
+        (v) => !!v || "Address is required",
+        (v) =>
+          v.startsWith('bcna') ||
+          'Address must start with bcna',
+        (v) => bech32Validation(v) || "Bad address (not bech32)",
+      ],
+      memoRules: [
+        v => (v.length <= 100) || 'Memo must be less than 100 characters',
+      ],
       files: [
         {
           color: '#0FB786',
@@ -139,26 +300,60 @@ import { addContact, getAllContact, removeContactId } from '@/libs/storage.js';
         },
       ]
     }),
+    watch: {
+      recipient (val) {
+        this.recipient = val.toLowerCase()
+      },
+    },
     async mounted() { 
       let getAllContacts = await getAllContact()
       this.allContacts = JSON.parse(getAllContacts)
     },
     methods: {
       removeContact(index) {
-        removeContactId(index)
-        this.allContacts.splice(index, 1)
+        //removeContactId(index)
+        //this.allContacts.splice(index, 1)
+        this.dialDeleteContact = true
       },
+      removeContactNow() {
+        removeContactId(this.contactId)
+        this.allContacts.splice(this.contactId, 1)
+        this.dialDeleteContact = false
+        this.deletedContact = true
+      }, 
       openDial() {
         this.dialog = true
         this.name = ''
         this.recipient = ''
         this.removeScan = false
       },
+      openEditDialog(index, item) {
+        console.log(item)
+        this.dialogEdit = true
+        this.contactId = index
+        this.name = item.name
+        this.recipient = item.address
+        this.memo = item.memo
+        this.removeScan = false
+      },
       async addContact() {
+
+        const { valid } = await this.$refs.form.validate()
+        if (!valid) {
+          return
+        }
+
         this.dialog = false
-        await addContact(this.name, this.recipient)
+        await addContact(this.name, this.recipient, this.memo)
         let getAllContacts = await getAllContact()
         this.allContacts =  JSON.parse(getAllContacts)
+      },
+      async editContact() {
+        await editContactId(this.contactId, this.name, this.recipient, this.memo) 
+        this.dialogEdit = false
+
+        let getAllContacts = await getAllContact()
+        this.allContacts = JSON.parse(getAllContacts)
       },
       scanNow() {
         this.removeScan = true

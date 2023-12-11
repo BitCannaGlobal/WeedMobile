@@ -25,14 +25,14 @@
           <v-card 
             v-if="allWallets.length > 0" 
           >
-            <v-card-title class="mb-4 text-h6">Wallet value</v-card-title>
+            <v-card-title class="mb-4 text-h6">{{ $t("dashboard.titleBlock") }}</v-card-title>
             <v-card-text>
               <h1 class="mb-2">{{ Number(this.totalTokens).toFixed(2) + ' ' + bitcannaConfig[network].coinLookup.viewDenom }}</h1>
               <h4>
                 <i>
-                  <span v-if="currencyNow === 'USD'">$</span>{{ (this.totalTokens * priceNow).toFixed(3) }}<span v-if="currencyNow === 'EUR'">€</span>
+                  <span v-if="currencyNow === 'USD'">$</span><span v-if="currencyNow === 'EUR'">€</span> {{ (this.totalTokens * priceNow).toFixed(3) }}
                 </i> 
-                <span class="text-green-lighten-1"> (<span v-if="currencyNow === 'USD'">$</span>{{ priceNow }}<span v-if="currencyNow === 'EUR'">€</span>)</span>
+                <span class="text-green-lighten-1"> (<span v-if="currencyNow === 'USD'">$</span><span v-if="currencyNow === 'EUR'">€</span> {{ priceNow }})</span>
               </h4>
               <br />
               <h4>{{ accountNow.address }}</h4>
@@ -66,7 +66,7 @@
                 >
                   <v-sheet>       
                     <span class=" text-subtitle-1">
-                      Available
+                      {{ $t("dashboard.available") }}
                     </span>
                     <br /> 
                     <span class="font-weight-black text-subtitle-1">
@@ -113,7 +113,7 @@
                 >
                   <v-sheet>       
                     <span class=" text-subtitle-1">
-                      Your rewards
+                      {{ $t("dashboard.rewards") }}
                     </span>
                     <br />
                     <span class="font-weight-black text-subtitle-1">
@@ -138,7 +138,7 @@
       </v-row>
     </v-container> 
     
-    <v-card color="black" >
+    <v-card  v-if="allWallets.length > 0"  color="black" >
       <v-card-text  >
       <v-row>
         <v-col
@@ -149,13 +149,22 @@
         <v-col
           cols="6"
         >
-        <v-btn block size="x-large" color="#1C1D20"  @click="actionReceive = true">Receive</v-btn> 
+        <v-btn block size="x-large" color="#1C1D20" to="/create-qrcode">{{ $t("dashboard.btnQrCode") }}</v-btn> 
         </v-col>
       </v-row>
     </v-card-text>
     </v-card>
-
-
+    <v-card v-if="allWallets.length === 0" class="ma-4" color="black" >
+      <v-alert
+        variant="outlined"
+        type="success"
+        border="top"
+      >
+        Hey, there is no wallet available yet.
+      </v-alert>
+      <br />
+      <v-btn block size="x-large" color="#1C1D20" to="/accounts">Create one here</v-btn> 
+    </v-card>
 </template>
 
 <script>

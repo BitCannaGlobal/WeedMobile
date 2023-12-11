@@ -1,5 +1,5 @@
 <template> 
-  <v-btn v-if="type === 'sendTx'" block size="x-large" color="#0FB786" @click="openDialogSendToken">Send</v-btn> 
+  <v-btn v-if="type === 'sendTx'" block size="x-large" color="#0FB786" @click="openDialogSendToken">{{ $t("dashboard.btnSend") }}</v-btn> 
 
   <v-btn 
     v-if="type === 'claim'"
@@ -10,7 +10,7 @@
     color="#333333" 
     @click="openDialogClaim"
   >
-    Claim
+  {{ $t("dashboard.btnClaim") }}  
   </v-btn>
 
   <v-btn 
@@ -22,7 +22,7 @@
     color="#0FB786" 
     @click="openDialogStake"
   >
-    Stake
+  {{ $t("dashboard.btnStake") }} 
   </v-btn>
   <v-dialog
       v-model="dialogSendToken"
@@ -31,7 +31,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card v-if="txSend === false">
-        <v-form ref="form"> 
+        <v-form v-if="step1" ref="form"> 
         <v-toolbar
           dark
         >
@@ -42,7 +42,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Send token</v-toolbar-title>
+          <v-toolbar-title>{{ $t("dashboard.mdlSendTx.title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -50,23 +50,12 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
-        <v-list
-        >
-        <v-alert
-            v-model="alertError"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Bad password
-          </v-alert>
+        <v-list>
+
         <v-list-item>
           <v-chip @click="setAddress('bcna148ml2tghqkfvzj8q27dlxw6ghe3vlmprhru76x')" class="mr-2">
             Wallet1
@@ -76,17 +65,16 @@
           </v-chip>
           <v-chip @click="setAddress('bcna1l6c9uc9f9ulx8925790t9g7zzhavfr2e6nh68u')" class="mr-2">
             Wallet3
-          </v-chip>
-          
+          </v-chip>          
             <v-text-field
                 v-model="recipient"
                 :rules="addressRules"
                 variant="outlined"
                 color="#00b786" 
-                label="Recipient" 
+                :label="this.$t('dashboard.mdlSendTx.inpRecipient')" 
                 class="mt-4"
-                append-inner-icon="mdi-book-open-page-variant-outline"
-                @click:append-inner="getAddressBook()"
+                append-icon="mdi-book-open-page-variant-outline"
+                @click:append="getAddressBook()"
             ></v-text-field>
           </v-list-item> 
           <v-list-item>
@@ -95,7 +83,9 @@
                 :rules="amountRules"
                 variant="outlined"
                 color="#00b786" 
-                label="Amount" 
+                :label="this.$t('dashboard.mdlSendTx.inpAmount')" 
+                type="number"
+                inputmode="decimal"
                 class="mt-2"
                 suffix="Max"
                 append-inner-icon="mdi-plus-box-outline"
@@ -106,21 +96,88 @@
             <v-text-field
                 v-model="memo"
                 variant="outlined"
+                counter="100"
+                :rules="memoRules"
                 color="#00b786" 
-                label="Memo" 
+                :label="this.$t('dashboard.mdlSendTx.inpMemo')"
                 class="mt-2"
             ></v-text-field>
           </v-list-item>
+
           <v-list-item>
+            <v-btn 
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="checkTx()
+            ">{{ $t('dashboard.mdlSendTx.btnSend') }}</v-btn>
+          </v-list-item>
+        </v-list>   
+      </v-form>  
+      <v-form v-if="step2" ref="form"> 
+        <v-toolbar
+          dark
+        >
+          <v-btn
+            icon
+            dark
+            @click="dialogSendToken = false"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+          <v-toolbar-title>{{ $t("dashboard.mdlSendTx.title") }}</v-toolbar-title>
+          <v-spacer></v-spacer>
+ 
+        </v-toolbar>
+        <v-list
+          lines="two"
+          subheader
+        >
+          <v-list-item title="Infomations" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
+        </v-list>
+        
+        <v-divider></v-divider>
+        <v-list>
+      <v-list-item>
+      <v-table >
+    
+    <tbody> 
+      <tr>
+        <td>{{ $t('dashboard.mdlSendTx.inpRecipient') }}</td> 
+        <td>{{ this.truncateString(recipient, 15) }}</td> 
+      </tr>
+      <tr>
+        <td>{{ $t('dashboard.mdlSendTx.inpAmount') }}</td> 
+        <td>{{ amount }} BCNA</td>
+      </tr>
+      <tr>
+        <td>{{ $t('dashboard.mdlSendTx.inpMemo') }}</td> 
+        <td>{{ memo }}</td>
+      </tr>
+    </tbody>
+    </v-table>
+  </v-list-item>
+  <v-list-item>
+            <v-alert
+            v-model="alertError"
+            class="mt-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            {{ $t('errors.badPassword') }}
+          </v-alert>
             <v-text-field
                 v-model="password"
                 variant="outlined"
                 color="#00b786" 
-                label="Password" 
+                :label="this.$t('dashboard.mdlSendTx.inpPassword')" 
                 type="password"
                 class="mt-2"
-              ></v-text-field>
-              
+              ></v-text-field>              
           </v-list-item>
           <v-list-item>
             <v-btn 
@@ -129,13 +186,11 @@
               :disabled="loading"
               :loading="loading"
               @click="sendToken()
-            ">Send</v-btn>
-          </v-list-item>
-        </v-list>   
-      </v-form>     
+            ">{{ $t('dashboard.mdlSendTx.btnSend') }}</v-btn>
+          </v-list-item>  
+      </v-list>   
+      </v-form>   
       </v-card>
-
-
       <v-card v-else class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
           <v-icon
           size="100"
@@ -146,19 +201,19 @@
         <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
           <v-card-title class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Transaction approved
+              {{ $t('approved.title') }}
             </span>
           </v-card-title>
           <v-card-text class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Your transaction has been successfully sent
+              {{ $t('approved.subtitle') }}
             </span>
             <v-btn
               class="mt-4"
               color="#0FB786"
               @click="dialogSendToken = false"
               block
-            >Back</v-btn>
+            >{{ $t('approved.back') }}</v-btn>
           </v-card-text>
         </v-card> 
       </v-card>
@@ -188,7 +243,7 @@
         <v-card
           v-for="(item, i) in allContacts"
           class="ma-4" 
-          :title="item.name"
+          :title="item.name + ' (' + item.memo + ')'"
           :subtitle="item.address"
           @click="selectContact(i)"
         >
@@ -483,6 +538,12 @@ export default {
         'Address must start with bcna',
       (v) => bech32Validation(v) || "Bad address (not bech32)",
     ],
+    memoRules: [
+      v => (v && v.length <= 100) || 'Memo must be less than 100 characters',
+    ],
+    step1: true,
+    step2: false,
+    step3: false,
   }),
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'totalRewards', 'allDelegations'])
@@ -492,8 +553,13 @@ export default {
     this.allContacts = JSON.parse(getAllContacts)
   },
   methods: {
+    checkTx() {
+      this.step1 = false
+      this.step2 = true
+    },
     selectContact(index) {
       this.recipient = this.allContacts[index].address
+      this.memo = this.allContacts[index].memo
       this.dialogAddressBook = false
     },
     getAddressBook() {
@@ -524,6 +590,8 @@ export default {
       this.memo = '';
       this.password = '';
       this.loading = false
+      this.step1 = true
+      this.step2 = false
     },
     closeModal() {
       this.actionSend = false;
@@ -668,7 +736,13 @@ export default {
 
 
 
-    }
+    },
+    truncateString(str, num) {
+        if (str.length <= num) {
+          return str
+        }
+        return str.slice(0, num) + '...'
+      },
   }
 }
 

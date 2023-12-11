@@ -1,43 +1,51 @@
 <template>
   <div v-if="txSend === false" class="ma-4">
-    <!-- <p>
-      Track function:
-      <select v-model="selected">
-        <option v-for="option in options" :key="option.text" :value="option">
-          {{ option.text }}
-        </option>
-      </select>
-      <v-select
-        v-model="selected" 
-        :items="options"
-        variant="outlined"
-        item-title="text"
-        item-value="value"
-        label="Select" 
-        return-object
-        single-line
-      ></v-select>
-    </p> -->
-
-    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" /> 
-    <!-- <v-textarea class="mt-2" label="Result" variant="outlined"  :model-value="result"> </v-textarea> -->
-    <v-table v-if="removeScan">
-    
+    <v-alert
+      v-model="checkCameraPermissions"
+      variant="outlined"
+      type="warning"
+      border="top"
+      closable
+      close-label="Close Alert"
+    >
+      checkCameraPermissions
+    </v-alert>
+    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
+    <div v-if="removeScan">
+    <v-alert 
+      v-if="JSON.parse(result).amount > spendableBalances" 
+      text="$t('scanQrcode.scanned.error')" 
+      type="error"
+      class="mb-4"
+    ></v-alert>
+    </div>
+    <v-table v-if="removeScan">     
     <tbody> 
       <tr>
-        <td>Address</td> 
+        <td>{{ $t("scanQrcode.scanned.address") }}</td> 
         <td>{{ this.truncateString(JSON.parse(result).address, 15) }}</td> 
       </tr>
       <tr>
-        <td>Amount</td> 
+        <td>{{ $t("scanQrcode.scanned.amount") }}</td> 
         <td>{{ JSON.parse(result).amount }}</td>
       </tr>
       <tr>
-        <td>Memo</td> 
+        <td>{{ $t("scanQrcode.scanned.memo") }}</td> 
         <td>{{ JSON.parse(result).memo }}</td>
       </tr>
     </tbody>
     </v-table>
+    <v-alert
+      v-model="alertError"
+      class="mt-4"
+      variant="outlined"
+      type="warning"
+      border="top"
+      closable
+      close-label="Close Alert"
+    >
+      {{ $t("scanQrcode.scanned.badPass") }}
+    </v-alert>
     <v-text-field
       v-if="removeScan"
       v-model="password"
@@ -51,7 +59,10 @@
       v-if="removeScan" 
       block 
       color="#0FB786" 
-      @click="sendTx()">Send
+      :disabled="loading"
+      :loading="loading"
+      @click="sendTx()">
+        {{ $t("scanQrcode.scanned.btnSend") }}
     </v-btn>
 
     <v-btn 
@@ -59,7 +70,8 @@
       class="mt-2"
       block 
       color="orange" 
-      @click="retry()">Rescan
+      @click="retry()"> 
+      {{ $t("scanQrcode.scanned.rescan") }}
     </v-btn>
   </div>
   <v-card v-else height="550"  class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
@@ -72,19 +84,19 @@
         <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
           <v-card-title class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Transaction approved
+              {{ $t('approved.title') }}
             </span>
           </v-card-title>
           <v-card-text class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Your transaction has been successfully sent
+              {{ $t('approved.subtitle') }}
             </span>
             <v-btn
               class="mt-4"
               color="#0FB786"
               to="/dashboard"
               block
-            >Back</v-btn>
+            >{{ $t('approved.back') }}</v-btn>
           </v-card-text>
         </v-card> 
       </v-card>
@@ -92,6 +104,7 @@
 
 <script> 
 import { mapState } from 'vuex'
+import { Camera } from '@capacitor/camera';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosmjs/stargate";
 import { Preferences } from '@capacitor/preferences';
@@ -114,11 +127,19 @@ export default {
     let result = ''
     let password = ''
     let txSend = false
+    let alertError = false
+    let loading = false
+    let checkCameraPermissions = false
 
-    return { selected, options, result, removeScan, password, txSend }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
+  },
+  async mounted() {
+    const testCamera = await Camera.checkPermissions()
+    console.log(testCamera)  
+    this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
   },
   methods: {
     retry() {
@@ -171,7 +192,7 @@ export default {
         assertIsDeliverTxSuccess(result);
         console.log(result); 
         this.txSend = true
-
+        this.loading = false
         this.accountNow = this.allWallets[this.accountSelected]
         await this.$store.dispatch('getBankModule', this.accountNow.address)
         await this.$store.dispatch('getDistribModule', this.accountNow.address)

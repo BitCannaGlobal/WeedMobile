@@ -14,13 +14,13 @@ import bitcannaConfig from '../bitcanna.config'
 
 export default createStore({
   state: {
-    network: 'testnet',
+    network: 'devnet',
     rpcClient: null,
     rpcBase: null,
-    currencyNow: 'usd',
+    currencyNow: 'USD',
     masterPassExist: false,
     isLogged: false,
-    sessionMax: 1000000,
+    sessionMax: 60, // In seconds
     allWallets: [],
     allWalletsList: [],
     accountSelected: 0,
@@ -65,14 +65,37 @@ export default createStore({
       if (!value) {
         await Preferences.set({
           key: 'currency',
-          value: String('usd')
+          value: String('USD')
         });
-        state.currencyNow = 'usd'
+        state.currencyNow = 'USD'
       } else {
         console.log('currency', value)
         state.currencyNow = value
       }
-    },    
+    },   
+    async setDefaultTimeout({ state }, max) {
+      state.sessionMax = Number(max)
+    },     
+    /* async setDefaultTimeout({ state }) {
+      const { value } = await Preferences.get({ key: 'timeout' }); 
+      console.log('timeout', value)
+      console.log('test', typeof value === 'string')
+      if (typeof value === 'string') {
+        state.sessionMax = Number(value)
+      } else {
+        await Preferences.set({
+          key: 'timeout',
+          value: Number(state.sessionMax)
+        });         
+      }
+    }, */
+    async updateDefaultTimeout({ state }, max) {
+      await Preferences.set({
+        key: 'bcnaTimeout',
+        value: String(max)
+      });
+      state.sessionMax = Number(max) 
+    },
     async changeCurrency({ state }, currency) { 
       state.currencyNow = currency
     },

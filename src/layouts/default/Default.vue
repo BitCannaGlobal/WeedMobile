@@ -63,18 +63,21 @@
       <!-- <div class="mt-10 text-center">{{ height }}</div> -->
       
       <router-view></router-view>
-      <mainFooter v-if="isLogged" />      
+      <div v-if="viewFooter">
+        <mainFooter v-if="isLogged" />    
+      </div>  
     </v-main>
   </v-app>
 </template>
 
 <script>
 import { App } from '@capacitor/app';
+import { Preferences } from '@capacitor/preferences';
 import bitcannaConfig from '../../bitcanna.config'
 
 import { mapState } from 'vuex'
 import mainFooter from '@/components/Footer.vue' 
-import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storage.js'; 
+import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } from '@/libs/storage.js'; 
 
   export default {
     components: { mainFooter },
@@ -84,6 +87,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
       timeLeft: '',
       bitcannaConfig: bitcannaConfig,
       accountNow: '',
+      viewFooter: true,
+      currentPage: ''
     }),
     setup () {
 //       const { name } = useDisplay()
@@ -108,14 +113,25 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
 //
 //       return { height }
     },
-
+    watch: {
+      async $route(to, from) { 
+        this.currentPage = to.name 
+        if (to.name === 'Create-qrcode') {
+          this.viewFooter = false
+        } else {
+          this.viewFooter = true
+        }
+      }
+    },
     computed: {
       ...mapState(['allWallets', 'network', 'isLogged', 'sessionMax', 'accountSelected'])
-    },
+    }, 
     async mounted() {
-      await this.$store.dispatch('initRpc')
+      let sessionTimeOut = await getSessionTimeOut();
+      this.$store.dispatch('setDefaultTimeout', sessionTimeOut)
+
       App.addListener('appStateChange', async ({ isActive }) => {
-        //console.log('App state changed. Is active?', isActive);
+        console.log('App state changed. Is active?', isActive);
         if (!isActive) { 
           await addBcnaSession();
           //console.log('App will close in ' + this.sessionMax + ' seconds');
@@ -123,14 +139,30 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
           let getFinalSession = await getBcnaSession();
           this.remainingTime(getFinalSession)
           //console.log('App is active, reset session data: ' + getFinalSession);
-          removeBcnaSession();
+          // removeBcnaSession();
         }
-      });
+      }); 
+
+      await this.$store.dispatch('initRpc')
+      
+      /* App.addListener('appStateChange', async ({ isActive }) => {
+        console.log('App state changed. Is active?', isActive);
+        if (!isActive) { 
+          await addBcnaSession();
+          //console.log('App will close in ' + this.sessionMax + ' seconds');
+        } else {
+          let getFinalSession = await getBcnaSession();
+          this.remainingTime(getFinalSession)
+          //console.log('App is active, reset session data: ' + getFinalSession);
+          // removeBcnaSession();
+        }
+      }); */
       if (!this.isLogged) {
         this.$router.push('/')
+        return
       }
-      await this.$store.dispatch('setCurrency')
-      await this.$store.dispatch('getPriceNow')
+
+      
       
     },
     methods: {
@@ -145,6 +177,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession } from '@/libs/storag
         await this.$store.dispatch('getWalletAmount')
       },
       async remainingTime(getFinalSession) { 
+        
         let timeNow = Math.floor(Date.now() / 1000)        
         this.timeLeft = timeNow - (Number(getFinalSession) + this.sessionMax)
 

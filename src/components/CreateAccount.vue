@@ -1,63 +1,135 @@
 <template>
-  <v-btn  block size="x-large" color="#0FB786" @click="openCreateWallet()">Create</v-btn> 
+  <v-btn  block size="x-large" color="#0FB786" @click="openCreateWallet()">{{ $t("accounts.createAccount") }}</v-btn> 
   <v-dialog
       v-model="dialogCreateWallet"
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
     >
-    <v-toolbar
+      <v-toolbar dark>
+        <v-btn
+          icon
           dark
+          @click="dialogCreateWallet = false"
         >
-          <v-btn
-            icon
-            dark
-            @click="dialogCreateWallet = false"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Create wallet</v-toolbar-title>
- 
-        </v-toolbar> 
-    <v-stepper v-model="step" :items="items" hide-actions alt-labels> 
-    <div class="ma-4" v-if="step === 1">
-      <h3 class="text-h6">Mnenomic phrase </h3>
-      <div class="d-flex align-center flex-column pa-6">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <v-toolbar-title>{{ $t("accounts.mdlCreateAccount.title") }}</v-toolbar-title>
+      </v-toolbar> 
+      <v-stepper v-model="step" :items="items" hide-actions alt-labels> 
+      <div class="ma-4" v-if="step === 1">
+        <h3 class="text-h6 d-flex align-center flex-column">Mnenomic phrase</h3>
+        <div class="d-flex align-center flex-column pa-6">
           
-          <v-btn-toggle
-            v-model="numWords"
-            divided
-            variant="outlined"
+            
+            <v-btn-toggle
+              v-model="numWords"
+              divided
+              variant="outlined"
+            >
+              <v-btn>12 {{ $t("accounts.mdlCreateAccount.words") }}</v-btn>
+              <!-- <v-btn>18 words</v-btn> -->
+              <v-btn>24 {{ $t("accounts.mdlCreateAccount.words") }}</v-btn>
+            </v-btn-toggle>
+          </div>
+        <v-sheet border>
+          <v-chip
+            v-for="(item, index) in generatedMnenomic"
+            :key="index"      
+            class="ma-2"
+            color="#0eb786"
+            outlined
+            label 
           >
-            <v-btn>12 words</v-btn>
-            <!-- <v-btn>18 words</v-btn> -->
-            <v-btn>24 words</v-btn>
-          </v-btn-toggle>
-        </div>
-      <v-sheet border>
+            {{ item }}
+          </v-chip>  
+        </v-sheet>
+        <v-btn
+          class="mt-4"
+          color="#0eb786"
+          @click="step1"
+          block
+        >
+        {{ $t("accounts.btnStartVerification") }} 
+        </v-btn>      
+      </div>
+      <div class="ma-4" v-if="step === 2">
+        <v-alert
+            v-model="alertErrorMnemonic"
+            class="mb-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            {{ $t("errors.badMnemonic") }} 
+          </v-alert>
+        <h3 class="text-h6">{{ $t("accounts.mdlCreateAccount.checkMnemonic") }}</h3>
+          <v-chip
+            v-for="(item, index) in checkMnenomic"
+            :key="item"      
+            class="ma-2"
+            outlined 
+            :color="checkMnenomicColor"
+            @click="clickRemove(item, index)"
+          >
+          
+          <v-icon class="mr-1" >mdi-minus-circle-outline</v-icon>
+            {{ item }}
+          </v-chip>     
+  
+        
+        <v-divider v-if="!mnenomicVerified"></v-divider>      
+        
+  
         <v-chip
-          v-for="(item, index) in generatedMnenomic"
+          v-for="(item, index) in shuffledMnenomic.sort()"
           :key="index"      
           class="ma-2"
-          color="#0eb786"
           outlined
-          label 
+          @click="clickCheck(item, index)"
+          
         >
+        <v-icon class="mr-1">mdi-plus-circle-outline</v-icon>
+        
           {{ item }}
-        </v-chip>  
-      </v-sheet>
-      <v-btn
-        class="mt-4"
-        color="#0eb786"
-        @click="step1"
-        block
-      >
-        Start verification
-      </v-btn>      
-    </div>
-    <div class="ma-4" v-if="step === 2">
-      <v-alert
-          v-model="alertErrorMnemonic"
+        </v-chip>    
+        <br />
+        <v-btn
+            class="ma-2" 
+            @click="step = 1"
+          >
+          {{ $t("accounts.mdlCreateAccount.return") }} 
+          </v-btn>
+          <v-btn
+            class="ma-2"
+            color="#0eb786"
+            :disabled="!mnenomicVerified"
+            @click="step2"
+          >
+            {{ $t("accounts.mdlCreateAccount.nextStep") }}  
+          </v-btn>
+          <v-btn
+            class="ma-2"
+            color="#0eb786" 
+            @click="step2"
+          >
+            Bypass
+          </v-btn>
+          <br />
+          Debug<br /> {{ generatedMnenomic }}
+      </div>
+      <div class="ma-4" v-if="step === 3">
+        <h3 class="text-h6">Confirm</h3>
+
+        <br>
+
+        <v-sheet border>
+          <v-list
+          >
+        <v-alert
+          v-model="alertError"
           class="ma-4"
           variant="outlined"
           type="warning"
@@ -65,137 +137,61 @@
           closable
           close-label="Close Alert"
         >
-          Bad mnemonic
-        </v-alert>
-      <h3 class="text-h6">Check Mnenomic</h3>
-        <v-chip
-          v-for="(item, index) in checkMnenomic"
-          :key="item"      
-          class="ma-2"
-          outlined 
-          :color="checkMnenomicColor"
-          @click="clickRemove(item, index)"
+        {{ $t("errors.badPassword") }}
+        </v-alert>   
+        <v-alert
+          v-model="alertErrorName"
+          class="ma-4"
+          variant="outlined"
+          type="warning"
+          border="top"
+          closable
+          close-label="Close Alert"
         >
-        
-        <v-icon class="mr-1" >mdi-minus-circle-outline</v-icon>
-          {{ item }}
-        </v-chip>     
- 
-      
-      <v-divider v-if="!mnenomicVerified"></v-divider>      
-      
- 
-      <v-chip
-        v-for="(item, index) in shuffledMnenomic"
-        :key="index"      
-        class="ma-2"
-        outlined
-        @click="clickCheck(item, index)"
-        
-      >
-      <v-icon class="mr-1">mdi-plus-circle-outline</v-icon>
-      
-        {{ item }}
-      </v-chip>    
-      <br />
-      <v-btn
-          class="ma-2" 
-          @click="step = 1"
-        >
-          Return
-        </v-btn>
-        <v-btn
-          class="ma-2"
-          color="#0eb786"
-          :disabled="!mnenomicVerified"
-          @click="step2"
-        >
-          Next step 
-        </v-btn>
-        <v-btn
-          class="ma-2"
-          color="#0eb786" 
-          @click="step2"
-        >
-          Bypass
-        </v-btn>
-        <br />
-        Debug<br /> {{ generatedMnenomic }}
-    </div>
-    <div class="ma-4" v-if="step === 3">
-      <h3 class="text-h6">Confirm</h3>
-
-      <br>
-
-      <v-sheet border>
-        <v-list
-        >
-       <v-alert
-        v-model="alertError"
-        class="ma-4"
-        variant="outlined"
-        type="warning"
-        border="top"
-        closable
-        close-label="Close Alert"
-      >
-        Bad password
-      </v-alert>   
-      <v-alert
-        v-model="alertErrorName"
-        class="ma-4"
-        variant="outlined"
-        type="warning"
-        border="top"
-        closable
-        close-label="Close Alert"
-      >
-        Wallet name already taken
-      </v-alert>          
-        <v-list-item>
-            <v-text-field
-                v-model="name"
-                variant="outlined"
-                color="#00b786"
-                counter="6"
-                label="Wallet name"
-                style="min-height: 96px"
-                class="mt-6"
-              ></v-text-field>
-          </v-list-item> 
+        {{ $t("errors.walletAlreadyExist") }} 
+        </v-alert>          
           <v-list-item>
-            <v-text-field
-                v-model="password"
-                variant="outlined"
-                color="#00b786"
-                counter="6"
-                label="Password"
-                style="min-height: 96px"
-                type="password"
-                class="mt-6"
-              ></v-text-field>
+              <v-text-field
+                  v-model="name"
+                  variant="outlined"
+                  color="#00b786" 
+                  :label="$t('accounts.mdlCreateAccount.walletName')" 
+                  style="min-height: 96px"
+                  class="mt-6"
+                ></v-text-field>
+            </v-list-item> 
+            <v-list-item>
+              <v-text-field
+                  v-model="password"
+                  variant="outlined"
+                  color="#00b786" 
+                  :label="$t('accounts.mdlCreateAccount.walletPassword')"
+                  style="min-height: 96px"
+                  type="password"
+                  class="mt-6"
+                ></v-text-field>
+            </v-list-item>
+            <v-list-item>
+            <v-btn 
+                size="x-large"
+                block
+                color="#0eb786" 
+                @click="importWallet"
+              >
+              {{ $t("accounts.mdlCreateAccount.save") }} 
+            </v-btn>
           </v-list-item>
-          <v-list-item>
-          <v-btn 
-              size="x-large"
-              block
-              color="#0eb786" 
-              @click="importWallet"
-            >
-              Save
-          </v-btn>
-        </v-list-item>
-        </v-list>
-      </v-sheet>      
-    </div>
-  </v-stepper>  
+          </v-list>
+        </v-sheet>      
+      </div>
+    </v-stepper>  
   </v-dialog>
 </template>
 <script>
 import { mapState } from 'vuex'
 import { Preferences } from '@capacitor/preferences';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
-import { getAccounts, removeAccount, addAccount, addMasterPassword, getMasterPassword, removeMasterPassword } from '@/libs/storage.js';
+import { addContact, removeAccount, addAccount, addMasterPassword, getMasterPassword, removeMasterPassword } from '@/libs/storage.js';
 import md5 from 'md5' 
 // import { notifAccountAdded } from '~/libs/notifications'
 
@@ -220,21 +216,21 @@ import md5 from 'md5'
         alertError: false,
         alertErrorName: false,
         rules: {
-          required: value => !!value || 'Required.',
-          counter: value => value.length <= 10 || 'Max 10 characters',
+          required: value => !!value || this.$t("accounts.mdlCreateAccount.rules.required"),
+          counter: value => value.length <= 10 || this.$t("accounts.mdlCreateAccount.rules.counter"),
         },  
         ticksLabels: [
-          '12 words',
-          '18 words',
-          '24 words',
+          '12 ' + this.$t("accounts.mdlCreateAccount.words"),
+          '18 ' + this.$t("accounts.mdlCreateAccount.words"),
+          '24 ' + this.$t("accounts.mdlCreateAccount.words"),
         ],     
         
         shipping: 0,
       step: 1,
       items: [
-        'Step1',
-        'Step2',
-        'Step3',
+        this.$t("accounts.mdlCreateAccount.step1"),
+        this.$t("accounts.mdlCreateAccount.step2"),
+        this.$t("accounts.mdlCreateAccount.step3"),
       ],
       products: [
         {
@@ -311,10 +307,12 @@ import md5 from 'md5'
         this.alertErrorName = false
         this.alertErrorMnemonic = false
         this.step = 1
+        this.name = ''
+        this.password = ''
         var generateSecret = await DirectSecp256k1HdWallet.generate(12)      
         this.generatedMnenomicPlain = generateSecret.secret.data
         this.generatedMnenomic = this.generatedMnenomicPlain.split(' ')  
-        this.shuffle()  
+        this.shuffle(this.generatedMnenomic)  
       },
       step1() {
         this.step = 2
@@ -342,7 +340,7 @@ import md5 from 'md5'
             }
         }
       }, 
-      shuffle() {
+      shuffle(arr) {
         this.checkMnenomic = []
         let shuffled = this.generatedMnenomic
           .map(value => ({ value, sort: Math.random() }))
@@ -378,6 +376,8 @@ import md5 from 'md5'
         }       
 
         await addAccount( this.name, finalAddress[0].address, finalWallet )
+        await addContact(this.name, finalAddress[0].address, '')
+        //let getAllContacts = await getAllContact()
         await this.$store.dispatch('getWallets')
         this.dialogCreateWallet = false 
         

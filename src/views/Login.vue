@@ -1,15 +1,21 @@
 <template>
   <div id="login">
-    <v-row align="center" justify="center">
-  <v-img 
-    cover
-    src="@/assets/banner-home.png"
-  ></v-img>
- 
-  </v-row>
-  <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div> 
+    <v-img
+      src="@/assets/banner-home.png"
+    ></v-img>
+   <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div>
   <div v-else class="mt-10 text-center">Welcome to bitcanna app<br />Create first your password to use your wallet</div>
     <v-container> 
+    <v-alert
+      v-model="checkCameraPermissions"
+      variant="outlined"
+      type="warning"
+      border="top"
+      closable
+      close-label="Close Alert"
+    >
+      checkCameraPermissions
+    </v-alert>
     <v-alert
       v-model="alertError"
       variant="outlined"
@@ -41,31 +47,46 @@
     >
       Session expired
     </v-alert>
-    
+    <v-alert
+          v-model="maxMasterPass"
+          variant="outlined"
+          type="warning"
+          border="top"
+          closable
+          close-label="Close Alert"
+        >
+        Your password is too long
+        </v-alert>
     <br />
       <v-row v-if="passExist">
         <v-col
           cols="12"
-        > 
+        >
+        <v-form ref="form">
           <v-text-field
             v-model="passWord"
+            :rules="passRules"
             :label="$t('login.passInput')"
             required
             variant="outlined"
             type="password"
           ></v-text-field>
+        </v-form>
         </v-col>
       </v-row>
- 
-      <v-btn v-if="passExist" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">        
+
+      <v-btn v-if="passExist" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">
         {{ $t("login.loginButton") }}
-      </v-btn> 
+      </v-btn>
       <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="openDialogMasterPassword()">Set masterpass</v-btn>
       <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">Remove masterpass</v-btn>
+      <div> Debug<br />
+        sessionMax: {{ sessionMax }}<br /> 
+      </div>
     </v-container>
   </div>
 
- 
+
   <v-dialog
       v-model="dialogMasterPassword"
       fullscreen
@@ -73,6 +94,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card>
+        <v-form ref="form"> 
         <v-toolbar
           dark
         >
@@ -114,42 +136,57 @@
         >
           Bad password
         </v-alert>
+        <v-alert
+          v-model="maxMasterPass"
+          variant="outlined"
+          type="warning"
+          border="top"
+          closable
+          close-label="Close Alert"
+        >
+        Your password is too long
+        </v-alert>
+        
             <v-text-field
               v-model="masterPass"
+              :rules="passRules"
               type="password"
               variant="outlined"
               color="#00b786"
-              counter="6"
+              counter="20"
               label="Set your password"
               style="min-height: 96px"
-              class="mt-4"              
+              class="mt-4"
             ></v-text-field>
-          </v-list-item> 
+          </v-list-item>
           <v-list-item>
             <v-text-field
               v-model="masterPass2"
+              :rules="passRules"
               type="password"
               variant="outlined"
               color="#00b786"
-              counter="6"
+              counter="20"
               label="Repeat your password"
               style="min-height: 96px"
               class="mt-4"
             ></v-text-field>
-          </v-list-item> 
+          </v-list-item>
         </v-list>
+      </v-form>
       </v-card>
     </v-dialog>
 
 </template>
 <script>
 import { Preferences } from '@capacitor/preferences';
+import { Camera } from '@capacitor/camera';
 import { mapState } from 'vuex'
-import md5 from 'md5' 
+import md5 from 'md5'
 import { checkMasterPassword, addBcnaSession, getMasterPassword, addMasterPassword, removeMasterPassword } from '@/libs/storage.js';
 
 export default {
-  data: () => ({ 
+  data: () => ({
     passWord: '',
     dialogImport: false,
     dialogMasterPassword: false,
@@ -165,28 +202,45 @@ export default {
     passExist: false,
     badMasterPass: false,
     masterPass: '',
-    masterPass2: ''
+    masterPass2: '',
+    maxMasterPass: false,
+    checkCameraPermissions: false,
+    passRules: [
+      v => !!v || 'Password is required',
+      v => (v && v.length <= 20) || 'Password must be less than 20 characters',
+    ],    
   }),
   computed: {
-    ...mapState(['allWallets', 'isLogged'])
+    ...mapState(['allWallets', 'isLogged', 'sessionMax'])
   },
   async mounted() {
     await this.$store.dispatch('getWallets')
     if (typeof this.$route.query.expired !== 'undefined') {
       this.alertExpired = true
     }
-      
+
     let existPass = await getMasterPassword()
     if(existPass)
       this.passExist = existPass
+
+    const testCamera = await Camera.checkPermissions()
+    console.log(testCamera)  
+    this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
   },
-  methods: { 
+  methods: {
     async openDialogMasterPassword() {
       this.masterPass = ''
       this.masterPass2 = ''
       this.dialogMasterPassword = true
+      this.maxMasterPass = false
+      this.badMasterPass = false
     },
     async login() {
+      const { valid } = await this.$refs.form.validate()
+      if (!valid) {
+        this.maxMasterPass = true
+        return
+      }
       const hash = md5(this.passWord);
       let checkPass = await checkMasterPassword(hash)
       if(checkPass) {
@@ -199,19 +253,27 @@ export default {
           this.$router.push('/create')
         } */
 
+        await this.$store.dispatch('setCurrency')
+        await this.$store.dispatch('getPriceNow')
+
         this.$router.push('/dashboard')
       } else {
         this.alertError = true
-      }  
+      }
     },
     async saveMasterPassword() {
+      const { valid } = await this.$refs.form.validate()
+      if (!valid) {
+        this.maxMasterPass = true
+        return
+      }
       if (this.masterPass == this.masterPass2) {
         await addMasterPassword( this.masterPass )
         this.dialogMasterPassword = false
         // Refresh pass exist
         let existPass = await getMasterPassword()
         this.passExist = existPass
-      } else 
+      } else
         this.badMasterPass = true
     },
     async removePassword() {

@@ -1,5 +1,5 @@
 <template>  
-    <h4 class="ma-4">Accounts</h4> 
+    <h4 class="ma-4">{{ $t("accounts.title") }}</h4> 
 
 
     <v-card color="black" >
@@ -13,20 +13,13 @@
         <v-col
           cols="6"
         >
-        <v-btn block size="x-large" color="#1C1D20"  @click="dialogCreate = true">Import </v-btn> 
+        <v-btn block size="x-large" color="#1C1D20"  @click="openDialogImport()">{{ $t("accounts.importAccount") }}</v-btn> 
         </v-col>
       </v-row>
     </v-card-text>
     </v-card> 
 
-
-
-   
-        
-  
-        
- 
-    <h4 class="ma-4">Select wallet</h4> 
+    <h4 v-if="allWallets.length > 0" class="ma-4">{{ $t("accounts.selectWallet") }}</h4> 
     <v-card
       v-for="(item, i) in allWalletsList"
       class="ma-4"
@@ -61,8 +54,8 @@
       </v-card-text>
       <v-card-actions> 
         <v-col class="text-right">
-          <v-btn color="#0FB786" variant="outlined" @click.stop="editNowModal(i)">Edit</v-btn>
-          <v-btn color="red" variant="outlined" @click="openDeleteWallet()">Delete</v-btn>
+          <v-btn color="#0FB786" variant="outlined" @click.stop="editNowModal(i)">{{ $t("accounts.btnEditAccount") }}</v-btn>
+          <v-btn color="red" variant="outlined" @click="openDeleteWallet()">{{ $t("accounts.btnDeleteAccount") }}</v-btn>
         </v-col> 
       </v-card-actions>
     </v-card>
@@ -84,7 +77,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Create wallet</v-toolbar-title>
+          <v-toolbar-title>{{ $t("accounts.mdlImportAccount.title") }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
@@ -92,7 +85,7 @@
               size="x-large"
               @click="importWallet"
             >
-              Save
+            {{ $t("accounts.mdlImportAccount.save") }}
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
@@ -100,126 +93,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
-        </v-list>
-        <v-divider></v-divider>
-        <v-list>
-          <v-alert
-            v-model="alertError"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Bad password
-          </v-alert>
-          <v-alert
-            v-model="alertErrorName"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Wallet name already taken
-          </v-alert>
-          <v-alert
-            v-model="alertErrorAddressExist"
-            class="ma-4"
-            variant="outlined"
-            type="warning"
-            border="top"
-            closable
-            close-label="Close Alert"
-          >
-            Wallet address already taken
-          </v-alert>
-      
-        <v-list-item>
-            <v-text-field
-                v-model="name"
-                variant="outlined"
-                color="#00b786"
-                counter="6"
-                label="Wallet name"
-                style="min-height: 96px"
-                class="mt-6"
-              ></v-text-field>
-          </v-list-item>
-          <v-list-item>
-            <v-btn
-              block
-              color="#00b786"
-              size="x-large"
-              @click="generateWallet"
-            >
-              Generate
-            </v-btn>
-          </v-list-item>
-          <v-list-item>
-            <v-textarea
-              v-model="mnemonic"
-              auto-grow
-              variant="outlined"
-              color="#00b786"
-              label="Mnemonic"
-              rows="4"
-              class="mt-6"
-            ></v-textarea>
-          </v-list-item>
-          <v-list-item>
-            <v-text-field
-                v-model="password"
-                variant="outlined"
-                color="#00b786"
-                counter="6"
-                label="Password"
-                style="min-height: 96px"
-                type="password"
-                class="mt-6"
-              ></v-text-field>
-          </v-list-item>
-        </v-list>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog
-      v-model="dialogCreate"
-      fullscreen
-      :scrim="false"
-      transition="dialog-bottom-transition"
-    >
-      <v-card>
-        <v-toolbar
-          dark
-        >
-          <v-btn
-            icon
-            dark
-            @click="dialogCreate = false"
-          >
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
-          <v-toolbar-title>Import wallet</v-toolbar-title>
-          <v-spacer></v-spacer>
-          <v-toolbar-items>
-            <v-btn
-              variant="text"
-              size="x-large"
-              @click="importWallet"
-            >
-              Save
-            </v-btn>
-          </v-toolbar-items>
-        </v-toolbar>
-        <v-list
-          lines="two"
-          subheader
-        >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('accounts.mdlImportAccount.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -234,8 +108,20 @@
             closable
             close-label="Close Alert"
           >
-            Bad password
+            {{ $t("errors.badPassword") }}
           </v-alert>
+          <v-alert
+            v-model="alertErrorMnemonic"
+            class="ma-4"
+            variant="outlined"
+            type="warning"
+            border="top"
+            closable
+            close-label="Close Alert"
+          >
+            {{ $t("errors.badMnemonic") }}
+          </v-alert>
+          
           <v-alert
             v-model="alertErrorName"
             class="ma-4"
@@ -245,7 +131,7 @@
             closable
             close-label="Close Alert"
           >
-            Wallet name already taken
+            {{ $t("errors.walletAlreadyExist") }}
           </v-alert>
           <v-alert
             v-model="alertErrorAddressExist"
@@ -256,7 +142,7 @@
             closable
             close-label="Close Alert"
           >
-            Wallet address already taken
+            {{ $t("errors.walletAddressExist") }}
           </v-alert>     
         <v-list-item>
             <v-text-field
@@ -264,7 +150,7 @@
                 variant="outlined"
                 color="#00b786"
                 counter="6"
-                label="Wallet name"
+                :label="$t('accounts.mdlImportAccount.name')"
                 style="min-height: 96px"
                 class="mt-6"
               ></v-text-field>
@@ -286,7 +172,7 @@
                 variant="outlined"
                 color="#00b786"
                 counter="6"
-                label="Password"
+                :label="$t('accounts.mdlImportAccount.password')"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
@@ -312,55 +198,59 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>View Mnemonic</v-toolbar-title>
+          <v-toolbar-title>{{ $t("accounts.viewMnemonic.title") }}</v-toolbar-title>
         </v-toolbar>
         <v-list
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"> </v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('accounts.viewMnemonic.subtitle')"> </v-list-item>
         </v-list>
         
         <v-divider></v-divider>
-        <v-list
-        >
+        <v-list-item> 
         <v-alert
+            v-if="!canViewMnemonic"
             v-model="alertError"
-            class="ma-4"
+            class="mt-4"
             variant="outlined"
             type="warning"
             border="top"
             closable
             close-label="Close Alert"
           >
-            Bad password
+            {{ $t("errors.badPassword") }}
           </v-alert>
-  
-          <v-list-item>
+          
             <v-text-field
                 v-if="!canViewMnemonic"
                 v-model="passwordView"
                 variant="outlined"
-                color="#00b786"
-                counter="6"
-                label="Password"
+                color="#00b786" 
+                :label="$t('accounts.mdlImportAccount.password')"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
               ></v-text-field>
+            <v-btn 
+              v-if="!canViewMnemonic"
+              block 
+              color="#0FB786"
+              :disabled="loading"
+              :loading="loading"
+              @click="viewMnenomic()
+            ">{{ $t("accounts.viewMnemonic.title") }}</v-btn> 
+
           </v-list-item>
+          <h4 class="ma-4" v-if="canViewMnemonic">Your mnemonic (keep it secret!)</h4>
           <v-card
             v-if="canViewMnemonic"
-            class="pa-2"
+            color="black"
+            class="ma-4 pa-2"
             style="border: 2px solid #0FB786;"
           >
             {{ viewMnemonic }}
-
-          </v-card>
-          <v-btn v-if="canViewMnemonic" class="ma-2" >
-            Copy
-          </v-btn>
-        </v-list>
+          </v-card>  
       </v-card>
     </v-dialog>
 
@@ -373,7 +263,7 @@
             variant="text"
             @click="deleteWallet = !deleteWallet"
           >
-            close
+            {{ $t("accounts.deleteWallet.btnClose") }}
           </v-btn>
 
  
@@ -385,20 +275,20 @@
             type="success"
             class="m-4"
           >
-            Wallet deleted
+            {{ $t("accounts.deleteWallet.altSuccess") }}
           </v-alert>
-
+          
             <v-checkbox
               v-if="!deletedWallet" 
               v-model="checkbox1"
-              label="You agree to delete your wallet from the app?"
+              :label="$t('accounts.deleteWallet.agreeDelete')"
             ></v-checkbox> 
             <v-text-field
                 v-if="!deletedWallet && checkbox1" 
                 v-model="password"
                 variant="outlined"
                 color="#00b786" 
-                label="Password"
+                :label="$t('accounts.deleteWallet.password')"
                 style="min-height: 96px" 
                 type="password" 
             ></v-text-field>
@@ -409,7 +299,7 @@
               :disabled="!enableButton"
               @click="revemoAccount"
             >
-              Delete this wallet
+              {{ $t("accounts.deleteWallet.btnDelete") }}
             </v-btn>
 
                    
@@ -428,7 +318,7 @@
             variant="text"
             @click="editNow = !editNow"
           >
-            close
+            {{ $t("accounts.editWallet.btnClose") }}
           </v-btn>
 
           <br>
@@ -440,12 +330,12 @@
             elevation="2"
             type="success"
           >
-            Wallet edited
+          {{ $t("accounts.editWallet.altSuccess") }}
           </v-alert>
           <v-text-field
             v-if="!editedWallet"
             v-model="walletName"
-            label="Wallet name"
+            :label="$t('accounts.editWallet.inputName')"
             variant="outlined"
           ></v-text-field>  
         <v-btn
@@ -455,7 +345,7 @@
           block 
           @click="editAccount"
         >
-          Edit wallet
+          {{ $t("accounts.editWallet.btnEdit") }}
         </v-btn>
         </v-card-text>
       </v-card>
@@ -467,7 +357,7 @@
 import { mapState } from 'vuex'
 import { Preferences } from '@capacitor/preferences';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
-import { checkMasterPassword, removeAccount, addAccount, removeAccountId, editAccountId } from '@/libs/storage.js';
+import { checkMasterPassword, removeAccount, addAccount, removeAccountId, editAccountId, addContact } from '@/libs/storage.js';
 import md5 from 'md5' 
 import CreateAccount from '@/components/CreateAccount.vue' 
 
@@ -490,6 +380,7 @@ export default {
     alertDelete: false,
     alertErrorName: false,
     alertErrorAddressExist: false,
+    alertErrorMnemonic: false,
     deleteWallet: false,
     deletedWallet: false,
     checkbox1: false,
@@ -512,14 +403,14 @@ export default {
       }
     },
     passwordView: async function (val) {
-      const hash = md5(val); 
+      /* const hash = md5(val); 
       const { value } = await Preferences.get({ key: 'masterPass' });
 
       if(hash === value) {        
         const deserialized = await DirectSecp256k1HdWallet.deserialize(this.viewMnenomicFor.data, val);
         this.viewMnemonic = deserialized.secret.data
         this.canViewMnemonic = true
-      }
+      } */
       
     },
     mnemonic: function (val) {
@@ -531,12 +422,6 @@ export default {
   },
   async mounted() {
     this.setData() 
-
-
-      //console.log(await addAccount());
-      // console.log(await getAccounts());
-      //console.log(await removeAccount());
-
   },
   methods: { 
     viewMnenomicDial(i) {
@@ -546,9 +431,22 @@ export default {
       this.viewMnemonic = ''
       this.passwordView = ''
       this.canViewMnemonic = false
+      this.alertError = false
     },
-    viewMnenomic() {
-      console.log(this.viewMnenomicFor) 
+    async viewMnenomic() {
+      const hash = md5(this.passwordView); 
+      const { value } = await Preferences.get({ key: 'masterPass' });
+
+      if(hash !== value) {
+        this.alertError = true
+        return
+      }
+
+      if(hash === value) {        
+        const deserialized = await DirectSecp256k1HdWallet.deserialize(this.viewMnenomicFor.data, this.passwordView);
+        this.viewMnemonic = deserialized.secret.data
+        this.canViewMnemonic = true
+      }
     },
     async setData() {
       await this.$store.dispatch('getWallets')
@@ -566,29 +464,42 @@ export default {
       this.alertDelete = true
     },
     async generateWallet() {
-      const wallet = await DirectSecp256k1HdWallet.generate(12)
+      let wallet = await DirectSecp256k1HdWallet.generate(12)
       this.mnemonic = wallet.mnemonic
+    },
+    openDialogImport() {
+      this.dialogImport = true
+      this.name = ''
+      this.mnemonic = ''
+      this.password = ''
+      this.alertError = false
+      this.alertErrorName = false
+      this.alertErrorAddressExist = false
+      this.alertErrorMnemonic = false
     },
     async importWallet() {
       this.alertErrorName = false
       this.alertErrorAddressExist = false
 
       const hash = md5(this.password); 
-      const { value } = await Preferences.get({ key: 'masterPass' });
-
-      console.log(hash, value)
+      const { value } = await Preferences.get({ key: 'masterPass' }) 
       if(hash !== value) {
         this.alertError = true
         return
       }
+      let wallet = ""
+      try {
+        wallet = await DirectSecp256k1HdWallet.fromMnemonic( this.mnemonic, {
+          prefix: 'bcna'
+        })        
+      } catch (error) { 
+        this.alertErrorMnemonic = true
+        return 
+      }
 
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic( this.mnemonic, {
-        prefix: 'bcna'
-      })
       var finalWallet = await wallet.serialize( this.password )
-      var finalAddress = await wallet.getAccounts()
-
-      console.log(this.allWallets)
+      var finalAddress = await wallet.getAccounts() 
+      
       const foundName = this.allWallets.find((element) => element.name === this.name);
       const foundAddress = this.allWallets.find((element) => element.address === finalAddress[0].address);
       if (foundName) {
@@ -601,10 +512,11 @@ export default {
       }
 
       await addAccount( this.name, finalAddress[0].address, finalWallet )
+      await addContact(this.name, finalAddress[0].address, '')
+      //let getAllContacts = await getAllContact()
       await this.$store.dispatch('getWallets')
 
-      this.dialogImport = false
-      this.dialogCreate = false 
+      this.dialogImport = false 
     },    
     editNowModal(id) { 
       this.walletName = this.allWallets[id].name
@@ -620,7 +532,8 @@ export default {
     async openDeleteWallet() {
         this.deleteWallet = true
         this.deletedWallet = false
-        this.checkbox1 = false
+        this.checkbox1 = false        
+        this.password = ''
     },
     async revemoAccount() {
         console.log(this.password)
@@ -631,8 +544,7 @@ export default {
           await removeAccountId(this.accountSelected)
           this.setData() 
           
-          this.dialogImport = false
-          this.dialogCreate = false 
+          this.dialogImport = false 
           await this.$store.dispatch('changeWallet', 0)
           this.deletedWallet = true
           if(this.allWallets.length === 0) {

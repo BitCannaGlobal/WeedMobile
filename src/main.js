@@ -17,83 +17,14 @@ import { Device } from '@capacitor/device';
 import { registerPlugins } from '@/plugins'
 import store from './store'
 
-const messages = {
-  English: {
-    login: {
-      title: 'Unlock your wallet',
-      passInput: 'Password',
-      loginButton: 'Unlock',
-    },
-    dashboard: {
-      title: 'Welcome ', 
-    },
-    config: {
-      currency: {
-        title: 'Currency',
-        subtitle: 'Select your currency',
-      },
-      language: {
-        title: 'Language',
-        subtitle: 'Select your language',
-      },
-      viewMnemonic: {
-        title: 'Mnemonic Seed',
-        subtitle: 'View your mnemonic',
-      },
-      masterPassChange: {
-        title: 'Master password',
-        subtitle: 'Change master password',
-      },
-      deleteWallet: {
-        title: 'Delete wallet',
-        subtitle: 'Delete wallet from phone',
-      },
-    },
-    footer: {
-      title1: 'Dashboard',  
-      title2: 'Account', 
-      title3: 'Config', 
-    }
-  },
-  Dutch: {
-    login: {
-      title: 'Ontgrendel uw portemonnee', 
-      passInput: 'Je wachtwoord',
-      loginButton: 'Ontgrendelen',
-    },
-    dashboard: {
-      title: 'Welkom ', 
-    },
-    config: {
-      currency: {
-        title: 'Munteenheid',
-        subtitle: 'Selecteer uw valuta',
-      },
-      language: {
-        title: 'Taal',
-        subtitle: 'Selecteer uw taal',
-      },
-      viewMnemonic: {
-        title: 'Mnemonic Seed',
-        subtitle: 'Zie je geheugensteuntje',
-      },
-      masterPassChange: {
-        title: 'Master password',
-        subtitle: 'Hoofdwachtwoord wijzigen',
-      },
-      deleteWallet: {
-        title: 'Portemonnee verwijderen',
-        subtitle: 'Portemonnee van telefoon verwijderen',
-      },
-    },
-    footer: {
-      title1: 'Dashboard', 
-      title2: 'Rekeningen', 
-      title3: 'Config',  
-    }
-  } 
-} 
+import English from './libs/i18n/english.js'
+import German from './libs/i18n/german.js'
 
+const messages = {
+  English,
+  German 
+} 
+ 
 const getLocalLang = async () => {
  
   const getLanguageCode = await Device.getLanguageCode();
@@ -104,7 +35,7 @@ const getLocalLang = async () => {
       language = 'English'      
       break;
     case 'nl':
-      language = 'Dutch'
+      language = 'German'
       break;
     default:
       language = 'English'

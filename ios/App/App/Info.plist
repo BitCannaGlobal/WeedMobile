@@ -49,5 +49,7 @@
 	<true/>
 	<key>NSCameraUsageDescription</key>
   <string>To be able to scan qrcode</string>  
+	<key>NSPhotoLibraryUsageDescription</key>
+  <string>To be able to check status of camera</string>	
 </dict>
 </plist>
