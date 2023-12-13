@@ -154,7 +154,8 @@ export default {
       if(hash !== value) {
         this.alertError = true
         return
-      }
+      } else 
+        this.alertError = false
 
       this.loading = true
 
