@@ -1,7 +1,7 @@
 
 <template>
-  <v-container> 
-  <div>
+ 
+  <div class="ma-4">
     <v-row class="ma-2">
       <h1>
         {{ $t("transactions.title") }} 
@@ -67,8 +67,7 @@
         </v-expansion-panels>
       </div>
     </template>
-  </div>
-</v-container>
+  </div> 
 </template>
 
 <script>

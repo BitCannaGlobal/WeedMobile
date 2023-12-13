@@ -1,7 +1,7 @@
 <template>
-    <v-container>
+ 
       
-      <h3>{{ $t("dashboard.title") }} {{ accountNow.name }}</h3>
+      <h3 class="ma-4">{{ $t("dashboard.title") }} {{ accountNow.name }}</h3>
       <br />  
 <!--         <v-select
           v-model="$i18n.locale"
@@ -21,9 +21,10 @@
         </v-col>
       </v-row>    -->     
       <v-row>
-        <v-col>
+        <v-col >
           <v-card 
             v-if="allWallets.length > 0" 
+            class="ma-4"
           >
             <v-card-title class="mb-4 text-h6">{{ $t("dashboard.titleBlock") }}</v-card-title>
             <v-card-text>
@@ -39,7 +40,7 @@
             </v-card-text>
           </v-card> 
           <v-card 
-            class="mt-2"
+            class="ma-4"
             v-if="allWallets.length > 0" 
             :height="80"
           >
@@ -88,7 +89,7 @@
             </v-card-text>
           </v-card> 
           <v-card 
-            class="mt-2"
+          class="ma-4"
             v-if="allWallets.length > 0" 
           > 
             <v-card-text>
@@ -136,10 +137,10 @@
         </v-col>
  
       </v-row>
-    </v-container> 
-    
-    <v-card  v-if="allWallets.length > 0"  color="black" >
-      <v-card-text  >
+ 
+ 
+    <v-card  v-if="allWallets.length > 0"  class="ma-4" color="black" >
+ 
       <v-row>
         <v-col
           cols="6"
@@ -152,7 +153,7 @@
         <v-btn block size="x-large" color="#1C1D20" to="/create-qrcode">{{ $t("dashboard.btnQrCode") }}</v-btn> 
         </v-col>
       </v-row>
-    </v-card-text>
+ 
     </v-card>
     <v-card v-if="allWallets.length === 0" class="ma-4" color="black" >
       <v-alert
@@ -165,6 +166,7 @@
       <br />
       <v-btn block size="x-large" color="#1C1D20" to="/accounts">Create one here</v-btn> 
     </v-card>
+ 
 </template>
 
 <script>

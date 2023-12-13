@@ -1,9 +1,18 @@
 <template>
-  <v-container>
-  <v-btn block color="#0FB786" class="mb-4" @click="openDial()">
-    {{ $t("addressBook.btnAdd") }}
-  </v-btn>
-<v-card v-for="(item, index) in allContacts" class="mb-4">
+    <v-card class="ma-4" color="black" >
+ 
+      <v-row>
+        <v-col
+          cols="12"
+        >
+        <v-btn block color="#0FB786"  @click="openDial()">
+          {{ $t("addressBook.btnAdd") }}
+        </v-btn> 
+        </v-col>
+      </v-row> 
+    </v-card>  
+
+<v-card v-for="(item, index) in allContacts" class="ma-4">
     <v-list v-if="allContacts.length > 0" lines="two"> 
       <v-list-item
         :key="item.name"
@@ -239,9 +248,7 @@
     </v-bottom-sheet>
   </v-row>
 
-
-
-  </v-container>
+ 
 </template>
 <script>
 import { ref } from 'vue'

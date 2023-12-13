@@ -401,8 +401,7 @@
         <v-container fluid>
           <v-row>
             <v-col
-              cols="12"
-              md="4"
+              cols="12" 
             >
             <v-text-field
                 v-model="password"
