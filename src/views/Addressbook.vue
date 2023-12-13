@@ -332,6 +332,7 @@ function bech32Validation(address) {
         this.dialog = true
         this.name = ''
         this.recipient = ''
+        this.memo = ''
         this.removeScan = false
       },
       openEditDialog(index, item) {
