@@ -19,10 +19,11 @@
     block
     flat
     class="mt-2  white--text"
-    color="#0FB786" 
+    color="#0FB786"
+    disabled="true" 
     @click="openDialogStake"
   >
-  {{ $t("dashboard.btnStake") }} 
+  {{ $t("dashboard.btnStake") }} (Soon)
   </v-btn>
   <v-dialog
       v-model="dialogSendToken"
