@@ -1,8 +1,8 @@
 <template>
- 
+ <div>
       
       <h3 class="ma-4">{{ $t("dashboard.title") }} {{ accountNow.name }}</h3>
-      <br />  
+ 
 <!--         <v-select
           v-model="$i18n.locale"
           label="Language"
@@ -20,8 +20,7 @@
           ></v-card> 
         </v-col>
       </v-row>    -->     
-      <v-row>
-        <v-col >
+ 
           <v-card 
             v-if="allWallets.length > 0" 
             class="ma-4"
@@ -134,9 +133,7 @@
               </v-row>
             </v-card-text>
           </v-card> 
-        </v-col>
  
-      </v-row>
  
  
     <v-card  v-if="allWallets.length > 0"  class="ma-4" color="black" >
@@ -166,7 +163,7 @@
       <br />
       <v-btn block size="x-large" color="#1C1D20" to="/accounts">Create one here</v-btn> 
     </v-card>
- 
+  </div>
 </template>
 
 <script>
