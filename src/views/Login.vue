@@ -7,16 +7,6 @@
   <div v-else class="mt-10 text-center">Welcome to bitcanna app<br />Create first your password to use your wallet</div>
     <v-container> 
     <v-alert
-      v-model="checkCameraPermissions"
-      variant="outlined"
-      type="warning"
-      border="top"
-      closable
-      close-label="Close Alert"
-    >
-      checkCameraPermissions
-    </v-alert>
-    <v-alert
       v-model="alertError"
       variant="outlined"
       type="warning"
@@ -220,9 +210,8 @@ export default {
     if(existPass)
       this.passExist = existPass
 
-    const testCamera = await Camera.checkPermissions()
-    console.log(testCamera)  
-    this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
+    //const testCamera = await Camera.checkPermissions() 
+    //this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
   },
   methods: {
     async openDialogMasterPassword() {
