@@ -147,9 +147,10 @@
         <v-list-item>
             <v-text-field
                 v-model="name"
+                :rules="nameRules"
                 variant="outlined"
                 color="#00b786"
-                counter="6"
+                counter="20"
                 :label="$t('accounts.mdlImportAccount.name')"
                 style="min-height: 96px"
                 class="mt-6"
@@ -169,9 +170,9 @@
           <v-list-item>
             <v-text-field
                 v-model="password"
+                :rules="passRules"
                 variant="outlined"
-                color="#00b786"
-                counter="6"
+                color="#00b786" 
                 :label="$t('accounts.mdlImportAccount.password')"
                 style="min-height: 96px"
                 type="password"
@@ -392,6 +393,14 @@ export default {
     viewMnenomicFor: '',
     viewMnemonic: '',
     canViewMnemonic: false,
+    nameRules: [
+      v => !!v || 'Wallet name is required',
+      v => (v && v.length <= 20) || 'Wallet name must be less than 20 characters',
+    ], 
+    passRules: [
+      v => !!v || 'Password is required',
+      v => (v && v.length <= 20) || 'Password must be less than 20 characters',
+    ],    
   }),
   watch: {
     password: function (val) {

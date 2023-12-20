@@ -31,7 +31,7 @@
       transition="dialog-bottom-transition"
     >
       <v-card v-if="txSend === false">
-        <v-form v-if="step1" ref="form"> 
+        <v-form v-if="step1" ref="form" v-model="form" > 
         <v-toolbar
           dark
         >
@@ -102,13 +102,12 @@
                 :label="this.$t('dashboard.mdlSendTx.inpMemo')"
                 class="mt-2"
             ></v-text-field>
-          </v-list-item>
-
+          </v-list-item> 
           <v-list-item>
             <v-btn 
               block 
               color="#0FB786"
-              :disabled="loading"
+              :disabled="!form"
               :loading="loading"
               @click="checkTx()
             ">{{ $t('dashboard.mdlSendTx.btnSend') }}</v-btn>
@@ -508,6 +507,7 @@ export default {
     }
   },
   data: () => ({
+    form: false,
     bitcannaConfig: bitcannaConfig,
     dialogSendToken: false,
     dialogAddressBook: false,
@@ -538,7 +538,7 @@ export default {
       (v) => bech32Validation(v) || "Bad address (not bech32)",
     ],
     memoRules: [
-      v => (v && v.length <= 100) || 'Memo must be less than 100 characters',
+      v => (v.length <= 100) || 'Memo must be less than 100 characters',
     ],
     step1: true,
     step2: false,

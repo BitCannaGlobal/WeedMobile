@@ -153,6 +153,8 @@
           <v-list-item>
               <v-text-field
                   v-model="name"
+                  :rules="nameRules"
+                  counter="20"
                   variant="outlined"
                   color="#00b786" 
                   :label="$t('accounts.mdlCreateAccount.walletName')" 
@@ -163,6 +165,7 @@
             <v-list-item>
               <v-text-field
                   v-model="password"
+                  :rules="passRules"
                   variant="outlined"
                   color="#00b786" 
                   :label="$t('accounts.mdlCreateAccount.walletPassword')"
@@ -215,6 +218,14 @@ import md5 from 'md5'
         mnenomicVerified: false,
         alertError: false,
         alertErrorName: false,
+        nameRules: [
+          v => !!v || 'Wallet name is required',
+          v => (v && v.length <= 20) || 'Wallet name must be less than 20 characters',
+        ], 
+        passRules: [
+          v => !!v || 'Password is required',
+          v => (v && v.length <= 20) || 'Password must be less than 20 characters',
+        ], 
         rules: {
           required: value => !!value || this.$t("accounts.mdlCreateAccount.rules.required"),
           counter: value => value.length <= 10 || this.$t("accounts.mdlCreateAccount.rules.counter"),
