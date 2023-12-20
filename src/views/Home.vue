@@ -1,7 +1,7 @@
 <template>
  <div>
       
-      <h3 class="ma-4">{{ $t("dashboard.title") }} {{ accountNow.name }}</h3>
+      <h3 class="ma-4">{{ $t("dashboard.title") }} {{ accountNow?.name }}</h3>
  
 <!--         <v-select
           v-model="$i18n.locale"
@@ -205,14 +205,13 @@ export default {
   async mounted() { 
     this.accountNow = this.allWallets[this.accountSelected]
 
-    await this.$store.dispatch('initRpc')
-    await this.$store.dispatch('getBankModule', this.accountNow.address)
-    await this.$store.dispatch('getDistribModule', this.accountNow.address)
-    await this.$store.dispatch('getStakingModule', this.accountNow.address)
-    await this.$store.dispatch('getWalletAmount')
-    
-    
-    console.log(this.totalRewards)
+    if(typeof this.accountNow !== 'undefined') {
+      await this.$store.dispatch('initRpc')
+      await this.$store.dispatch('getBankModule', this.accountNow.address)
+      await this.$store.dispatch('getDistribModule', this.accountNow.address)
+      await this.$store.dispatch('getStakingModule', this.accountNow.address)
+      await this.$store.dispatch('getWalletAmount')
+    }
 
     /* setInterval(async ()=> {
       await this.$store.dispatch('getBankModule', this.accountNow.address)
