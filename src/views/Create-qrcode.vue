@@ -103,7 +103,7 @@
             v-model="selectCurrency"
             :label="$t('createQrcode.currency')"
             variant="outlined"
-            :items="['USD', 'EUR']"
+            :items="['USD', 'EUR', 'BCNA']"
             class="mt-2" 
           ></v-select> 
               </v-col>
@@ -259,10 +259,17 @@ export default {
       this.amountFiat = (val * this.priceNow).toFixed(6)
     }, */
     amountFiat: function (val) {
-      console.log(this.getConvertPrices.data.bitcanna[this.selectCurrency.toLowerCase()].toFixed(5))      
+      if (this.selectCurrency == 'BCNA') {
+        this.amount = val
+        return
+      } 
       this.amount = (val / this.getConvertPrices.data.bitcanna[this.selectCurrency.toLowerCase()].toFixed(5)).toFixed(6)
     },
     selectCurrency: function (val) {
+      if (val == 'BCNA') {
+        this.amount = this.amountFiat
+        return
+      }
       this.amount = (this.amountFiat / this.getConvertPrices.data.bitcanna[val.toLowerCase()].toFixed(5)).toFixed(6)
     }
   },
