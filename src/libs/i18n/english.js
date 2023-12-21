@@ -1,8 +1,20 @@
 export default {
+  menu: {
+    title: 'Bitcanna Wallet',
+    dashboard: 'Dashboard',
+    addressBook: 'Addressbook',
+    transactions: 'Transactions',
+    createQrcode: 'Create QR',
+    scanQrcode: 'Scan QR', 
+    logout: 'Logout',
+  },
   login: {
     title: 'Unlock your wallet',
     passInput: 'Password',
     loginButton: 'Unlock',
+    errorMsgSession: 'Session expired',
+    errorFormPassRequired: 'Password is required',
+    errorFormPassLength: 'Password must be less than 20 characters',
   },
   dashboard: {
     title: '🇬🇧 Welcome ', 
@@ -20,7 +32,14 @@ export default {
       inpAmount: 'Amount',
       inpMemo: 'Memo',   
       inpPassword: 'Password',
-      btnSend: 'Send'
+      btnSend: 'Send',
+      errorAddrRequire: 'Address is required',
+      errorPrefix: 'Address must start with bcna',
+      errorBech32: 'Bad address (not bech32)',
+      errorMemo: 'Memo must be less than 100 characters',
+      errorAmountRequire: 'Amount is required',
+      errorAmountNumber: 'Amount must be number',
+      errorAmountDecimal: 'Bad decimal',
     },
   },
   accounts: {
@@ -54,6 +73,11 @@ export default {
       name: 'Wallet name',
       address: 'Address',
       password: 'Password',
+      returnMsg: 'Your mnemonic (keep it secret!)',
+      errorWalletRequired: 'Wallet name is required',
+      errorWalletLength: 'Wallet name must be less than 10 characters',
+      errorPasswordRequired: 'Password is required',
+      errorPasswordLength: 'Password must be less than 20 characters',
     },
     viewMnemonic: {
       title: 'Mnemonic Seed',
@@ -98,6 +122,7 @@ export default {
   scanQrcode: {
     scanned: {
       address: 'Address',
+      password: 'Password',
       amount: 'Amount',
       memo: 'Memo',
       error: 'You don\'t have enough bitcanna! Fund your account',
@@ -137,6 +162,14 @@ export default {
       success: 'Masterpassword change is done!',
       close: 'Close',
     },
+    autoLogout: {
+      title: 'Auto logout',
+      subtitle: 'Define time for lockout ', 
+    },
+    appInfo: {
+      title: 'App info',
+      subtitle: 'Here you can see app info',
+    },
     timeout: {
       title: 'Set Timeout',
       subtitle: 'Select your timeout',
@@ -164,6 +197,12 @@ export default {
     address: 'Address',
     memo: 'Default Memo',
     btnAddContact: 'Add contact',
+    errorNameRequire: 'Name is required',
+    errorNameLength: 'Name must be less than 10 characters',
+    errorAddrRequire: 'Address is required',
+    errorPrefix: 'Address must start with bcna',
+    errorBech32: 'Bad address (not bech32)',
+    errorMemo: 'Memo must be less than 100 characters', 
     edit: {
       title: 'Edit contact',
       subtitle: 'Here you can edit your contacts'

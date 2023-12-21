@@ -35,7 +35,7 @@
       closable
       close-label="Close Alert"
     >
-      Session expired
+      {{ $t("login.errorMsgSession") }} 
     </v-alert>
     <v-alert
           v-model="maxMasterPass"
@@ -52,7 +52,7 @@
         <v-col
           cols="12"
         >
-        <v-form ref="form" @submit.prevent="login">
+        <v-form v-model="form" ref="form" @submit.prevent="login">
           <v-text-field
             v-model="passWord"
             :rules="passRules"
@@ -65,7 +65,7 @@
         </v-col>
       </v-row>
 
-      <v-btn v-if="passExist" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">
+      <v-btn v-if="passExist" :disabled="!form" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">
         {{ $t("login.loginButton") }}
       </v-btn>
       <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="openDialogMasterPassword()">Set masterpass</v-btn>
@@ -173,30 +173,33 @@ import md5 from 'md5'
 import { checkMasterPassword, addBcnaSession, getMasterPassword, addMasterPassword, removeMasterPassword } from '@/libs/storage.js';
 
 export default {
-  data: () => ({
-    passWord: '',
-    dialogImport: false,
-    dialogMasterPassword: false,
-    name: '',
-    mnemonic: '',
-    password: '',
-    select: '',
-    items: [],
-    alertError: false,
-    alertSuccess: false,
-    alertDelete: false,
-    alertExpired: false,
-    passExist: false,
-    badMasterPass: false,
-    masterPass: '',
-    masterPass2: '',
-    maxMasterPass: false,
-    checkCameraPermissions: false,
-    passRules: [
-      v => !!v || 'Password is required',
-      v => (v && v.length <= 20) || 'Password must be less than 20 characters',
-    ],    
-  }),
+  data() {
+      return {
+      form: false,
+      passWord: '',
+      dialogImport: false,
+      dialogMasterPassword: false,
+      name: '',
+      mnemonic: '',
+      password: '',
+      select: '',
+      items: [],
+      alertError: false,
+      alertSuccess: false,
+      alertDelete: false,
+      alertExpired: false,
+      passExist: false,
+      badMasterPass: false,
+      masterPass: '',
+      masterPass2: '',
+      maxMasterPass: false,
+      checkCameraPermissions: false,
+      passRules: [
+        v => !!v || this.$t("login.errorFormPassRequired"), 
+        v => (v && v.length <= 20) || this.$t("login.errorFormPassLength"),
+      ],    
+    }
+  },
   computed: {
     ...mapState(['allWallets', 'isLogged', 'sessionMax'])
   },

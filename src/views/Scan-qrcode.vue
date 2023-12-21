@@ -51,7 +51,7 @@
       v-model="password"
       variant="outlined"
       color="#00b786" 
-      label="Password" 
+      :label="$t('scanQrcode.scanned.password')" 
       type="password"
       class="mt-4"
     ></v-text-field>

@@ -150,7 +150,7 @@
                 :rules="nameRules"
                 variant="outlined"
                 color="#00b786"
-                counter="20"
+                counter="10"
                 :label="$t('accounts.mdlImportAccount.name')"
                 style="min-height: 96px"
                 class="mt-6"
@@ -243,7 +243,7 @@
             ">{{ $t("accounts.viewMnemonic.title") }}</v-btn> 
 
           </v-list-item>
-          <h4 class="ma-4" v-if="canViewMnemonic">Your mnemonic (keep it secret!)</h4>
+          <h4 class="ma-4" v-if="canViewMnemonic">{{ $t('accounts.mdlImportAccount.returnMsg') }}</h4>
           <v-card
             v-if="canViewMnemonic"
             color="black"
@@ -394,17 +394,16 @@ export default {
     viewMnemonic: '',
     canViewMnemonic: false,
     nameRules: [
-      v => !!v || 'Wallet name is required',
-      v => (v && v.length <= 20) || 'Wallet name must be less than 20 characters',
+      v => !!v || this.$t('accounts.mdlImportAccount.errorWalletRequired'),
+      v => (v && v.length <= 10) || this.$t('accounts.mdlImportAccount.errorWalletLength'),
     ], 
     passRules: [
-      v => !!v || 'Password is required',
-      v => (v && v.length <= 20) || 'Password must be less than 20 characters',
+      v => !!v || this.$t('accounts.mdlImportAccount.errorPasswordRequired'),
+      v => (v && v.length <= 20) || this.$t('accounts.mdlImportAccount.errorPasswordLength'),
     ],    
   }),
   watch: {
     password: function (val) {
-      console.log(val)
       if(val !== '') {
         this.enableButton = true
       } else {

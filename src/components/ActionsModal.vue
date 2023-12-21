@@ -508,7 +508,8 @@ export default {
       required: true
     }
   },
-  data: () => ({
+  data() {
+    return {
     form: false,
     bitcannaConfig: bitcannaConfig,
     dialogSendToken: false,
@@ -528,24 +529,24 @@ export default {
     tab: null,
     allContacts: [],
     amountRules: [
-      (v) => !!v || "Amount is required",
-      (v) => !isNaN(v) || "Amount must be number",
-      (v) => countPlaces(v) < 7 || "Bad decimal",
+      (v) => !!v || this.$t('dashboard.mdlSendTx.errorAmountRequire'),
+      (v) => !isNaN(v) || this.$t('dashboard.mdlSendTx.errorAmountNumber'),
+      (v) => countPlaces(v) < 7 || this.$t('dashboard.mdlSendTx.errorAmountDecimal'),
     ],
     addressRules: [
-      (v) => !!v || "Address is required",
+      (v) => !!v || this.$t('dashboard.mdlSendTx.errorAddrRequire'),
       (v) =>
         v.startsWith('bcna') ||
-        'Address must start with bcna',
-      (v) => bech32Validation(v) || "Bad address (not bech32)",
+        this.$t('dashboard.mdlSendTx.errorPrefix'),
+      (v) => bech32Validation(v) || this.$t('dashboard.mdlSendTx.errorBech32'),
     ],
     memoRules: [
-      v => (v.length <= 100) || 'Memo must be less than 100 characters',
+      v => (v.length <= 100) || this.$t('dashboard.mdlSendTx.errorMemo'),
     ],
     step1: true,
     step2: false,
     step3: false,
-  }),
+  }},
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'totalRewards', 'allDelegations'])
   },

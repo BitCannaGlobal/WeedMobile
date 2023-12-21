@@ -265,7 +265,8 @@ function bech32Validation(address) {
 }
 
   export default {
-    data: () => ({
+    data() {
+    return {
       dialog: false,
       dialogEdit: false,
       dialDeleteContact: false,
@@ -279,18 +280,18 @@ function bech32Validation(address) {
       name: '',
       memo: '',
       nameRules: [
-        (v) => !!v || "Name is required", 
-        v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+        (v) => !!v || this.$t('addressBook.errorNameRequire'), 
+        v => (v && v.length <= 20) || this.$t('addressBook.errorNameLength'),
       ],
       addressRules: [
-        (v) => !!v || "Address is required",
+        (v) => !!v || this.$t('addressBook.errorAddrRequire'),
         (v) =>
           v.startsWith('bcna') ||
-          'Address must start with bcna',
-        (v) => bech32Validation(v) || "Bad address (not bech32)",
+          this.$t('addressBook.errorPrefix'),
+        (v) => bech32Validation(v) || this.$t('addressBook.errorBech32'),
       ],
       memoRules: [
-        v => (v.length <= 100) || 'Memo must be less than 100 characters',
+        v => (v.length <= 100) || this.$t('addressBook.errorMemo'),
       ],
       files: [
         {
@@ -306,7 +307,8 @@ function bech32Validation(address) {
           title: 'Wallet1',
         },
       ]
-    }),
+    }
+  },
     watch: {
       recipient (val) {
         this.recipient = val.toLowerCase()

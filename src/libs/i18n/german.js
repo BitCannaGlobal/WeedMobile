@@ -1,8 +1,20 @@
 export default {
+  menu: {
+    title: 'Bitcanna Wallet',
+    dashboard: 'Armaturenbrett',
+    addressBook: 'Adressbuch',
+    transactions: 'Transaktionen',
+    createQrcode: 'QR erstellen',
+    scanQrcode: 'QR scannen', 
+    logout: 'Ausloggen',
+  },
   login: {
     title: 'Ontgrendel uw portemonnee', 
     passInput: 'Je wachtwoord',
     loginButton: 'Ontgrendelen',
+    errorMsgSession: 'Sitzung abgelaufen',
+    errorFormPassRequired: 'Passwort wird benötigt',
+    errorFormPassLength: 'Das Passwort muss weniger als 20 Zeichen lang sein',
   },
   dashboard: {
     title: '🇳🇱 Welkom ', 
@@ -20,7 +32,14 @@ export default {
       inpAmount: 'Menge',
       inpMemo: 'Memo',   
       inpPassword: 'Passwort',
-      btnSend: 'Schicken'
+      btnSend: 'Schicken',
+      errorAddrRequire: 'Adresse ist erforderlich',
+      errorPrefix: 'Die Adresse muss mit bcna beginnen',
+      errorBech32: 'Falsche Adresse (nicht bech32)',
+      errorMemo: 'Das Memo muss weniger als 100 Zeichen lang sein',
+      errorAmountRequire: 'Betrag ist erforderlich',
+      errorAmountNumber: 'Der Betrag muss eine Zahl sein',
+      errorAmountDecimal: 'Schlechte Dezimalzahl',
     },
   },
   accounts: {
@@ -54,6 +73,11 @@ export default {
       name: 'Wallet-Name',
       address: 'Address',
       password: 'Passwort',
+      returnMsg: 'Ihre Eselsbrücke (geheim halten!)',
+      errorWalletRequired: 'Wallet-Name ist erforderlich',
+      errorWalletLength: 'Der Wallet-Name muss weniger als 10 Zeichen lang sein',
+      errorPasswordRequired: 'Passwort wird benötigt',
+      errorPasswordLength: 'Das Passwort muss weniger als 20 Zeichen lang sein',
     },
     viewMnemonic: {
       title: 'Mnemonischer Samen',
@@ -97,7 +121,8 @@ export default {
   },
   scanQrcode: {
     scanned: {
-      address: 'Address',
+      address: 'Adresse',
+      password: 'Passwort',
       amount: 'Menge',
       memo: 'Memo',
       error: 'Du hast nicht genug Bitcanna! Auf dein Konto einzahlen',
@@ -127,7 +152,7 @@ export default {
       subtitle: 'Zie je geheugensteuntje',
     },
     masterPassChange: {
-      title: 'Master password',
+      title: 'Master Passwort',
       subtitle: 'Hoofdwachtwoord wijzigen',
       password1: 'Ihr Passwort',
       password2: 'Neues Kennwort',
@@ -136,6 +161,14 @@ export default {
       progress: 'Änderung des Masterpassworts wird durchgeführt',
       success: 'Die Änderung des Masterpassworts ist abgeschlossen!',
       close: 'Schließen',
+    },
+    autoLogout: {
+      title: 'Automatische Abmeldung',
+      subtitle: 'Definieren Sie den Zeitpunkt für die Sperrung ', 
+    },
+    appInfo: {
+      title: 'App-Informationen',
+      subtitle: 'Hier können Sie App-Informationen sehen',
     },
     timeout: {
       title: 'Timeout festlegen',
@@ -164,6 +197,12 @@ export default {
     address: 'Adresse',
     memo: 'Standard-Memo',
     btnAddContact: 'Kontakt hinzufügen',
+    errorNameRequire: 'Name ist erforderlich',
+    errorNameLength: 'Der Name muss weniger als 10 Zeichen lang sein',
+    errorAddrRequire: 'Adresse ist erforderlich',
+    errorPrefix: 'Die Adresse muss mit bcna beginnen',
+    errorBech32: 'Falsche Adresse (nicht bech32)',
+    errorMemo: 'Das Memo muss weniger als 100 Zeichen lang sein', 
     edit: {
       title: 'Kontakt bearbeiten',
       subtitle: 'Hier können Sie Ihre Kontakte bearbeiten'

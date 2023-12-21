@@ -152,7 +152,7 @@
             <v-btn 
               block 
               color="#0FB786" 
-              @click="generateQr()">generate</v-btn>
+              @click="generateQr()">{{ $t('createQrcode.btnCreate') }}</v-btn>
           </v-list-item>
         </v-form>
         </v-list>        
