@@ -197,5 +197,23 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
 #inspire {
   background: "black";
 }
-</style>
 
+@font-face {
+    font-family: CarmenBold;
+    src: url("@/assets/fonts/Carmen Sans Bold.otf") format("opentype");
+}
+@font-face {
+    font-family: CarmenMedium;
+    src: url("@/assets/fonts/Carmen Sans Medium.otf") format("opentype");
+}
+.body,
+.v-application{
+    font-family: 'CarmenMedium';
+} 
+.carmenBold {
+    font-family: 'CarmenBold';
+
+} 
+
+
+</style>
