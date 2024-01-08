@@ -66,6 +66,7 @@
       :scrim="false"
       transition="dialog-bottom-transition"
     >
+
       <v-card>
         <v-toolbar
           dark
@@ -143,14 +144,17 @@
             close-label="Close Alert"
           >
             {{ $t("errors.walletAddressExist") }}
-          </v-alert>     
+          </v-alert> 
+          <v-form
+      v-model="formImport"
+    >     
         <v-list-item>
             <v-text-field
                 v-model="name"
                 :rules="nameRules"
                 variant="outlined"
                 color="#00b786"
-                counter="10"
+                counter="20"
                 :label="$t('accounts.mdlImportAccount.name')"
                 style="min-height: 96px"
                 class="mt-6"
@@ -179,8 +183,10 @@
                 class="mt-6"
               ></v-text-field>
           </v-list-item>
+        </v-form>
         </v-list>
       </v-card>
+      
     </v-dialog>
     <v-dialog
       v-model="dialogViewMnemonic"
@@ -364,7 +370,8 @@ import CreateAccount from '@/components/CreateAccount.vue'
 
 export default {  
   components: { CreateAccount },
-  data: () => ({ 
+  data() { 
+    return {
     items: [],
     dialogImport: false,
     dialogCreate: false,
@@ -393,15 +400,17 @@ export default {
     viewMnenomicFor: '',
     viewMnemonic: '',
     canViewMnemonic: false,
+    formImport: false,
     nameRules: [
-      v => !!v || this.$t('accounts.mdlImportAccount.errorWalletRequired'),
-      v => (v && v.length <= 10) || this.$t('accounts.mdlImportAccount.errorWalletLength'),
+      v => !!v || this.$t("accounts.mdlImportAccount.errorWalletRequired"),
+      v => (v && v.length <= 20) || this.$t("accounts.mdlImportAccount.errorWalletLength"),
     ], 
     passRules: [
-      v => !!v || this.$t('accounts.mdlImportAccount.errorPasswordRequired'),
-      v => (v && v.length <= 20) || this.$t('accounts.mdlImportAccount.errorPasswordLength'),
-    ],    
-  }),
+      v => !!v || this.$t("accounts.mdlImportAccount.errorPasswordRequired"),
+      v => (v && v.length <= 20) || this.$t("accounts.mdlImportAccount.errorPasswordLength"),
+    ], 
+    }   
+  },
   watch: {
     password: function (val) {
       if(val !== '') {

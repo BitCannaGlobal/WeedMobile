@@ -88,7 +88,7 @@ export default {
       password: 'Password',
       returnMsg: 'Your mnemonic (keep it secret!)',
       errorWalletRequired: 'Wallet name is required',
-      errorWalletLength: 'Wallet name must be less than 10 characters',
+      errorWalletLength: 'Wallet name must be less than 20 characters',
       errorPasswordRequired: 'Password is required',
       errorPasswordLength: 'Password must be less than 20 characters',
     },

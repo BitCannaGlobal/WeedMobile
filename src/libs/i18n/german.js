@@ -88,7 +88,7 @@ export default {
       password: 'Passwort',
       returnMsg: 'Ihre Eselsbrücke (geheim halten!)',
       errorWalletRequired: 'Wallet-Name ist erforderlich',
-      errorWalletLength: 'Der Wallet-Name muss weniger als 10 Zeichen lang sein',
+      errorWalletLength: 'Der Wallet-Name muss weniger als 20 Zeichen lang sein',
       errorPasswordRequired: 'Passwort wird benötigt',
       errorPasswordLength: 'Das Passwort muss weniger als 20 Zeichen lang sein',
     },
