@@ -212,8 +212,9 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
 } 
 .carmenBold {
     font-family: 'CarmenBold';
-
 } 
-
+.bitcannaFont {
+    font-family: 'CarmenMedium';
+} 
 
 </style>

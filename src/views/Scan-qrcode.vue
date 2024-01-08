@@ -8,8 +8,13 @@
       closable
       close-label="Close Alert"
     >
-      checkCameraPermissions
+      checkCameraPermissions {{ checkCameraPermissions }}
     </v-alert>
+    <div class="d-flex justify-center mt-6 ">
+    <v-btn @click="addAuthorisatoin()">
+      Add camera authorization
+    </v-btn>
+  </div>
     <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
     <div v-if="removeScan">
     <v-alert 
@@ -142,6 +147,11 @@ export default {
     this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
   },
   methods: {
+    addAuthorisatoin() {
+      Camera.requestPermissions().then((result) => {
+        console.log(result)
+      })
+    },
     retry() {
       this.removeScan = false
       this.result = ''
