@@ -158,10 +158,10 @@
         type="success"
         border="top"
       >
-        Hey, there is no wallet available yet.
+        {{ $t("dashboard.welcomeNoWallet") }} 
       </v-alert>
       <br />
-      <v-btn block size="x-large" color="#1C1D20" to="/accounts">Create one here</v-btn> 
+      <v-btn block size="x-large" color="#1C1D20" to="/accounts">{{ $t("dashboard.btnCreateOne") }}</v-btn> 
     </v-card>
   </div>
 </template>

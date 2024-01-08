@@ -4,7 +4,7 @@
       src="@/assets/banner-home.png"
     ></v-img>
    <div v-if="passExist" class="mt-10 text-center">{{ $t("login.title") }}</div>
-  <div v-else class="mt-10 text-center">Welcome to bitcanna app<br />Create first your password to use your wallet</div>
+  <div v-else class="mt-10 text-center">{{ $t("login.welcomMsg1") }}<br />{{ $t("login.welcomMsg2") }}</div>
     <v-container> 
     <v-alert
       v-model="alertError"
@@ -14,18 +14,7 @@
       closable
       close-label="Close Alert"
     >
-      Bad password
-    </v-alert>
-    <v-alert
-      v-model="alertSuccess"
-      variant="outlined"
-      type="success"
-      color="#00b786"
-      border="top"
-      closable
-      close-label="Close Alert"
-    >
-      You are connected!
+      {{ $t("login.badPassword") }}
     </v-alert>
     <v-alert
       v-model="alertExpired"
@@ -45,7 +34,7 @@
           closable
           close-label="Close Alert"
         >
-        Your password is too long
+        {{ $t("login.passToLong") }} 
         </v-alert>
     <br />
       <v-row v-if="passExist">
@@ -68,8 +57,10 @@
       <v-btn v-if="passExist" :disabled="!form" type="submit" block class="mt-2" size="x-large" color="#0FB786" @click="login">
         {{ $t("login.loginButton") }}
       </v-btn>
-      <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="openDialogMasterPassword()">Set masterpass</v-btn>
-      <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">Remove masterpass</v-btn>
+      <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="openDialogMasterPassword()">
+        {{ $t("login.setPass") }}
+      </v-btn>
+      <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">{{ $t("login.rmPass") }}</v-btn>
     </v-container>
   </div>
 
@@ -92,7 +83,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Create password</v-toolbar-title>
+          <v-toolbar-title>{{ $t("login.createPass") }}</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
@@ -100,7 +91,7 @@
               size="x-large"
               @click="saveMasterPassword"
             >
-              Save
+            {{ $t("login.savePass") }}
             </v-btn>
           </v-toolbar-items>
         </v-toolbar>
@@ -108,7 +99,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="Set the content filtering level to restrict apps that can be downloaded"></v-list-item>
+          <v-list-item title="Infomations" :subtitle="$t('login.passDescription')"></v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list>
@@ -121,7 +112,7 @@
           closable
           close-label="Close Alert"
         >
-          Bad password
+          {{ $t("login.badPassword") }}
         </v-alert>
         <v-alert
           v-model="maxMasterPass"
@@ -131,7 +122,7 @@
           closable
           close-label="Close Alert"
         >
-        Your password is too long
+          {{ $t("login.passToLong") }} 
         </v-alert>
         
             <v-text-field
@@ -141,7 +132,7 @@
               variant="outlined"
               color="#00b786"
               counter="20"
-              label="Set your password"
+              :label="$t('login.formSetPass')"
               style="min-height: 96px"
               class="mt-4"
             ></v-text-field>
@@ -154,7 +145,7 @@
               variant="outlined"
               color="#00b786"
               counter="20"
-              label="Repeat your password"
+              :label="$t('login.repeatPass')"
               style="min-height: 96px"
               class="mt-4"
             ></v-text-field>
@@ -166,8 +157,6 @@
 
 </template>
 <script>
-import { Preferences } from '@capacitor/preferences';
-import { Camera } from '@capacitor/camera';
 import { mapState } from 'vuex'
 import md5 from 'md5'
 import { checkMasterPassword, addBcnaSession, getMasterPassword, addMasterPassword, removeMasterPassword } from '@/libs/storage.js';
@@ -185,7 +174,6 @@ export default {
       select: '',
       items: [],
       alertError: false,
-      alertSuccess: false,
       alertDelete: false,
       alertExpired: false,
       passExist: false,
