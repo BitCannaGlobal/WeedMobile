@@ -100,6 +100,7 @@
         <v-btn
             class="ma-2" 
             @click="step = 1"
+            block
           >
           {{ $t("accounts.mdlCreateAccount.return") }} 
           </v-btn>
@@ -107,11 +108,12 @@
             class="ma-2"
             color="#0eb786"
             :disabled="!mnenomicVerified"
+            block
             @click="step2"
           >
             {{ $t("accounts.mdlCreateAccount.nextStep") }}  
           </v-btn>
-          <v-btn
+          <!-- <v-btn
             class="ma-2"
             color="#0eb786" 
             @click="step2"
@@ -119,7 +121,7 @@
             Bypass
           </v-btn>
           <br />
-          Debug<br /> {{ generatedMnenomic }}
+          Debug<br /> {{ generatedMnenomic }} -->
       </div>
       <div class="ma-4" v-if="step === 3">
         <h3 class="text-h6">Confirm</h3>

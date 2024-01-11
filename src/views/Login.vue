@@ -60,7 +60,7 @@
       <v-btn v-if="!passExist" type="submit" size="x-large" color="#1C1D20" block class="mt-4" @click="openDialogMasterPassword()">
         {{ $t("login.setPass") }}
       </v-btn>
-      <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">{{ $t("login.rmPass") }}</v-btn>
+      <!-- <v-btn v-else type="submit" size="x-large" color="red" block class="mt-4" @click="removePassword">{{ $t("login.rmPass") }}</v-btn> -->
     </v-container>
   </div>
 
