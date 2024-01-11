@@ -179,10 +179,6 @@ export default {
       title: 'Automatische Abmeldung',
       subtitle: 'Definieren Sie den Zeitpunkt für die Sperrung ', 
     },
-    appInfo: {
-      title: 'App-Informationen',
-      subtitle: 'Hier können Sie App-Informationen sehen',
-    },
     timeout: {
       title: 'Timeout festlegen',
       subtitle: 'Wählen Sie Ihr Timeout',

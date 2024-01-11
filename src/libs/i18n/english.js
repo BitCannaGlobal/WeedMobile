@@ -179,10 +179,6 @@ export default {
       title: 'Auto logout',
       subtitle: 'Define time for lockout ', 
     },
-    appInfo: {
-      title: 'App info',
-      subtitle: 'Here you can see app info',
-    },
     timeout: {
       title: 'Set Timeout',
       subtitle: 'Select your timeout',
