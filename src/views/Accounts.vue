@@ -65,7 +65,9 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
+
       <v-card>
         <v-toolbar
           dark
@@ -143,13 +145,17 @@
             close-label="Close Alert"
           >
             {{ $t("errors.walletAddressExist") }}
-          </v-alert>     
+          </v-alert> 
+          <v-form
+            v-model="formImport"
+          >     
         <v-list-item>
             <v-text-field
                 v-model="name"
+                :rules="nameRules"
                 variant="outlined"
                 color="#00b786"
-                counter="6"
+                counter="20"
                 :label="$t('accounts.mdlImportAccount.name')"
                 style="min-height: 96px"
                 class="mt-6"
@@ -169,17 +175,19 @@
           <v-list-item>
             <v-text-field
                 v-model="password"
+                :rules="passRules"
                 variant="outlined"
-                color="#00b786"
-                counter="6"
+                color="#00b786" 
                 :label="$t('accounts.mdlImportAccount.password')"
                 style="min-height: 96px"
                 type="password"
                 class="mt-6"
               ></v-text-field>
           </v-list-item>
+        </v-form>
         </v-list>
       </v-card>
+      
     </v-dialog>
     <v-dialog
       v-model="dialogViewMnemonic"
@@ -242,7 +250,7 @@
             ">{{ $t("accounts.viewMnemonic.title") }}</v-btn> 
 
           </v-list-item>
-          <h4 class="ma-4" v-if="canViewMnemonic">Your mnemonic (keep it secret!)</h4>
+          <h4 class="ma-4" v-if="canViewMnemonic">{{ $t('accounts.mdlImportAccount.returnMsg') }}</h4>
           <v-card
             v-if="canViewMnemonic"
             color="black"
@@ -256,7 +264,7 @@
 
     <v-bottom-sheet v-model="deleteWallet" inset>
       <v-card
-        class="text-center" 
+        class="text-center bitcannaFont"  
       >
         <v-card-text>
           <v-btn
@@ -311,7 +319,7 @@
     <div class="text-center">
     <v-bottom-sheet v-model="editNow" inset>
       <v-card
-        class="text-center" 
+        class="text-center bitcannaFont" 
       >
         <v-card-text>
           <v-btn
@@ -363,7 +371,8 @@ import CreateAccount from '@/components/CreateAccount.vue'
 
 export default {  
   components: { CreateAccount },
-  data: () => ({ 
+  data() { 
+    return {
     items: [],
     dialogImport: false,
     dialogCreate: false,
@@ -392,10 +401,19 @@ export default {
     viewMnenomicFor: '',
     viewMnemonic: '',
     canViewMnemonic: false,
-  }),
+    formImport: false,
+    nameRules: [
+      v => !!v || this.$t("accounts.mdlImportAccount.errorWalletRequired"),
+      v => (v && v.length <= 20) || this.$t("accounts.mdlImportAccount.errorWalletLength"),
+    ], 
+    passRules: [
+      v => !!v || this.$t("accounts.mdlImportAccount.errorPasswordRequired"),
+      v => (v && v.length <= 20) || this.$t("accounts.mdlImportAccount.errorPasswordLength"),
+    ], 
+    }   
+  },
   watch: {
     password: function (val) {
-      console.log(val)
       if(val !== '') {
         this.enableButton = true
       } else {

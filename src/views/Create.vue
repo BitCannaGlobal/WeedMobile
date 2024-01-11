@@ -78,11 +78,12 @@
   </div>
 
 
-    <v-dialog
+   <!--  <v-dialog
       v-model="dialogImport"
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-toolbar
@@ -174,13 +175,14 @@
           </v-list-item>
         </v-list>
       </v-card>
-    </v-dialog>
+    </v-dialog> -->
 
     <v-dialog
       v-model="dialogCreate"
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-toolbar
@@ -269,6 +271,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-toolbar

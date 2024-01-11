@@ -74,9 +74,9 @@
                 variant="outlined"
                 color="#00b786" 
                 :label="$t('createQrcode.recipient')" 
-                class="mt-4"
-                append-inner-icon="mdi-book-open-page-variant-outline"
-                @click:append-inner="getAddressBook()"
+                class="mt-4" 
+                append-icon="mdi-book-open-page-variant-outline"
+                @click:append="getAddressBook()"
             ></v-text-field>
           </v-list-item> 
           <v-list-item>
@@ -92,7 +92,8 @@
                       color="#00b786" 
                       :label="$t('createQrcode.amount')" 
                       type="number"
-                      inputmode="decimal"
+                      inputmode="numeric"
+                      pattern="[0-9]*"
                       class="mt-2" 
                   ></v-text-field> 
               </v-col>
@@ -103,7 +104,7 @@
             v-model="selectCurrency"
             :label="$t('createQrcode.currency')"
             variant="outlined"
-            :items="['USD', 'EUR']"
+            :items="['USD', 'EUR', 'BCNA']"
             class="mt-2" 
           ></v-select> 
               </v-col>
@@ -151,7 +152,7 @@
             <v-btn 
               block 
               color="#0FB786" 
-              @click="generateQr()">generate</v-btn>
+              @click="generateQr()">{{ $t('createQrcode.btnCreate') }}</v-btn>
           </v-list-item>
         </v-form>
         </v-list>        
@@ -259,10 +260,17 @@ export default {
       this.amountFiat = (val * this.priceNow).toFixed(6)
     }, */
     amountFiat: function (val) {
-      console.log(this.getConvertPrices.data.bitcanna[this.selectCurrency.toLowerCase()].toFixed(5))      
+      if (this.selectCurrency == 'BCNA') {
+        this.amount = val
+        return
+      } 
       this.amount = (val / this.getConvertPrices.data.bitcanna[this.selectCurrency.toLowerCase()].toFixed(5)).toFixed(6)
     },
     selectCurrency: function (val) {
+      if (val == 'BCNA') {
+        this.amount = this.amountFiat
+        return
+      }
       this.amount = (this.amountFiat / this.getConvertPrices.data.bitcanna[val.toLowerCase()].toFixed(5)).toFixed(6)
     }
   },

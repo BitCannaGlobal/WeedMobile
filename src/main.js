@@ -19,10 +19,15 @@ import store from './store'
 
 import English from './libs/i18n/english.js'
 import German from './libs/i18n/german.js'
+import Spanish from './libs/i18n/spanish.js'
+import French from './libs/i18n/french.js'
+
 
 const messages = {
   English,
-  German 
+  German,
+  Spanish,
+  French
 } 
  
 const getLocalLang = async () => {
@@ -37,6 +42,12 @@ const getLocalLang = async () => {
     case 'nl':
       language = 'German'
       break;
+    case 'es':
+      language = 'Spanish'
+      break;     
+    case 'fr':
+      language = 'French'
+      break;        
     default:
       language = 'English'
       break;

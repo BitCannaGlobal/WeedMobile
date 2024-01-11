@@ -8,8 +8,15 @@
       closable
       close-label="Close Alert"
     >
-      checkCameraPermissions
+      checkCameraPermissions {{ checkCameraPermissions }}
     </v-alert>
+    <div class="d-flex justify-center mt-6 ">
+    <v-btn @click="addAuthorisatoin()">
+      Add camera authorization
+    </v-btn>
+    <br />
+    {{ debugCam }}
+  </div>
     <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
     <div v-if="removeScan">
     <v-alert 
@@ -51,7 +58,7 @@
       v-model="password"
       variant="outlined"
       color="#00b786" 
-      label="Password" 
+      :label="$t('scanQrcode.scanned.password')" 
       type="password"
       class="mt-4"
     ></v-text-field>
@@ -130,8 +137,9 @@ export default {
     let alertError = false
     let loading = false
     let checkCameraPermissions = false
+    let debugCam = false
 
-    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, debugCam }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
@@ -142,6 +150,15 @@ export default {
     this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
   },
   methods: {
+    addAuthorisatoin() {
+      Camera.requestPermissions().then(async (result, callback) => {
+        console.log(result)
+        const testCamera = await Camera.checkPermissions() 
+        this.debugCam = testCamera.camera === 'granted' ? false : true
+        this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
+        
+      })
+    },
     retry() {
       this.removeScan = false
       this.result = ''
@@ -154,7 +171,8 @@ export default {
       if(hash !== value) {
         this.alertError = true
         return
-      }
+      } else 
+        this.alertError = false
 
       this.loading = true
 

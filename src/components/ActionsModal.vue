@@ -19,19 +19,21 @@
     block
     flat
     class="mt-2  white--text"
-    color="#0FB786" 
+    color="#0FB786"
+    disabled="true" 
     @click="openDialogStake"
   >
-  {{ $t("dashboard.btnStake") }} 
+  {{ $t("dashboard.btnStake") }} (Soon)
   </v-btn>
   <v-dialog
       v-model="dialogSendToken"
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card v-if="txSend === false">
-        <v-form v-if="step1" ref="form"> 
+        <v-form v-if="step1" ref="form" v-model="form" > 
         <v-toolbar
           dark
         >
@@ -85,7 +87,8 @@
                 color="#00b786" 
                 :label="this.$t('dashboard.mdlSendTx.inpAmount')" 
                 type="number"
-                inputmode="decimal"
+                inputmode="numeric"
+                pattern="[0-9]*"
                 class="mt-2"
                 suffix="Max"
                 append-inner-icon="mdi-plus-box-outline"
@@ -102,13 +105,12 @@
                 :label="this.$t('dashboard.mdlSendTx.inpMemo')"
                 class="mt-2"
             ></v-text-field>
-          </v-list-item>
-
+          </v-list-item> 
           <v-list-item>
             <v-btn 
               block 
               color="#0FB786"
-              :disabled="loading"
+              :disabled="!form"
               :loading="loading"
               @click="checkTx()
             ">{{ $t('dashboard.mdlSendTx.btnSend') }}</v-btn>
@@ -224,6 +226,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
     <v-card>
       <v-toolbar
@@ -257,6 +260,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
     <v-card v-if="txSend === false">
       <v-toolbar
@@ -363,6 +367,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
     <v-card v-if="txSend === false">
       <v-toolbar
@@ -401,8 +406,7 @@
         <v-container fluid>
           <v-row>
             <v-col
-              cols="12"
-              md="4"
+              cols="12" 
             >
             <v-text-field
                 v-model="password"
@@ -508,7 +512,9 @@ export default {
       required: true
     }
   },
-  data: () => ({
+  data() {
+    return {
+    form: false,
     bitcannaConfig: bitcannaConfig,
     dialogSendToken: false,
     dialogAddressBook: false,
@@ -527,24 +533,24 @@ export default {
     tab: null,
     allContacts: [],
     amountRules: [
-      (v) => !!v || "Amount is required",
-      (v) => !isNaN(v) || "Amount must be number",
-      (v) => countPlaces(v) < 7 || "Bad decimal",
+      (v) => !!v || this.$t('dashboard.mdlSendTx.errorAmountRequire'),
+      (v) => !isNaN(v) || this.$t('dashboard.mdlSendTx.errorAmountNumber'),
+      (v) => countPlaces(v) < 7 || this.$t('dashboard.mdlSendTx.errorAmountDecimal'),
     ],
     addressRules: [
-      (v) => !!v || "Address is required",
+      (v) => !!v || this.$t('dashboard.mdlSendTx.errorAddrRequire'),
       (v) =>
         v.startsWith('bcna') ||
-        'Address must start with bcna',
-      (v) => bech32Validation(v) || "Bad address (not bech32)",
+        this.$t('dashboard.mdlSendTx.errorPrefix'),
+      (v) => bech32Validation(v) || this.$t('dashboard.mdlSendTx.errorBech32'),
     ],
     memoRules: [
-      v => (v && v.length <= 100) || 'Memo must be less than 100 characters',
+      v => (v.length <= 100) || this.$t('dashboard.mdlSendTx.errorMemo'),
     ],
     step1: true,
     step2: false,
     step3: false,
-  }),
+  }},
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'totalRewards', 'allDelegations'])
   },

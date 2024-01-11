@@ -8,19 +8,18 @@
         >
         <v-list-item
           prepend-icon="mdi-close-thick"
-          title="Menu"
+          :title="$t('menu.title')"
           @click="drawer = false"
         ></v-list-item>
 
         <v-divider></v-divider>
-          <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" title="DashBoard" to="/dashboard"></v-list-item>
-          <v-list-item v-if="isLogged" prepend-icon="mdi-book-open-page-variant-outline" title="Addressbook" to="/addressbook"></v-list-item>
-          <v-list-item v-if="isLogged" prepend-icon="mdi-bank-transfer" title="Transactions" to="/transactions"></v-list-item>
-          <v-list-item v-if="isLogged" prepend-icon="mdi-qrcode-edit" title="Create QR" to="/create-qrcode"></v-list-item>
-          <v-list-item v-if="isLogged" prepend-icon="mdi-qrcode-scan" title="Scan QR" to="/scan-qrcode"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-view-dashboard" :title="$t('menu.dashboard')" to="/dashboard"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-book-open-page-variant-outline" :title="$t('menu.addressBook')" to="/addressbook"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-bank-transfer" :title="$t('menu.transactions')" to="/transactions"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-qrcode-edit" :title="$t('menu.createQrcode')" to="/create-qrcode"></v-list-item>
+          <v-list-item v-if="isLogged" prepend-icon="mdi-qrcode-scan" :title="$t('menu.scanQrcode')" to="/scan-qrcode"></v-list-item>
           <!-- <v-list-item prepend-icon="mdi-pencil" title="Create/import" to="/create"></v-list-item> -->
-          <v-list-item v-if="!isLogged" prepend-icon="mdi-login" title="Login" to="/"></v-list-item>
-          <v-list-item v-else prepend-icon="mdi-login" title="Logout" @click="logout"></v-list-item> 
+          <v-list-item v-if="isLogged" prepend-icon="mdi-login" :title="$t('menu.logout')" @click="logout"></v-list-item> 
           
         </v-list>
     </v-navigation-drawer>
@@ -198,5 +197,24 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
 #inspire {
   background: "black";
 }
-</style>
 
+@font-face {
+    font-family: CarmenBold;
+    src: url("@/assets/fonts/Carmen Sans Bold.otf") format("opentype");
+}
+@font-face {
+    font-family: CarmenMedium;
+    src: url("@/assets/fonts/Carmen Sans Medium.otf") format("opentype");
+}
+.body,
+.v-application{
+    font-family: 'CarmenMedium';
+} 
+.carmenBold {
+    font-family: 'CarmenBold';
+} 
+.bitcannaFont {
+    font-family: 'CarmenMedium';
+} 
+
+</style>

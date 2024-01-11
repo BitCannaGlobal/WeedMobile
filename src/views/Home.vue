@@ -1,8 +1,8 @@
 <template>
-    <v-container>
+ <div>
       
-      <h3>{{ $t("dashboard.title") }} {{ accountNow.name }}</h3>
-      <br />  
+      <h3 class="ma-4">{{ $t("dashboard.title") }} {{ accountNow?.name }}</h3>
+ 
 <!--         <v-select
           v-model="$i18n.locale"
           label="Language"
@@ -20,10 +20,10 @@
           ></v-card> 
         </v-col>
       </v-row>    -->     
-      <v-row>
-        <v-col>
+ 
           <v-card 
             v-if="allWallets.length > 0" 
+            class="ma-4"
           >
             <v-card-title class="mb-4 text-h6">{{ $t("dashboard.titleBlock") }}</v-card-title>
             <v-card-text>
@@ -39,7 +39,7 @@
             </v-card-text>
           </v-card> 
           <v-card 
-            class="mt-2"
+            class="ma-4"
             v-if="allWallets.length > 0" 
             :height="80"
           >
@@ -88,7 +88,7 @@
             </v-card-text>
           </v-card> 
           <v-card 
-            class="mt-2"
+          class="ma-4"
             v-if="allWallets.length > 0" 
           > 
             <v-card-text>
@@ -133,13 +133,11 @@
               </v-row>
             </v-card-text>
           </v-card> 
-        </v-col>
  
-      </v-row>
-    </v-container> 
-    
-    <v-card  v-if="allWallets.length > 0"  color="black" >
-      <v-card-text  >
+ 
+ 
+    <v-card  v-if="allWallets.length > 0"  class="ma-4" color="black" >
+ 
       <v-row>
         <v-col
           cols="6"
@@ -152,7 +150,7 @@
         <v-btn block size="x-large" color="#1C1D20" to="/create-qrcode">{{ $t("dashboard.btnQrCode") }}</v-btn> 
         </v-col>
       </v-row>
-    </v-card-text>
+ 
     </v-card>
     <v-card v-if="allWallets.length === 0" class="ma-4" color="black" >
       <v-alert
@@ -160,11 +158,12 @@
         type="success"
         border="top"
       >
-        Hey, there is no wallet available yet.
+        {{ $t("dashboard.welcomeNoWallet") }} 
       </v-alert>
       <br />
-      <v-btn block size="x-large" color="#1C1D20" to="/accounts">Create one here</v-btn> 
+      <v-btn block size="x-large" color="#1C1D20" to="/accounts">{{ $t("dashboard.btnCreateOne") }}</v-btn> 
     </v-card>
+  </div>
 </template>
 
 <script>
@@ -206,14 +205,13 @@ export default {
   async mounted() { 
     this.accountNow = this.allWallets[this.accountSelected]
 
-    await this.$store.dispatch('initRpc')
-    await this.$store.dispatch('getBankModule', this.accountNow.address)
-    await this.$store.dispatch('getDistribModule', this.accountNow.address)
-    await this.$store.dispatch('getStakingModule', this.accountNow.address)
-    await this.$store.dispatch('getWalletAmount')
-    
-    
-    console.log(this.totalRewards)
+    if(typeof this.accountNow !== 'undefined') {
+      await this.$store.dispatch('initRpc')
+      await this.$store.dispatch('getBankModule', this.accountNow.address)
+      await this.$store.dispatch('getDistribModule', this.accountNow.address)
+      await this.$store.dispatch('getStakingModule', this.accountNow.address)
+      await this.$store.dispatch('getWalletAmount')
+    }
 
     /* setInterval(async ()=> {
       await this.$store.dispatch('getBankModule', this.accountNow.address)

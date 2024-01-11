@@ -67,8 +67,8 @@
         </template>
       </v-list-item>
       <v-list-item
-        title="Auto logout"
-        :subtitle="'Define time for lockout ('+timeout+')'"
+        :title="$t('config.autoLogout.title')"
+        :subtitle="$t('config.autoLogout.subtitle') + ' ('+timeout+')'" 
         @click="openSetTimeOut()"
       >
       <template v-slot:prepend>
@@ -91,8 +91,8 @@
       <v-list-subheader>{{ $t('config.subheader.other') }}</v-list-subheader>
 
       <v-list-item
-        title="App info"
-        subtitle="View all app informations"
+        :title="$t('config.appInfo.title')"
+        :subtitle="$t('config.appInfo.subtitle')" 
         @click.stop="openAppInfo()"
       >
       <template v-slot:prepend>
@@ -111,7 +111,7 @@
         </template>
       </v-list-item> 
 
-      <v-list-item
+      <!-- <v-list-item
         title="Import wallet"
         subtitle="Only for dev mode"
         @click.stop="openImportDebugMnenomic()"
@@ -130,13 +130,13 @@
             @click.stop="openImportDebugMnenomic()"
           ></v-btn>
         </template>
-      </v-list-item>    
+      </v-list-item>   -->  
     </v-list>
   <!-- start modal -->
   <div class="text-center">
-    <v-bottom-sheet v-model="changeLang" inset>
+    <v-bottom-sheet v-model="changeLang" inset> 
       <v-card
-        class="text-center"
+        class="text-center bitcannaFont"
         height="200"
       >
         <v-card-text>
@@ -165,7 +165,7 @@
   <div class="text-center">
     <v-bottom-sheet v-model="changeCurrency" inset>
       <v-card
-        class="text-center"
+        class="text-center bitcannaFont"
         height="200"
       >
         <v-card-text>
@@ -183,6 +183,7 @@
             v-model="selectCurrency"
             :label="$t('config.currency.title')"
             :items="['USD', 'EUR']"
+            variant="outlined"
           ></v-select>                    
         </v-card-text>
       </v-card>
@@ -201,7 +202,7 @@
             variant="text"
             @click="importDebugMnenomic = !importDebugMnenomic"
           >
-            close
+            {{ $t('config.language.close') }}
           </v-btn>
 
           <br />
@@ -247,6 +248,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-toolbar
@@ -374,6 +376,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-toolbar
@@ -429,6 +432,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-toolbar
@@ -493,28 +497,30 @@ import pjson from '@/../package.json'
 
   export default {
     components: { Accounts },
-    data: (t) => ({
-      drawer: false,
-      deleteWallet: false,
-      changeLang: false,
-      changeCurrency: false,
-      selectCurrency: 'USD',
-      checkbox1: true,
-      password: '',
-      enableButton: false,
-      dialogChangeMasterPass: false,
-      dialogSetTimeOut: false,
-      importDebugMnenomic: false,
-      alertImported: false,
-      newPassword1: '',
-      newPassword2: '',
-      masterPasswordChanging: false,
-      masterPasswordFinish: false,
-      timeout: '',
-      dialogAppInfo: false,
-      appVersion: '',
-      deviceInfo: {}
-    }),
+    data() {
+      return {
+        drawer: false,
+        deleteWallet: false,
+        changeLang: false,
+        changeCurrency: false,
+        selectCurrency: 'USD',
+        checkbox1: true,
+        password: '',
+        enableButton: false,
+        dialogChangeMasterPass: false,
+        dialogSetTimeOut: false,
+        importDebugMnenomic: false,
+        alertImported: false,
+        newPassword1: '',
+        newPassword2: '',
+        masterPasswordChanging: false,
+        masterPasswordFinish: false,
+        timeout: '',
+        dialogAppInfo: false,
+        appVersion: '',
+        deviceInfo: {}
+      }
+    },
     watch: {
       password: async function (val) { 
         const hash = md5(this.password); 

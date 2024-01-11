@@ -1,9 +1,18 @@
 <template>
-  <v-container>
-  <v-btn block color="#0FB786" class="mb-4" @click="openDial()">
-    {{ $t("addressBook.btnAdd") }}
-  </v-btn>
-<v-card v-for="(item, index) in allContacts" class="mb-4">
+    <v-card class="ma-4" color="black" >
+ 
+      <v-row>
+        <v-col
+          cols="12"
+        >
+        <v-btn block color="#0FB786"  @click="openDial()">
+          {{ $t("addressBook.btnAdd") }}
+        </v-btn> 
+        </v-col>
+      </v-row> 
+    </v-card>  
+
+<v-card v-for="(item, index) in allContacts" class="ma-4">
     <v-list v-if="allContacts.length > 0" lines="two"> 
       <v-list-item
         :key="item.name"
@@ -239,9 +248,7 @@
     </v-bottom-sheet>
   </v-row>
 
-
-
-  </v-container>
+ 
 </template>
 <script>
 import { ref } from 'vue'
@@ -258,7 +265,8 @@ function bech32Validation(address) {
 }
 
   export default {
-    data: () => ({
+    data() {
+    return {
       dialog: false,
       dialogEdit: false,
       dialDeleteContact: false,
@@ -272,18 +280,18 @@ function bech32Validation(address) {
       name: '',
       memo: '',
       nameRules: [
-        (v) => !!v || "Name is required", 
-        v => (v && v.length <= 20) || 'Name must be less than 20 characters',
+        (v) => !!v || this.$t('addressBook.errorNameRequire'), 
+        v => (v && v.length <= 20) || this.$t('addressBook.errorNameLength'),
       ],
       addressRules: [
-        (v) => !!v || "Address is required",
+        (v) => !!v || this.$t('addressBook.errorAddrRequire'),
         (v) =>
           v.startsWith('bcna') ||
-          'Address must start with bcna',
-        (v) => bech32Validation(v) || "Bad address (not bech32)",
+          this.$t('addressBook.errorPrefix'),
+        (v) => bech32Validation(v) || this.$t('addressBook.errorBech32'),
       ],
       memoRules: [
-        v => (v.length <= 100) || 'Memo must be less than 100 characters',
+        v => (v.length <= 100) || this.$t('addressBook.errorMemo'),
       ],
       files: [
         {
@@ -299,7 +307,8 @@ function bech32Validation(address) {
           title: 'Wallet1',
         },
       ]
-    }),
+    }
+  },
     watch: {
       recipient (val) {
         this.recipient = val.toLowerCase()
@@ -325,6 +334,7 @@ function bech32Validation(address) {
         this.dialog = true
         this.name = ''
         this.recipient = ''
+        this.memo = ''
         this.removeScan = false
       },
       openEditDialog(index, item) {

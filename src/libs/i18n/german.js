@@ -1,8 +1,31 @@
 export default {
+  menu: {
+    title: 'Bitcanna Wallet',
+    dashboard: 'Armaturenbrett',
+    addressBook: 'Adressbuch',
+    transactions: 'Transaktionen',
+    createQrcode: 'QR erstellen',
+    scanQrcode: 'QR scannen', 
+    logout: 'Ausloggen',
+  },
   login: {
     title: 'Ontgrendel uw portemonnee', 
     passInput: 'Je wachtwoord',
     loginButton: 'Ontgrendelen',
+    errorMsgSession: 'Sitzung abgelaufen',
+    errorFormPassRequired: 'Passwort wird benötigt',
+    errorFormPassLength: 'Das Passwort muss weniger als 20 Zeichen lang sein',
+    welcomMsg1: 'Willkommen beim Bitcanna-Wallet',
+    welcomMsg2: 'Erstellen Sie zunächst Ihr Passwort, um Ihr Wallet zu verwenden.',
+    badPassword: 'Falsches Passwort',
+    passToLong: 'Ihr Passwort ist zu lang',
+    setPass: 'Masterpass einstellen',
+    rmPass: 'Masterpass entfernen',
+    createPass: 'Passwort erstellen',
+    savePass: 'Speichern',
+    passDescription: 'Ihr Passwort wird verwendet, um Ihre Mnemonik zu verschlüsseln und Ihr Wallet zu sichern.',
+    formSetPass: 'Lege ein Passwort fest',
+    repeatPass: 'Wiederhole dein Passwort',
   },
   dashboard: {
     title: '🇳🇱 Welkom ', 
@@ -13,6 +36,8 @@ export default {
     btnQrCode: 'QR erstellen',
     btnStake: 'Einsatz',
     btnClaim: 'Belohnen',
+    btnCreateOne: 'Erstellen Sie hier eines',
+    welcomeNoWallet: 'Hey, es ist noch keine Wallet verfügbar.',
     mdlSendTx: {
       title: 'Token senden',
       subTitle: 'Hier können Sie Ihren auf Ihrem Wallet verfügbaren Bitcanna-Token senden',
@@ -20,7 +45,14 @@ export default {
       inpAmount: 'Menge',
       inpMemo: 'Memo',   
       inpPassword: 'Passwort',
-      btnSend: 'Schicken'
+      btnSend: 'Schicken',
+      errorAddrRequire: 'Adresse ist erforderlich',
+      errorPrefix: 'Die Adresse muss mit bcna beginnen',
+      errorBech32: 'Falsche Adresse (nicht bech32)',
+      errorMemo: 'Das Memo muss weniger als 100 Zeichen lang sein',
+      errorAmountRequire: 'Betrag ist erforderlich',
+      errorAmountNumber: 'Der Betrag muss eine Zahl sein',
+      errorAmountDecimal: 'Schlechte Dezimalzahl',
     },
   },
   accounts: {
@@ -54,6 +86,11 @@ export default {
       name: 'Wallet-Name',
       address: 'Address',
       password: 'Passwort',
+      returnMsg: 'Ihre Eselsbrücke (geheim halten!)',
+      errorWalletRequired: 'Wallet-Name ist erforderlich',
+      errorWalletLength: 'Der Wallet-Name muss weniger als 20 Zeichen lang sein',
+      errorPasswordRequired: 'Passwort wird benötigt',
+      errorPasswordLength: 'Das Passwort muss weniger als 20 Zeichen lang sein',
     },
     viewMnemonic: {
       title: 'Mnemonischer Samen',
@@ -97,7 +134,8 @@ export default {
   },
   scanQrcode: {
     scanned: {
-      address: 'Address',
+      address: 'Adresse',
+      password: 'Passwort',
       amount: 'Menge',
       memo: 'Memo',
       error: 'Du hast nicht genug Bitcanna! Auf dein Konto einzahlen',
@@ -127,7 +165,7 @@ export default {
       subtitle: 'Zie je geheugensteuntje',
     },
     masterPassChange: {
-      title: 'Master password',
+      title: 'Master Passwort',
       subtitle: 'Hoofdwachtwoord wijzigen',
       password1: 'Ihr Passwort',
       password2: 'Neues Kennwort',
@@ -136,6 +174,10 @@ export default {
       progress: 'Änderung des Masterpassworts wird durchgeführt',
       success: 'Die Änderung des Masterpassworts ist abgeschlossen!',
       close: 'Schließen',
+    },
+    autoLogout: {
+      title: 'Automatische Abmeldung',
+      subtitle: 'Definieren Sie den Zeitpunkt für die Sperrung ', 
     },
     timeout: {
       title: 'Timeout festlegen',
@@ -164,6 +206,12 @@ export default {
     address: 'Adresse',
     memo: 'Standard-Memo',
     btnAddContact: 'Kontakt hinzufügen',
+    errorNameRequire: 'Name ist erforderlich',
+    errorNameLength: 'Der Name muss weniger als 10 Zeichen lang sein',
+    errorAddrRequire: 'Adresse ist erforderlich',
+    errorPrefix: 'Die Adresse muss mit bcna beginnen',
+    errorBech32: 'Falsche Adresse (nicht bech32)',
+    errorMemo: 'Das Memo muss weniger als 100 Zeichen lang sein', 
     edit: {
       title: 'Kontakt bearbeiten',
       subtitle: 'Hier können Sie Ihre Kontakte bearbeiten'
