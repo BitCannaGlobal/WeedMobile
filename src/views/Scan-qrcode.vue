@@ -14,6 +14,8 @@
     <v-btn @click="addAuthorisatoin()">
       Add camera authorization
     </v-btn>
+    <br />
+    {{ debugCam }}
   </div>
     <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
     <div v-if="removeScan">
@@ -135,8 +137,9 @@ export default {
     let alertError = false
     let loading = false
     let checkCameraPermissions = false
+    let debugCam = false
 
-    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, debugCam }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
@@ -148,8 +151,12 @@ export default {
   },
   methods: {
     addAuthorisatoin() {
-      Camera.requestPermissions().then((result) => {
+      Camera.requestPermissions().then(async (result, callback) => {
         console.log(result)
+        const testCamera = await Camera.checkPermissions() 
+        this.debugCam = testCamera.camera === 'granted' ? false : true
+        this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
+        
       })
     },
     retry() {

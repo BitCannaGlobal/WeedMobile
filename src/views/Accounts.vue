@@ -65,6 +65,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
 
       <v-card>
@@ -146,8 +147,8 @@
             {{ $t("errors.walletAddressExist") }}
           </v-alert> 
           <v-form
-      v-model="formImport"
-    >     
+            v-model="formImport"
+          >     
         <v-list-item>
             <v-text-field
                 v-model="name"

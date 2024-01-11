@@ -5,6 +5,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-toolbar dark>
         <v-btn

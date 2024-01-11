@@ -30,6 +30,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card v-if="txSend === false">
         <v-form v-if="step1" ref="form" v-model="form" > 
@@ -225,6 +226,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
     <v-card>
       <v-toolbar
@@ -258,6 +260,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
     <v-card v-if="txSend === false">
       <v-toolbar
@@ -364,6 +367,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
     <v-card v-if="txSend === false">
       <v-toolbar
