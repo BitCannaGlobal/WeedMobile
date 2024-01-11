@@ -264,7 +264,7 @@
 
     <v-bottom-sheet v-model="deleteWallet" inset>
       <v-card
-        class="text-center" 
+        class="text-center bitcannaFont"  
       >
         <v-card-text>
           <v-btn
@@ -319,7 +319,7 @@
     <div class="text-center">
     <v-bottom-sheet v-model="editNow" inset>
       <v-card
-        class="text-center" 
+        class="text-center bitcannaFont" 
       >
         <v-card-text>
           <v-btn
