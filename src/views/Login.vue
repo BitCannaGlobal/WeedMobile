@@ -70,6 +70,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-form ref="form"> 
