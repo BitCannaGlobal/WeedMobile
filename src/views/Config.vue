@@ -407,7 +407,7 @@
                 v-model="timeout"
                 :label="$t('config.timeout.select')"
                 variant="outlined"
-                :items="['1 mn', '5 mn', '1 hour', '6 hours', '1 day', 'Never']"
+                :items="['1 mn', '5 mn', '1 hour', '6 hours', '1 day', 'Always']"
                 class="mt-4"
               ></v-select>
               <v-btn  

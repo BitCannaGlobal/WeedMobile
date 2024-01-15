@@ -21,27 +21,32 @@ import English from './libs/i18n/english.js'
 import German from './libs/i18n/german.js'
 import Spanish from './libs/i18n/spanish.js'
 import French from './libs/i18n/french.js'
+import Netherlands from './libs/i18n/netherlands.js'
 
 
 const messages = {
   English,
   German,
   Spanish,
-  French
+  French,
+  Netherlands
 } 
  
 const getLocalLang = async () => {
  
   const getLanguageCode = await Device.getLanguageCode();
   let language = ''
-  console.log('getLanguageCode', getLanguageCode.value)
+  //console.log('getLanguageCode', getLanguageCode.value)
   switch (getLanguageCode.value) {
     case 'en':
       language = 'English'      
       break;
     case 'nl':
-      language = 'German'
+      language = 'Netherlands'
       break;
+    case 'de':
+      language = 'German'
+      break;      
     case 'es':
       language = 'Spanish'
       break;     

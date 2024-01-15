@@ -583,9 +583,9 @@ export default {
       this.loading = false 
     },
     openDialogClaim() {
-      this.dialogClaim = true;
-      this.txSend = false;
-
+      this.dialogClaim = true
+      this.txSend = false
+      this.password = ''
       this.loading = false 
     },
     openDialogSendToken() {
