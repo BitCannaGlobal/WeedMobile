@@ -1,22 +1,25 @@
 <template>
   <div v-if="txSend === false" class="ma-4">
-    <v-alert
-      v-model="checkCameraPermissions"
-      variant="outlined"
-      type="warning"
-      border="top"
-      closable
-      close-label="Close Alert"
-    >
-      checkCameraPermissions {{ checkCameraPermissions }}
-    </v-alert>
-    <div class="d-flex justify-center mt-6 ">
-    <v-btn @click="addAuthorisatoin()">
-      Add camera authorization
-    </v-btn>
-    <br />
-    {{ debugCam }}
-  </div>
+    <div v-if="!checkCameraPermissions">
+      <v-alert
+        v-if="isLoaded" 
+        variant="outlined"
+        type="warning"
+        border="top"
+        closable
+        close-label="Close Alert"
+      >
+      {{ $t("scanQrcode.errorCamera.title") }}<br />
+      {{ $t("scanQrcode.errorCamera.android") }}<br />
+      {{ $t("scanQrcode.errorCamera.ios") }}
+      </v-alert>
+    </div>
+    <div v-if="!checkCameraPermissions" class="d-flex justify-center mt-6">
+      <v-btn v-if="!viewErrorAuthCam" @click="addAuthorisatoin()">
+        {{ $t("scanQrcode.addAuthCam") }}
+      </v-btn>
+      <br /> 
+    </div>
     <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
     <div v-if="removeScan">
     <v-alert 
@@ -112,6 +115,7 @@
 <script> 
 import { mapState } from 'vuex'
 import { Camera } from '@capacitor/camera';
+import { Device } from '@capacitor/device';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosmjs/stargate";
 import { Preferences } from '@capacitor/preferences';
@@ -137,26 +141,34 @@ export default {
     let alertError = false
     let loading = false
     let checkCameraPermissions = false
-    let debugCam = false
+    let viewErrorAuthCam = false
+    let isLoaded = false
 
-    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, debugCam }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, viewErrorAuthCam, isLoaded }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
   },
   async mounted() {
     const testCamera = await Camera.checkPermissions()
-    console.log(testCamera)  
-    this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
+    this.checkCameraPermissions = testCamera.camera === 'granted' ? true : false
+    if(this.checkCameraPermissions === false) {
+      // this.addAuthorisatoin()
+      const info = await Device.getInfo();
+      if (info.operatingSystem === 'ios') {
+        this.viewErrorAuthCam = true
+      } else {
+        this.viewErrorAuthCam = false
+      }
+    }
+    this.isLoaded = true
+
   },
   methods: {
     addAuthorisatoin() {
       Camera.requestPermissions().then(async (result, callback) => {
-        console.log(result)
         const testCamera = await Camera.checkPermissions() 
-        this.debugCam = testCamera.camera === 'granted' ? false : true
-        this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
-        
+        this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true        
       })
     },
     retry() {
@@ -258,30 +270,6 @@ export default {
       }
       return str.slice(0, num) + '...'
     },
-    /* paintCenterText(detectedCodes, ctx) {
-      
-      for (const detectedCode of detectedCodes) {
-        this.result = detectedCode.rawValue
-        const { boundingBox, rawValue } = detectedCode
-
-        const centerX = boundingBox.x + boundingBox.width / 2
-        const centerY = boundingBox.y + boundingBox.height / 2
-
-        const fontSize = Math.max(12, (50 * boundingBox.width) / ctx.canvas.width)
-        console.log(boundingBox.width, ctx.canvas.width)
-
-        ctx.font = `bold ${fontSize}px sans-serif`
-        ctx.textAlign = 'center'
-
-        ctx.lineWidth = 3
-        ctx.strokeStyle = '#35495e'
-        ctx.strokeText(detectedCode.rawValue, centerX, centerY)
-
-        ctx.fillStyle = '#5cb984'
-        ctx.fillText(rawValue, centerX, centerY)
-      }
-    }, */
-
     logErrors: console.error
   }
 }

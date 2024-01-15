@@ -142,7 +142,13 @@ export default {
       badPass: 'Schlechtes Passwort',
       btnSend: 'Schicken',
       rescan: 'Erneut scannen',
-    }
+    },
+    errorCamera: {
+      title: 'Wir haben ein Problem mit der Autorisierung zur Verwendung Ihrer Kamera festgestellt.',
+      android: 'Wenn Sie ein Android-Gerät verwenden, klicken Sie auf die Schaltfläche unten, um die Autorisierung zu akzeptieren.',
+      ios: 'Wenn Sie ein iPhone verwenden, erteilen Sie bitte die Autorisierung in Ihren Telefoneinstellungen.',
+    },
+    addAuthCam: 'Autorisierungskamera hinzufügen',
   },
   config: {
     subheader: {

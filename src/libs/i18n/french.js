@@ -142,7 +142,13 @@ export default {
       "badPass": "Mauvais mot de passe",
       "btnSend": "Envoyer",
       "rescan": "Sauver"
-    }
+    },
+    "errorCamera": {
+      "title": 'Nous avons détecté un problème d\'autorisation d\'utilisation de votre caméra.',
+      "android": 'Si vous êtes sous Android, cliquez sur le bouton ci-dessous pour accepter l\'autorisation.',
+      "ios": 'Si vous êtes sur iPhone, veuillez donner l\'autorisation dans les paramètres de votre téléphone.',
+    },
+    "addAuthCam": 'Ajouter l\'autorisation camera',
   },
   "config": {
     "subheader": {
@@ -176,7 +182,7 @@ export default {
       "close": "Fermer"
     },
     "autoLogout": {
-      "title": "Ce logo",
+      "title": "Deconnexion automatique",
       "subtitle": "Définir le temps pour le verrouillage"
     },
     "timeout": {

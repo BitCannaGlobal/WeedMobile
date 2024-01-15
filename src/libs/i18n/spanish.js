@@ -142,7 +142,13 @@ export default {
       "badPass": "Contraseña incorrecta",
       "btnSend": "Enviar",
       "rescan": "Reescantar"
-    }
+    },
+    "errorCamera": {
+      "title": 'Hemos detectado un problema con la autorización para usar tu cámara.',
+      "android": 'Si está en Android, haga clic en el botón a continuación para aceptar la autorización.',
+      "ios": 'Si está en un iPhone, dé autorización en la configuración de su teléfono.',
+    },
+    "addAuthCam": 'Agregar cámara de autorización',
   },
   "config": {
     "subheader": {
