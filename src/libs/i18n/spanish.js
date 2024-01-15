@@ -1,9 +1,9 @@
 export default {
   "menu": {
-    "title": "Billetera bitcanna",
+    "title": "Billetera BitCanna",
     "dashboard": "Panel",
-    "addressBook": "Directorio",
-    "transactions": "Actas",
+    "addressBook": "Agenda",
+    "transactions": "Transacciones",
     "createQrcode": "Crear QR",
     "scanQrcode": "Escanear QR",
     "logout": "Cerrar sesión"
@@ -15,15 +15,15 @@ export default {
     "errorMsgSession": "Sesión expirada",
     "errorFormPassRequired": "se requiere contraseña",
     "errorFormPassLength": "La contraseña debe ser menos de 20 caracteres",
-    "welcomMsg1": "Bienvenido a la billetera bitcanna",
+    "welcomMsg1": "Bienvenido a la billetera BitCanna",
     "welcomMsg2": "Cree primero su contraseña para usar su billetera.",
     "badPassword": "Contraseña incorrecta",
     "passToLong": "tu contraseña es muy larga",
-    "setPass": "Establecer MasterPass",
-    "rmPass": "Eliminar MasterPass",
+    "setPass": "Establecer contraseña",
+    "rmPass": "Eliminar contraseña",
     "createPass": "Crear contraseña",
-    "savePass": "Ahorrar",
-    "passDescription": "Su contraseña se utiliza para cifrar su mnemónica y asegurar su billetera.",
+    "savePass": "guardar",
+    "passDescription": "Su contraseña se utiliza para cifrar su frase mnemónica y asegurar su billetera.",
     "formSetPass": "Establece tu contraseña",
     "repeatPass": "repita su contraseña"
   },
