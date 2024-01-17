@@ -218,6 +218,7 @@ export default {
     "errorPrefix": "La dirección debe comenzar con BCNA",
     "errorBech32": "Dirección incorrecta (no es bech32)",
     "errorMemo": "El concepto/memo debe ser menos de 100 caracteres",
+    "info": "Informaciones",
     "edit": {
       "title": "Editar contacto",
       "subtitle": "Aquí puedes editar tus contactos"

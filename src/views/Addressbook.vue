@@ -68,7 +68,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="$t('addressBook.subtitle')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="$t('addressBook.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -153,7 +153,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="$t('addressBook.edit.subtitle')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="$t('addressBook.edit.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>

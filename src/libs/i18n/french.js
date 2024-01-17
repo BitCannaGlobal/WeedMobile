@@ -218,6 +218,7 @@ export default {
     "errorPrefix": "L'adresse doit commencer par BCNA",
     "errorBech32": "Mauvaise adresse (pas BECH32)",
     "errorMemo": "La note doit comporter moins de 100 caractères",
+    "info": "Infomations",
     "edit": {
       "title": "Modifier le contact",
       "subtitle": "Ici, vous pouvez modifier vos contacts"

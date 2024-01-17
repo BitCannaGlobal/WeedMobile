@@ -199,6 +199,7 @@ export default {
     errorPrefix: 'Adres moet beginnen met BCNA',
     errorBech32: 'Slecht adres (niet BECH32)',
     errorMemo: 'Memo moet minder zijn dan 100 tekens',
+    info: 'Informatie',
     edit: {
       title: 'Bewerk contact',
       subtitle: 'Hier kunt u uw contacten bewerken'

@@ -218,6 +218,7 @@ export default {
     errorPrefix: 'Die Adresse muss mit bcna beginnen',
     errorBech32: 'Falsche Adresse (nicht bech32)',
     errorMemo: 'Das Memo muss weniger als 100 Zeichen lang sein', 
+    info: 'Infomations',
     edit: {
       title: 'Kontakt bearbeiten',
       subtitle: 'Hier können Sie Ihre Kontakte bearbeiten'
