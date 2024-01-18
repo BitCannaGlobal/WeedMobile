@@ -30,7 +30,7 @@
       <v-spacer></v-spacer>
  
 
-    <v-menu
+    <!--<v-menu
     v-if="isLogged" 
       transition="slide-x-transition"
     >
@@ -54,7 +54,7 @@
           <v-list-item-title>{{ item.type }}</v-list-item-title>
         </v-list-item>
       </v-list>
-    </v-menu>
+    </v-menu> -->
 
     </v-app-bar>
 
