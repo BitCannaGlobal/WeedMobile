@@ -138,7 +138,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
           let getFinalSession = await getBcnaSession();
           this.remainingTime(getFinalSession)
           //console.log('App is active, reset session data: ' + getFinalSession);
-          // removeBcnaSession();
+          removeBcnaSession();
         }
       }); 
 
