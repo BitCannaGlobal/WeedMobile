@@ -52,22 +52,14 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
         <v-list>
 
         <v-list-item>
-          <v-chip @click="setAddress('bcna148ml2tghqkfvzj8q27dlxw6ghe3vlmprhru76x')" class="mr-2">
-            Wallet1
-          </v-chip>
-          <v-chip @click="setAddress('bcna16kga5es86ca0mkjfzt067p5u8qnaxglwrz4jcj')" class="mr-2">
-            Wallet2
-          </v-chip>
-          <v-chip @click="setAddress('bcna1l6c9uc9f9ulx8925790t9g7zzhavfr2e6nh68u')" class="mr-2">
-            Wallet3
-          </v-chip>          
+        
             <v-text-field
                 v-model="recipient"
                 :rules="addressRules"
