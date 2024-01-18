@@ -345,7 +345,7 @@
             <v-btn
               class="mt-4"
               color="#0FB786"
-              @click="dialogSendToken = false"
+              @click="dialogClaim = false"
               block
             >{{ $t('approved.back') }}</v-btn>
           </v-card-text>
@@ -461,7 +461,7 @@
             <v-btn
               class="mt-4"
               color="#0FB786"
-              @click="dialogSendToken = false"
+              @click="dialogStake = false"
               block
             >{{ $t('approved.back') }}</v-btn>
           </v-card-text>
