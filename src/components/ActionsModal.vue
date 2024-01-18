@@ -265,7 +265,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Claim rewards</v-toolbar-title>
+          <v-toolbar-title>{{ $t('dashboard.mdlClaimTx.title') }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -294,7 +294,7 @@
                 >
                   <v-sheet>       
                     <span class=" text-subtitle-1">
-                      Your rewards
+                      {{ $t('dashboard.mdlClaimTx.subTitle') }}
                     </span>
                     <br />
                     <span class="font-weight-black text-subtitle-1">
@@ -311,7 +311,7 @@
                 v-model="password"
                 variant="outlined"
                 color="#00b786" 
-                label="Password" 
+                :label="$t('dashboard.mdlClaimTx.inpPassword')" 
                 type="password"
                 class="mt-2"
               ></v-text-field>
@@ -321,7 +321,7 @@
               :disabled="loading"
               :loading="loading"
               @click="claimReward()
-            ">Claim</v-btn>              
+            "> {{ $t('dashboard.mdlClaimTx.btnClaim') }}</v-btn>              
           </v-list-item>
           
     </v-card>

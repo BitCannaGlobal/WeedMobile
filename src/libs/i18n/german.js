@@ -54,6 +54,12 @@ export default {
       errorAmountNumber: 'Der Betrag muss eine Zahl sein',
       errorAmountDecimal: 'Schlechte Dezimalzahl',
     },
+    mdlClaimTx: {
+      title: 'Belohnung entgegennehmen',
+      subTitle: 'Ihre Belohnungen',
+      inpPassword: 'Passwort',
+      btnClaim: 'Beanspruchen',
+    },
   },
   accounts: {
     title: 'Rekeningen', 

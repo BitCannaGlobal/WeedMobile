@@ -54,6 +54,12 @@ export default {
       errorAmountNumber: 'Amount must be number',
       errorAmountDecimal: 'Bad decimal',
     },
+    mdlClaimTx: {
+      title: 'Claim rewards',
+      subTitle: 'Your rewards',
+      inpPassword: 'Password',
+      btnClaim: 'Claim',
+    },
   },
   accounts: {
     title: 'Accounts', 

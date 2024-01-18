@@ -54,7 +54,13 @@ export default {
       errorAmountRequire: 'Bedrag is vereist',
       errorAmountNumber: 'Bedrag moet nummer zijn',
       errorAmountDecimal: 'Slecht decimaal'
-    }
+    },
+    mdlClaimTx: {
+      title: 'Claim beloningen',
+      subTitle: 'Jouw beloningen',
+      inpPassword: 'Wachtwoord',
+      btnClaim: 'Claim',
+    },
   },
   accounts: {
     title: 'Rekeningen',

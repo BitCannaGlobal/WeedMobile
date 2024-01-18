@@ -53,7 +53,13 @@ export default {
       "errorAmountRequire": "Se requiere cantidad",
       "errorAmountNumber": "La cantidad debe ser un número",
       "errorAmountDecimal": "Decimal incorrecto"
-    }
+    },
+    "mdlClaimTx": {
+      "title": 'Reclamar premios',
+      "subTitle": 'Tus recompensas',
+      "inpPassword": 'Contraseña',
+      "btnClaim": 'Afirmar',
+    },
   },
   "accounts": {
     "title": "Cuentas",
