@@ -1,136 +1,136 @@
 export default { 
  
   menu: {
-    title: 'Bitcanna -portemonnee',
+    title: 'BitCanna wallet',
     dashboard: 'Dashboard',
     addressBook: 'Adresboek',
     transactions: 'Transacties',
-    createQrcode: 'Creëer QR',
+    createQrcode: 'QR maken',
     scanQrcode: 'Scan QR',
     logout: 'Uitloggen'
   },
   login: {
-    title: 'Ontgrendel uw portemonnee',
+    title: 'Ontgrendel uw wallet',
     passInput: 'Wachtwoord',
     loginButton: 'Ontgrendelen',
-    errorMsgSession: 'Sessie verlopen',
+    errorMsgSession: 'Sessie is verlopen',
     errorFormPassRequired: 'Een wachtwoord is verplicht',
-    errorFormPassLength: 'Wachtwoord moet minder zijn dan 20 tekens',
-    welcomMsg1: 'Welkom bij de Bitcanna -portemonnee',
-    welcomMsg2: 'Maak eerst uw wachtwoord om uw portemonnee te gebruiken.',
+    errorFormPassLength: 'Wachtwoord moet minder dan 20 tekens zijn',
+    welcomMsg1: 'Welkom bij de BitCanna wallet',
+    welcomMsg2: 'Maak eerst uw wachtwoord om uw wallet te kunnen gebruiken.',
     badPassword: 'Verkeerd wachtwoord',
     passToLong: 'Uw wachtwoord is te lang',
-    setPass: 'Set MasterPass',
-    rmPass: 'Verwijder MasterPass',
+    setPass: 'Wachtwoord instellen',
+    rmPass: 'Wachtwoord verwijderen',
     createPass: 'Maak een wachtwoord',
-    savePass: 'Redden',
-    passDescription: 'Uw wachtwoord wordt gebruikt om uw mnemonic te coderen en uw portemonnee te beveiligen.',
-    formSetPass: 'Stel je wachtwoord in',
+    savePass: 'Opslaan',
+    passDescription: 'Uw wachtwoord wordt gebruikt om uw mnemonic te coderen en uw wallet te beveiligen.',
+    formSetPass: 'Stel uw wachtwoord in',
     repeatPass: 'Herhaal uw wachtwoord'
   },
   dashboard: {
     title: '🇬🇧 Welkom',
-    titleBlock: 'Portemonnee',
+    titleBlock: 'Wallet',
     available: 'Beschikbaar',
-    rewards: 'Uw beloningen',
+    rewards: 'Rente',
     btnSend: 'Versturen',
-    btnQrCode: 'Creëer QR',
-    btnStake: 'Inzet',
-    btnClaim: 'Claim',
+    btnQrCode: 'QR maken',
+    btnStake: 'Delegeren',
+    btnClaim: 'Rente claimen',
     btnCreateOne: 'Maak er hier een aan',
-    welcomeNoWallet: 'Hé, er is nog geen portemonnee beschikbaar.',
+    welcomeNoWallet: 'Hé, er is nog geen wallet beschikbaar.',
     mdlSendTx: {
-      title: 'Stuur token',
-      subTitle: 'Hier kunt u uw Bitcanna -token beschikbaar sturen op uw portemonnee',
+      title: 'Verstuur BCNA',
+      subTitle: 'Hier kunt u uw BitCanna-coin beschikbaar sturen op uw wallet',
       inpRecipient: 'Ontvanger',
       inpAmount: 'Hoeveelheid',
       inpMemo: 'Memo',
       inpPassword: 'Wachtwoord',
       btnSend: 'Versturen',
-      errorAddrRequire: 'adres is nodig',
+      errorAddrRequire: 'Adres is vereist',
       errorPrefix: 'Adres moet beginnen met BCNA',
-      errorBech32: 'Slecht adres (niet BECH32)',
-      errorMemo: 'Memo moet minder zijn dan 100 tekens',
+      errorBech32: 'Verkeerd adres (niet de goede structuur)',
+      errorMemo: 'Memo moet minder dan 100 tekens lang zijn',
       errorAmountRequire: 'Bedrag is vereist',
-      errorAmountNumber: 'Bedrag moet nummer zijn',
-      errorAmountDecimal: 'Slecht decimaal'
+      errorAmountNumber: 'Bedrag moet bestaan uit cijfers',
+      errorAmountDecimal: 'Teveel cijfers achter de komma'
     },
     mdlClaimTx: {
-      title: 'Claim beloningen',
-      subTitle: 'Jouw beloningen',
+      title: 'Claim rente',
+      subTitle: 'Uw rente',
       inpPassword: 'Wachtwoord',
-      btnClaim: 'Claim',
+      btnClaim: 'Claimen',
     },
   },
   accounts: {
-    title: 'Rekeningen',
-    createAccount: 'Creëren',
+    title: 'Adressen',
+    createAccount: 'Aanmaken',
     importAccount: 'Importeren',
-    selectWallet: 'Selecteer portemonnee',
-    btnEditAccount: 'Bewerking',
+    selectWallet: 'Selecteer wallet',
+    btnEditAccount: 'Bewerken',
     btnDeleteAccount: 'Verwijderen',
     btnStartVerification: 'Start verificatie',
     mdlCreateAccount: {
       title: 'Account aanmaken',
       name: 'Naam',
       address: 'Adres',
-      btnCreate: 'Creëren',
+      btnCreate: 'Aanmaken',
       step1: 'Stap 1',
       step2: 'Stap 2',
       step3: 'Stap 3',
       words: 'woorden',
       checkMnemonic: 'Controleer mnemonic',
-      return: 'Opbrengst',
+      return: 'Terug',
       nextStep: 'Volgende stap',
-      walletName: 'Portemonnee',
-      walletPassword: 'Portemonnee wachtwoord',
-      save: 'Redden'
+      walletName: 'Wallet',
+      walletPassword: 'Wachtwoord',
+      save: 'Opslaan'
     },
     mdlImportAccount: {
-      title: 'Import portemonnee',
-      save: 'Redden',
-      subtitle: 'Hier kunt u uw mnenomics veilig importeren! Uw wachtwoordzin wordt gecodeerd met uw masterPassword',
-      name: 'Portemonnee',
+      title: 'Import wallet',
+      save: 'Opslaan',
+      subtitle: 'Hier kunt u uw mnenomics veilig importeren! Deze wordt gecodeerd met uw wachtwoord',
+      name: 'Wallet',
       address: 'Adres',
       password: 'Wachtwoord',
-      returnMsg: 'Uw mnemonic (houd het geheim!)',
-      errorWalletRequired: 'Wallet -naam is vereist',
-      errorWalletLength: 'Wallet -naam moet minder zijn dan 20 tekens',
+      returnMsg: 'Uw mnemonic (houd deze geheim!)',
+      errorWalletRequired: 'Wallet naam is vereist',
+      errorWalletLength: 'Wallet naam moet minder dan 20 tekens zijn',
       errorPasswordRequired: 'Een wachtwoord is verplicht',
-      errorPasswordLength: 'Wachtwoord moet minder zijn dan 20 tekens'
+      errorPasswordLength: 'Wachtwoord moet minder dan 20 tekens zijn'
     },
-    viewMnemonic: { title: 'Mnemonisch zaad', subtitle: 'Bekijk je mnemonic' },
+    viewMnemonic: { title: 'Mnemonic', subtitle: 'Bekijk je mnemonic' },
     deleteWallet: {
-      btnClose: 'Dichtbij',
+      btnClose: 'Sluiten',
       btnDelete: 'Verwijderen',
-      altSuccess: 'Portemonnee verwijderd',
-      agreeDelete: 'Ga je ermee akkoord om je portemonnee uit de app te verwijderen?',
+      altSuccess: 'Wallet verwijderd',
+      agreeDelete: 'Ga je ermee akkoord om je wallet uit de app te verwijderen?',
       password: 'Wachtwoord'
     },
     editWallet: {
-      btnClose: 'Dichtbij',
-      btnEdit: 'Bewerk portemonnee',
-      altSuccess: 'Portemonnee bewerkt',
-      inputName: 'Portemonnee'
+      btnClose: 'Sluiten',
+      btnEdit: 'Wallet bewerken',
+      altSuccess: 'Wallet bewerkt',
+      inputName: 'Wallet'
     },
     rules: { required: 'Vereist', counter: 'Max 10 tekens' }
   },
   createQrcode: {
-    title: 'Code maken',
+    title: 'QR code maken',
     recipient: 'Ontvanger',
     amount: 'Hoeveelheid',
     currency: 'Munteenheid',
     memo: 'Memo',
     btnCreate: 'Genereren',
-    btnBack: 'Rug',
+    btnBack: 'Terug',
     selectContact: 'Selecteer contact',
     rules: {
       amountRequire: 'Bedrag is vereist',
-      amountNumber: 'Bedrag moet nummer zijn',
-      amountDecimal: 'Slecht decimaal',
-      recipientRequire: 'adres is nodig',
+      amountNumber: 'Bedrag moet bestaan uit cijfers',
+      amountDecimal: 'Teveel cijfers achter de komma',
+      recipientRequire: 'Adres is vereist',
       recipientPrefix: 'Adres moet beginnen met BCNA',
-      recipientBech32: 'Slecht adres (niet BECH32)'
+      recipientBech32: 'Verkeerd adres (niet de goede structuur)'
     }
   },
   scanQrcode: {
@@ -139,60 +139,60 @@ export default {
       password: 'Wachtwoord',
       amount: 'Hoeveelheid',
       memo: 'Memo',
-      error: 'Je hebt niet genoeg Bitcanna! Financier uw account',
-      badPass: 'Slecht wachtwoord',
+      error: 'U heeft niet genoeg Bitcanna! Laad uw account op',
+      badPass: 'Verkeerd wachtwoord',
       btnSend: 'Versturen',
-      rescan: 'Mest'
+      rescan: 'Opnieuw'
     },
     errorCamera: {
-      title: 'We hebben een probleem met machtiging ontdekt om uw camera te gebruiken.',
-      android: 'Als u op Android bent, klikt u op de onderstaande knop om autorisatie te accepteren.',
-      ios: 'Als u op de iPhone bent, geeft u autorisatie in uw telefooninstellingen.'
+      title: 'We hebben een probleem met de machtiging ontdekt om uw camera te mogen gebruiken.',
+      android: 'Als u Android gebruikt, klikt u op de onderstaande knop om autorisatie te accepteren.',
+      ios: 'Als u iOS gebruikt, geeft u autorisatie in uw telefooninstellingen.'
     },
     addAuthCam: 'Voeg autorisatiecamera toe'
   },
   config: {
-    subheader: { general: 'Algemeen', privacy: 'Privacy', other: 'Ander' },
+    subheader: { general: 'Algemeen', privacy: 'Privacy', other: 'Anders' },
     currency: {
       title: 'Munteenheid',
       subtitle: 'Selecteer uw valuta',
-      close: 'Dichtbij'
+      close: 'Sluiten'
     },
-    language: { title: 'Taal', subtitle: 'Selecteer je taal', close: 'Dichtbij' },
-    viewMnemonic: { title: 'Mnemonisch zaad', subtitle: 'Bekijk je mnemonic' },
+    language: { title: 'Taal', subtitle: 'Selecteer je taal', close: 'Sluiten' },
+    viewMnemonic: { title: 'Mnemonic', subtitle: 'Bekijk je mnemonic' },
     masterPassChange: {
-      title: 'Master wachtwoord',
-      subtitle: 'Wijzig het hoofdwachtwoord',
-      password1: 'Je wachtwoord',
-      password2: 'Nieuw paswoord',
+      title: 'Wachtwoord',
+      subtitle: 'Wijzig het wachtwoord',
+      password1: 'Uw wachtwoord',
+      password2: 'Nieuw wachtwoord',
       password3: 'Herhaal nieuw wachtwoord',
-      btnChange: 'Verander MasterPass',
-      progress: 'MasterPassword verandering in uitvoering',
-      success: 'MasterPassword -verandering is gedaan!',
-      close: 'Dichtbij'
+      btnChange: 'Verander wachtwoord',
+      progress: 'Wachtwoord verandering in uitvoering',
+      success: 'Wachtwoord is veranderd!',
+      close: 'Sluiten'
     },
     autoLogout: { title: 'Auto logout', subtitle: 'Definieer tijd voor lockout' },
     timeout: {
-      title: 'Stel time -out in',
-      subtitle: 'Selecteer uw time -out',
-      close: 'Dichtbij',
-      select: 'Selecteer time -out',
-      btnUpdate: 'Update time -out'
+      title: 'Stel time-out in',
+      subtitle: 'Selecteer uw time-out',
+      close: 'Sluiten',
+      select: 'Selecteer time-out',
+      btnUpdate: 'Update time-out'
     },
     appInfo: {
       title: 'App informatie',
-      subtitle: 'Hier kunt u app -info zien',
+      subtitle: 'Hier kunt u app-info zien',
       appVersion: 'App versie',
       version: 'Versie',
       deviceInfo: 'Apparaat info'
     },
     deleteWallet: {
-      title: 'Verwijder portemonnee',
-      subtitle: 'Verwijder portemonnee van telefoon'
+      title: 'Verwijder wallet',
+      subtitle: 'Verwijder wallet van uw telefoon'
     }
   },
   addressBook: {
-    title: 'Adrescontact',
+    title: 'Contacten',
     btnAdd: 'Voeg contact toe',
     subtitle: 'Hier kunt u uw contacten opslaan',
     name: 'Naam',
@@ -200,11 +200,11 @@ export default {
     memo: 'Standaardmemo',
     btnAddContact: 'Voeg contact toe',
     errorNameRequire: 'Naam is vereist',
-    errorNameLength: 'Naam moet minder zijn dan 10 tekens',
-    errorAddrRequire: 'adres is nodig',
+    errorNameLength: 'Naam moet minder dan 10 tekens zijn',
+    errorAddrRequire: 'Adres is vereist',
     errorPrefix: 'Adres moet beginnen met BCNA',
-    errorBech32: 'Slecht adres (niet BECH32)',
-    errorMemo: 'Memo moet minder zijn dan 100 tekens',
+    errorBech32: 'Verkeerd adres (niet de goede structuur)',
+    errorMemo: 'Memo moet minder dan 100 tekens zijn',
     info: 'Informatie',
     edit: {
       title: 'Bewerk contact',
@@ -212,21 +212,21 @@ export default {
     },
     delete: {
       title: 'Verwijder contact',
-      close: 'Dichtbij',
-      agree: 'Ga je ermee akkoord om dit contact te verwijderen?'
+      close: 'Sluiten',
+      agree: 'Gaat u ermee akkoord om dit contact te verwijderen?'
     }
   },
   transactions: {
     title: 'Transacties',
-    btnCreateQr: 'Creëer QR',
+    btnCreateQr: 'QR maken',
     btnViewTx: 'Bekijk transactie'
   },
-  footer: { title1: 'Dashboard', title2: 'Rekening', title3: 'Configuratie' },
+  footer: { title1: 'Dashboard', title2: 'Adres', title3: 'Configuratie' },
   errors: {
     badPassword: 'Verkeerd wachtwoord',
-    badMnemonic: 'Slechte mnemonic',
-    walletAlreadyExist: 'Portemonnee -naam al ingenomen',
-    walletAddressExist: 'Portemonnee -adres al ingenomen'
+    badMnemonic: 'Verkeerde mnemonic',
+    walletAlreadyExist: 'Wallet naam al gebruikt',
+    walletAddressExist: 'Wallet adres al aanwezig in uw app'
   },
   approved: {
     title: 'Goedgekeurde transactie',
