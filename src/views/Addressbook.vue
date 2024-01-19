@@ -218,7 +218,7 @@
             variant="text"
             @click="dialDeleteContact = !dialDeleteContact"
           >
-            close
+            {{ $t("addressBook.delete.close") }}
           </v-btn>
           <v-alert
             v-if="deletedContact"
