@@ -189,7 +189,14 @@ export default {
     },
     "autoLogout": {
       "title": "Deconnexion automatique",
-      "subtitle": "Définir le temps pour le verrouillage"
+      "subtitle": "Définir le temps pour le verrouillage",
+      "time": {
+        "min": '1 minute',
+        "min5": '5 minutes',
+        "hour": '1 heure',
+        "hours6": '6 heures',
+        "day": '1 journée',
+      }
     },
     "timeout": {
       "title": "Définir le délai",

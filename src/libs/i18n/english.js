@@ -190,6 +190,13 @@ export default {
     autoLogout: {
       title: 'Auto logout',
       subtitle: 'Define time for lockout', 
+      time: {
+        min: '1 minute',
+        min5: '5 minutes',
+        hour: '1 hour',
+        hours6: '6 hours',
+        day: '1 day',
+      }
     },
     timeout: {
       title: 'Set Timeout',

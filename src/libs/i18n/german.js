@@ -190,6 +190,13 @@ export default {
     autoLogout: {
       title: 'Automatische Abmeldung',
       subtitle: 'Definieren Sie den Zeitpunkt für die Sperrung ', 
+      time: {
+        min: '1 minute',
+        min5: '5 minutes',
+        hour: '1 stunde',
+        hours6: '6 stundes',
+        day: '1 tag',
+      }
     },
     timeout: {
       title: 'Timeout festlegen',

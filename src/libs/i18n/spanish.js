@@ -189,7 +189,14 @@ export default {
     },
     "autoLogout": {
       "title": "Auto bloqueo",
-      "subtitle": "Defina el tiempo para el bloqueo"
+      "subtitle": "Defina el tiempo para el bloqueo",
+      "time": {
+        "min": '1 minuto',
+        "min5": '5 minutos',
+        "hour": '1 hora',
+        "hours6": '6 horas',
+        "day": '1 día',
+      }
     },
     "timeout": {
       "title": "Tiempo de espera establecido",

@@ -171,7 +171,17 @@ export default {
       success: 'Wachtwoord is veranderd!',
       close: 'Sluiten'
     },
-    autoLogout: { title: 'Auto logout', subtitle: 'Definieer tijd voor lockout' },
+    autoLogout: { 
+      title: 'Auto logout', 
+      subtitle: 'Definieer tijd voor lockout',
+      time: {
+        min: '1 minuut',
+        min5: '5 minuten',
+        hour: '1 uur',
+        hours6: '6 uur',
+        day: '1 dag',
+      }
+    },
     timeout: {
       title: 'Stel time-out in',
       subtitle: 'Selecteer uw time-out',
