@@ -492,7 +492,7 @@ import { Device } from '@capacitor/device';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
 import Accounts from '@/components/Accounts.vue'
 import md5 from 'md5' 
-import { removeAccountId, checkMasterPassword, addAccount, editMasterPassword, setSessionTimeOut } from '@/libs/storage.js';  
+import { removeBcnaSession, addAccount, editMasterPassword, setSessionTimeOut } from '@/libs/storage.js';  
 import bitcannaWallets from '../bitcanna.wallet'
 import pjson from '@/../package.json' 
 
@@ -550,9 +550,16 @@ export default {
     },
   },
   computed: {
-    ...mapState(['allWallets', 'accountSelected', 'sessionMax'])
+    ...mapState(['allWallets', 'accountSelected', 'sessionMax', 'isLogged'])
   },
   async mounted() { 
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    }
+
     const { value } = await Preferences.get({ key: 'currency'}) 
     this.selectCurrency = value
     this.displayTimeout()

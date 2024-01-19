@@ -157,6 +157,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
         }
       }); */
       if (!this.isLogged) {
+        removeBcnaSession()
+        this.$store.commit('setIsLogged', false)
         this.$router.push('/')
         return
       }
@@ -187,6 +189,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
         }
       },
       logout() {
+        removeBcnaSession()
         this.$store.commit('setIsLogged', false)
         this.$router.push('/')
       }

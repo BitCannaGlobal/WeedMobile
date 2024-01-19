@@ -75,6 +75,7 @@ import { mapState } from "vuex";
 
 import axios from "axios";
 import dayjs from "dayjs";
+import { removeBcnaSession } from '@/libs/storage.js';
 import { reverse, sortBy, uniqWith, orderBy, groupBy } from "lodash";
 import { Browser } from '@capacitor/browser';
 import relativeTime from "dayjs/plugin/relativeTime";
@@ -131,7 +132,12 @@ export default {
   watch: {},
 
   async beforeMount() {
-
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    }
     if (this.isLogged) {
       this.accountNow = this.allWallets[this.accountSelected]
 

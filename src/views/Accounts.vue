@@ -365,7 +365,7 @@
 import { mapState } from 'vuex'
 import { Preferences } from '@capacitor/preferences';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
-import { checkMasterPassword, removeAccount, addAccount, removeAccountId, editAccountId, addContact } from '@/libs/storage.js';
+import { checkMasterPassword, removeAccount, addAccount, removeAccountId, editAccountId, addContact, removeBcnaSession } from '@/libs/storage.js';
 import md5 from 'md5' 
 import CreateAccount from '@/components/CreateAccount.vue' 
 
@@ -439,6 +439,12 @@ export default {
     ...mapState(['allWallets', 'isLogged', 'accountSelected', 'allWalletsList'])
   },
   async mounted() {
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    }
     this.setData() 
   },
   methods: { 

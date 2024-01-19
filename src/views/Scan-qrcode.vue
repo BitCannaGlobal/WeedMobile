@@ -116,6 +116,7 @@
 import { mapState } from 'vuex'
 import { Camera } from '@capacitor/camera';
 import { Device } from '@capacitor/device';
+import { removeBcnaSession } from '@/libs/storage.js'; 
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosmjs/stargate";
 import { Preferences } from '@capacitor/preferences';
@@ -147,12 +148,21 @@ export default {
     return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, viewErrorAuthCam, isLoaded }
   },
   computed: {
-    ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
+    ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'isLogged'])
   },
   async mounted() {
+    console.log(this.isLogged)
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    }
+
     const testCamera = await Camera.checkPermissions()
     this.checkCameraPermissions = testCamera.camera === 'granted' ? true : false
-    if(this.checkCameraPermissions === false) {
+    this.addAuthorisatoin()
+    /*if(this.checkCameraPermissions === false) {
       // this.addAuthorisatoin()
       const info = await Device.getInfo();
       if (info.operatingSystem === 'ios') {
@@ -160,7 +170,7 @@ export default {
       } else {
         this.viewErrorAuthCam = false
       }
-    }
+    } */
     this.isLoaded = true
 
   },

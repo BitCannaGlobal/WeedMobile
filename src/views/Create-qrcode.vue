@@ -191,7 +191,7 @@ import axios from "axios";
 import QRCodeVue3 from "qrcode-vue3";
 import bech32 from "bech32";
 import { Preferences } from '@capacitor/preferences';
-import { getAllContact } from '@/libs/storage.js';
+import { getAllContact, removeBcnaSession } from '@/libs/storage.js';
 
 function bech32Validation(address) {
   try {
@@ -244,7 +244,8 @@ export default {
     ...mapState([
       'allWallets',
       'priceNow',
-      'currencyNow'
+      'currencyNow',
+      'isLogged'
     ])
   },
   watch: {
@@ -267,6 +268,12 @@ export default {
     }
   },
   async mounted() { 
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    }
 
     this.getConvertPrices = await axios("https://bcnaracle-api.bitcanna.io/api/all");
     //state.priceNow = getPrice.data.bitcanna[state.currencyNow.toLowerCase()].toFixed(5); 
