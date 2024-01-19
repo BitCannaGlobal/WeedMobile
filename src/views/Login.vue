@@ -158,6 +158,7 @@
 
 </template>
 <script>
+import { App } from '@capacitor/app';
 import { mapState } from 'vuex'
 import md5 from 'md5'
 import { checkMasterPassword, addBcnaSession, getMasterPassword, addMasterPassword, removeMasterPassword } from '@/libs/storage.js';
@@ -189,10 +190,15 @@ export default {
       ],    
     }
   },
+
   computed: {
     ...mapState(['allWallets', 'isLogged', 'sessionMax'])
   },
   async mounted() {
+    App.addListener('backButton', data => {
+      //console.log('backButton:', data);
+      App.exitApp()
+    });
     await this.$store.dispatch('getWallets')
     if (typeof this.$route.query.expired !== 'undefined') {
       this.alertExpired = true
