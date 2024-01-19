@@ -58,7 +58,7 @@ export default {
       "title": 'Reclamar premios',
       "subTitle": 'Tus recompensas',
       "inpPassword": 'Contraseña',
-      "btnClaim": 'Afirmar',
+      "btnClaim": 'Reclamar',
     },
   },
   "accounts": {
@@ -224,7 +224,7 @@ export default {
     "errorPrefix": "La dirección debe comenzar con BCNA",
     "errorBech32": "Dirección incorrecta (no es bech32)",
     "errorMemo": "El concepto/memo debe ser menos de 100 caracteres",
-    "info": "Informaciones",
+    "info": "¿Qué puedo hacer aquí?",
     "edit": {
       "title": "Editar contacto",
       "subtitle": "Aquí puedes editar tus contactos"
