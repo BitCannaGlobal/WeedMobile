@@ -1,6 +1,6 @@
 {
   "name": "weedmobile",
-  "version": "1.10.69",
+  "version": "1.10.70",
   "type": "module",
   "private": true,
   "scripts": {
