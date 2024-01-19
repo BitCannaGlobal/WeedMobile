@@ -55,7 +55,7 @@ export default {
       "errorAmountDecimal": "Decimal incorrecto"
     },
     "mdlClaimTx": {
-      "title": 'Reclamar premios',
+      "title": 'Reclamar recompensas',
       "subTitle": 'Tus recompensas',
       "inpPassword": 'Contraseña',
       "btnClaim": 'Reclamar',
