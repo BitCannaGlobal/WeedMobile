@@ -251,6 +251,7 @@
  
 </template>
 <script>
+import { mapState } from 'vuex'
 import bech32 from "bech32";
 import { addContact, getAllContact, removeContactId, editContactId, removeBcnaSession } from '@/libs/storage.js';
 
