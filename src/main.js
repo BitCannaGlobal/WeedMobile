@@ -18,7 +18,7 @@ import { registerPlugins } from '@/plugins'
 import store from './store'
 
 import English from './libs/i18n/english.js'
-import German from './libs/i18n/german.js'
+// import German from './libs/i18n/german.js'
 import Spanish from './libs/i18n/spanish.js'
 import French from './libs/i18n/french.js'
 import Netherlands from './libs/i18n/netherlands.js'
@@ -26,7 +26,7 @@ import Netherlands from './libs/i18n/netherlands.js'
 
 const messages = {
   English,
-  German,
+  //German,
   Spanish,
   French,
   Netherlands
@@ -44,9 +44,9 @@ const getLocalLang = async () => {
     case 'nl':
       language = 'Netherlands'
       break;
-    case 'de':
+    /*case 'de':
       language = 'German'
-      break;      
+      break;  */    
     case 'es':
       language = 'Spanish'
       break;     
@@ -59,8 +59,8 @@ const getLocalLang = async () => {
   }
   return language
 };
+
 let userLang = await getLocalLang();
-console.log('userLang', userLang)
 const i18n = createI18n({
   locale: userLang, // set locale
   fallbackLocale: 'English', // set fallback locale

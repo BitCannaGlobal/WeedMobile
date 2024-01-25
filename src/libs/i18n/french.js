@@ -1,6 +1,6 @@
 export default {
   "menu": {
-    "title": "Portefeuille Bitcanna",
+    "title": "Portefeuille BitCanna",
     "dashboard": "Tableau de bord",
     "addressBook": "Carnet d'adresses",
     "transactions": "Transactions",
@@ -11,19 +11,19 @@ export default {
   "login": {
     "title": "Débloquez votre portefeuille",
     "passInput": "Mot de passe",
-    "loginButton": "Ouvrir",
+    "loginButton": "Connexion",
     "errorMsgSession": "La session a expiré",
     "errorFormPassRequired": "Mot de passe requis",
     "errorFormPassLength": "Le mot de passe doit comporter moins de 20 caractères",
-    "welcomMsg1": "Bienvenue dans le portefeuille Bitcanna",
+    "welcomMsg1": "Bienvenue dans le portefeuille BitCanna",
     "welcomMsg2": "Créez d'abord votre mot de passe pour utiliser votre portefeuille.",
     "badPassword": "Mauvais mot de passe",
     "passToLong": "Votre mot de passe est trop long",
-    "setPass": "Définir MasterPass",
-    "rmPass": "Supprimer MasterPass",
+    "setPass": "Définir password",
+    "rmPass": "Supprimer password",
     "createPass": "Créer un mot de passe",
     "savePass": "Sauvegarder",
-    "passDescription": "Votre mot de passe est utilisé pour crypter votre mnémonique et sécuriser votre portefeuille.",
+    "passDescription": "Votre mot de passe est utilisé pour chiffré votre mnémonique et sécuriser votre portefeuille.",
     "formSetPass": "Définir votre mot de passe",
     "repeatPass": "Répétez votre mot de passe"
   },
@@ -36,11 +36,11 @@ export default {
     "btnQrCode": "Créer QR",
     "btnStake": "Miser",
     "btnClaim": "Réclamer",
-    "btnCreateOne": "En créer un ici",
+    "btnCreateOne": "Créer en un ici",
     "welcomeNoWallet": "Hé, il n'y a pas encore de portefeuille disponible.",
     "mdlSendTx": {
-      "title": "Envoyer un jeton",
-      "subTitle": "Ici, vous pouvez envoyer votre jeton Bitcanna disponible sur votre portefeuille",
+      "title": "Envoyer du BCNA",
+      "subTitle": "Ici, vous pouvez envoyer votre jeton BitCanna disponible sur votre portefeuille",
       "inpRecipient": "Destinataire",
       "inpAmount": "Montant",
       "inpMemo": "Note",
@@ -88,7 +88,7 @@ export default {
     "mdlImportAccount": {
       "title": "Portefeuille d'importation",
       "save": "Sauvegarder",
-      "subtitle": "Ici, vous pouvez importer votre mnénomique en toute sécurité! Votre phrase de passe sera cryptée avec votre mot de passe",
+      "subtitle": "Ici, vous pouvez importer votre mnénomique en toute sécurité! Votre phrase de passe sera chiffré avec votre mot de passe",
       "name": "Nom de portefeuille",
       "address": "Adresse",
       "password": "Mot de passe",
@@ -144,7 +144,7 @@ export default {
       "password": "Mot de passe",
       "amount": "Montant",
       "memo": "Note",
-      "error": "Vous n'avez pas assez de bitcanna! Financer votre compte",
+      "error": "Vous n'avez pas assez de BitCanna! Financer votre compte",
       "badPass": "Mauvais mot de passe",
       "btnSend": "Envoyer",
       "rescan": "Sauver"
@@ -176,15 +176,15 @@ export default {
       "title": "Graine mnémonique",
       "subtitle": "Voir votre mnémonique"
     },
-    "masterPassChange": {
+    "PasswordChange": {
       "title": "Mot de passe maître",
       "subtitle": "Modifier le mot de passe maître",
       "password1": "Votre mot de passe",
       "password2": "Nouveau mot de passe",
       "password3": "Répété le nouveau mot de passe",
-      "btnChange": "Changer MasterPass",
-      "progress": "MasterPassword Changement dans les progrès",
-      "success": "MasterPassword Change est effectué!",
+      "btnChange": "Changer Password",
+      "progress": "Passwordword Changement dans les progrès",
+      "success": "Passwordword Change est effectué!",
       "close": "Fermer"
     },
     "autoLogout": {

@@ -70,7 +70,6 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
-      class="bitcannaFont"
     >
       <v-card>
         <v-form ref="form"> 
@@ -190,14 +189,16 @@ export default {
       ],    
     }
   },
-
   computed: {
     ...mapState(['allWallets', 'isLogged', 'sessionMax'])
   },
   async mounted() {
     App.addListener('backButton', data => {
       //console.log('backButton:', data);
-      App.exitApp()
+      if(this.$route.name === 'Login') {
+        App.exitApp()
+      }
+      
     });
     await this.$store.dispatch('getWallets')
     if (typeof this.$route.query.expired !== 'undefined') {

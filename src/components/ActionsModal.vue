@@ -23,7 +23,7 @@
     disabled="true" 
     @click="openDialogStake"
   >
-  {{ $t("dashboard.btnStake") }} (Soon)
+  {{ $t("dashboard.btnStake") }} 
   </v-btn>
   <v-dialog
       v-model="dialogSendToken"
