@@ -116,7 +116,13 @@ export default createStore({
     },
     async getStakingModule({ state }, addressSelected) {    
       const queryStaking = new staking.QueryClientImpl(state.rpcClient);
-      let allValidators = await queryStaking.Validators({ status: 2})
+      let allValidators = await queryStaking.Validators({ status: 2,pagination: {
+        countTotal: false,
+        key: '',
+        offset: Long.fromNumber(0, true),
+        limit: Long.fromNumber(300, true),
+        reverse: false,
+      }})
       let getPoolStaking = await queryStaking.Pool({});  
       let delegatorValidators = await queryStaking.DelegatorDelegations({ delegatorAddr: addressSelected, pagination: {
         countTotal: false,
