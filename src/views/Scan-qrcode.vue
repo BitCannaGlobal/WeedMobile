@@ -1,5 +1,6 @@
 <template>
   <div v-if="txSend === false" class="ma-4">
+<!--     {{ checkCameraPermissions }}
     <div v-if="!checkCameraPermissions">
       <v-alert
         v-if="isLoaded" 
@@ -19,7 +20,7 @@
         {{ $t("scanQrcode.addAuthCam") }}
       </v-btn>
       <br /> 
-    </div>
+    </div> -->
     <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
     <div v-if="removeScan">
     <v-alert 
@@ -162,15 +163,15 @@ export default {
     const testCamera = await Camera.checkPermissions()
     this.checkCameraPermissions = testCamera.camera === 'granted' ? true : false
     // this.addAuthorisatoin()
-    if(this.checkCameraPermissions === false) {
+    /*if(this.checkCameraPermissions === false) {
       this.addAuthorisatoin()
-      /*const info = await Device.getInfo();
+      const info = await Device.getInfo();
       if (info.operatingSystem === 'ios') {
         this.viewErrorAuthCam = true
       } else {
         this.viewErrorAuthCam = false
-      }*/
-    } 
+      }
+    } */
     this.isLoaded = true
 
   },
