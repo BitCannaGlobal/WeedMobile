@@ -161,16 +161,16 @@ export default {
 
     const testCamera = await Camera.checkPermissions()
     this.checkCameraPermissions = testCamera.camera === 'granted' ? true : false
-    this.addAuthorisatoin()
-    /*if(this.checkCameraPermissions === false) {
-      // this.addAuthorisatoin()
-      const info = await Device.getInfo();
+    // this.addAuthorisatoin()
+    if(this.checkCameraPermissions === false) {
+      this.addAuthorisatoin()
+      /*const info = await Device.getInfo();
       if (info.operatingSystem === 'ios') {
         this.viewErrorAuthCam = true
       } else {
         this.viewErrorAuthCam = false
-      }
-    } */
+      }*/
+    } 
     this.isLoaded = true
 
   },
