@@ -126,7 +126,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
       ...mapState(['allWallets', 'network', 'isLogged', 'sessionMax', 'accountSelected'])
     }, 
     async mounted() {
-      let sessionTimeOut = await getSessionTimeOut();
+      /* let sessionTimeOut = await getSessionTimeOut();
       this.$store.dispatch('setDefaultTimeout', sessionTimeOut)
 
       App.addListener('appStateChange', async ({ isActive }) => {
@@ -140,28 +140,16 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
           //console.log('App is active, reset session data: ' + getFinalSession);
           removeBcnaSession();
         }
-      }); 
+      }); */
 
       await this.$store.dispatch('initRpc')
-      
-      /* App.addListener('appStateChange', async ({ isActive }) => {
-        console.log('App state changed. Is active?', isActive);
-        if (!isActive) { 
-          await addBcnaSession();
-          //console.log('App will close in ' + this.sessionMax + ' seconds');
-        } else {
-          let getFinalSession = await getBcnaSession();
-          this.remainingTime(getFinalSession)
-          //console.log('App is active, reset session data: ' + getFinalSession);
-          // removeBcnaSession();
-        }
-      }); */
-      if (!this.isLogged) {
+
+      /*if (!this.isLogged) {
         removeBcnaSession()
         this.$store.commit('setIsLogged', false)
         this.$router.push('/')
         return
-      }
+      }*/
 
       
       
