@@ -1,6 +1,6 @@
 {
   "name": "weedmobile",
-  "version": "1.10.77",
+  "version": "1.10.78",
   "type": "module",
   "private": true,
   "scripts": {
@@ -14,7 +14,7 @@
     "@capacitor/android": "^5.0.4",
     "@capacitor/app": "^5.0.6",
     "@capacitor/browser": "^5.1.0",
-    "@capacitor/camera": "^5.0.7",
+    "@capacitor/camera": "^5.0.9",
     "@capacitor/cli": "^5.0.4",
     "@capacitor/core": "^5.0.4",
     "@capacitor/device": "^5.0.6",
@@ -22,6 +22,7 @@
     "@capacitor/preferences": "^5.0.2",
     "@cosmjs/proto-signing": "^0.31.1",
     "@cosmjs/stargate": "^0.31.1",
+    "@ionic/pwa-elements": "^3.2.2",
     "@mdi/font": "7.0.96",
     "axios": "^1.5.0",
     "core-js": "^3.29.0",

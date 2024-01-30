@@ -3,6 +3,10 @@
  *
  * Bootstraps Vuetify and other plugins then mounts the App`
  */
+// Above the createApp() line
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+defineCustomElements(window);
+
 import { createI18n } from 'vue-i18n'
 
 // Components

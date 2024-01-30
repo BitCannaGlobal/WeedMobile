@@ -21,6 +21,14 @@
       </v-btn>
       <br /> 
     </div> -->
+    <v-btn @click="addAuthorisation()">
+      Request permition
+    </v-btn>
+    <v-btn @click="testAuthorisation()">
+      Test permission
+    </v-btn>
+    <br />
+    debug: {{ debug }}
     <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
     <div v-if="removeScan">
     <v-alert 
@@ -145,23 +153,27 @@ export default {
     let checkCameraPermissions = false
     let viewErrorAuthCam = false
     let isLoaded = false
+    let debug = ''
 
-    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, viewErrorAuthCam, isLoaded }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, viewErrorAuthCam, isLoaded, debug }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'isLogged'])
   },
   async mounted() {
-    console.log(this.isLogged)
+    /*console.log(this.isLogged)
     if (!this.isLogged) {
       removeBcnaSession()
       this.$store.commit('setIsLogged', false)
       this.$router.push('/')
       return
-    }
+    } */
 
-    const testCamera = await Camera.checkPermissions()
-    this.checkCameraPermissions = testCamera.camera === 'granted' ? true : false
+    // Good part
+    //const testCamera = await Camera.checkPermissions()
+    //this.checkCameraPermissions = testCamera.camera === 'granted' ? true : false
+
+    // Old code
     // this.addAuthorisatoin()
     /*if(this.checkCameraPermissions === false) {
       this.addAuthorisatoin()
@@ -176,11 +188,16 @@ export default {
 
   },
   methods: {
-    addAuthorisatoin() {
-      Camera.requestPermissions().then(async (result, callback) => {
-        const testCamera = await Camera.checkPermissions() 
-        this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true        
+    addAuthorisation() {
+      Camera.requestPermissions({ permissions: ['camera'] }).then(async (result, callback) => {
+        this.debug = result
+        //const testCamera = await Camera.checkPermissions() 
+        //this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true        
       })
+    },
+    async testAuthorisation() {
+      const testCamera = await Camera.checkPermissions()
+      this.debug = testCamera
     },
     retry() {
       this.removeScan = false
