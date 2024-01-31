@@ -71,6 +71,7 @@
 
 <script>
 import { App } from '@capacitor/app';
+import { Camera } from '@capacitor/camera';
 import { Preferences } from '@capacitor/preferences';
 import bitcannaConfig from '../../bitcanna.config'
 
@@ -126,11 +127,46 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
       ...mapState(['allWallets', 'network', 'isLogged', 'sessionMax', 'accountSelected'])
     }, 
     async mounted() {
-      /* let sessionTimeOut = await getSessionTimeOut();
+      let sessionTimeOut = await getSessionTimeOut();
       this.$store.dispatch('setDefaultTimeout', sessionTimeOut)
 
       App.addListener('appStateChange', async ({ isActive }) => {
+        const testCamera = await Camera.checkPermissions()
         console.log('App state changed. Is active?', isActive);
+
+        if(this.$route.name === 'Scan-qrcode') {
+          if (testCamera.camera === 'granted') {
+            this.sessionManager(isActive)
+          } 
+        } else {
+          this.sessionManager(isActive)
+        }
+        
+      }); 
+
+      await this.$store.dispatch('initRpc')
+
+      if (!this.isLogged) {
+        removeBcnaSession()
+        this.$store.commit('setIsLogged', false)
+        this.$router.push('/')
+        return
+      }
+
+      
+      
+    },
+    methods: {
+      async changeNetwork(network) {
+        this.$store.commit('setNetwork', network) 
+        await this.$store.dispatch('initRpc')
+        this.accountNow = this.allWallets[this.accountSelected]
+        await this.$store.dispatch('getBankModule', this.accountNow.address)
+        await this.$store.dispatch('getDistribModule', this.accountNow.address)
+        await this.$store.dispatch('getStakingModule', this.accountNow.address)
+        await this.$store.dispatch('getWalletAmount')
+      },
+      async sessionManager(isActive) {
         if (!isActive) { 
           await addBcnaSession();
           //console.log('App will close in ' + this.sessionMax + ' seconds');
@@ -140,33 +176,8 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
           //console.log('App is active, reset session data: ' + getFinalSession);
           removeBcnaSession();
         }
-      }); */
-
-      await this.$store.dispatch('initRpc')
-
-      /*if (!this.isLogged) {
-        removeBcnaSession()
-        this.$store.commit('setIsLogged', false)
-        this.$router.push('/')
-        return
-      }*/
-
-      
-      
-    },
-    methods: {
-      async changeNetwork(network) {
-        this.$store.commit('setNetwork', network) 
-        
-        await this.$store.dispatch('initRpc')
-        this.accountNow = this.allWallets[this.accountSelected]
-        await this.$store.dispatch('getBankModule', this.accountNow.address)
-        await this.$store.dispatch('getDistribModule', this.accountNow.address)
-        await this.$store.dispatch('getStakingModule', this.accountNow.address)
-        await this.$store.dispatch('getWalletAmount')
       },
-      async remainingTime(getFinalSession) { 
-        
+      async remainingTime(getFinalSession) {        
         let timeNow = Math.floor(Date.now() / 1000)        
         this.timeLeft = timeNow - (Number(getFinalSession) + this.sessionMax)
 

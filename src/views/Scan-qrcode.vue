@@ -1,7 +1,16 @@
 <template>
   <div v-if="txSend === false" class="ma-4">
-<!--     {{ checkCameraPermissions }}
-    <div v-if="!checkCameraPermissions">
+    <v-alert
+        v-if="isLoaded" 
+        variant="outlined"
+        type="warning"
+        border="top"
+        closable
+        close-label="Close Alert"
+      >
+      {{ returnError }}
+    </v-alert>
+    <!-- <div v-if="!checkCameraPermissions">
       <v-alert
         v-if="isLoaded" 
         variant="outlined"
@@ -16,20 +25,20 @@
       </v-alert>
     </div>
     <div v-if="!checkCameraPermissions" class="d-flex justify-center mt-6">
-      <v-btn v-if="!viewErrorAuthCam" @click="addAuthorisatoin()">
+      <v-btn v-if="!viewErrorAuthCam" @click="addAuthorisation()">
         {{ $t("scanQrcode.addAuthCam") }}
       </v-btn>
       <br /> 
-    </div> -->
-    <v-btn @click="addAuthorisation()">
+    </div>  -->
+   <!-- <v-btn @click="addAuthorisation()">
       Request permition
     </v-btn>
     <v-btn @click="testAuthorisation()">
       Test permission
     </v-btn>
     <br />
-    debug: {{ debug }}
-    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
+    debug: {{ debug }} -->
+    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="onError" />  
     <div v-if="removeScan">
     <v-alert 
       v-if="JSON.parse(result).amount > spendableBalances" 
@@ -154,8 +163,9 @@ export default {
     let viewErrorAuthCam = false
     let isLoaded = false
     let debug = ''
+    let returnError = ''
 
-    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, viewErrorAuthCam, isLoaded, debug }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, viewErrorAuthCam, isLoaded, debug, returnError }
   },
   computed: {
     ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'isLogged'])
@@ -298,7 +308,27 @@ export default {
       }
       return str.slice(0, num) + '...'
     },
-    logErrors: console.error
+    onError(error) {
+      if (error.name === 'NotAllowedError') {        
+        // user denied camera access permission
+        this.returnError = 'user denied camera access permission'
+      } else if (error.name === 'NotFoundError') {
+        // no suitable camera device installed
+        this.returnError = 'no suitable camera device installed'
+      } else if (error.name === 'NotSupportedError') {
+        // page is not served over HTTPS (or localhost)
+        this.returnError = 'page is not served over HTTPS (or localhost)'
+      } else if (error.name === 'NotReadableError') {
+        // maybe camera is already in use
+        this.returnError = 'maybe camera is already in use'
+      } else if (error.name === 'OverconstrainedError') {
+        // did you request the front camera although there is none?
+        this.returnError = 'did you request the front camera although there is none?'
+      } else if (error.name === 'StreamApiNotSupportedError') {
+        // browser seems to be lacking features
+        this.returnError = 'browser seems to be lacking features'
+      }
+    }
   }
 }
 </script>
