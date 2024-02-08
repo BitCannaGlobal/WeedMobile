@@ -269,7 +269,7 @@
         lines="two"
         subheader
       >
-        <v-list-item title="Infomations" :subtitle="$t('config.masterPassChange.subtitle')"></v-list-item>
+        <v-list-item :title="$t('addressBook.info')" :subtitle="$t('config.masterPassChange.subtitle')"></v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list>
@@ -397,7 +397,7 @@
         lines="two"
         subheader
       >
-        <v-list-item title="Infomations" :subtitle="$t('config.timeout.subtitle')"></v-list-item>
+        <v-list-item :title="$t('addressBook.info')" :subtitle="$t('config.timeout.subtitle')"></v-list-item>
       </v-list>
       <v-divider></v-divider>
       <v-list>
@@ -455,7 +455,7 @@
         lines="two"
         subheader
       >
-        <v-list-item title="Infomations" :subtitle="$t('config.appInfo.subtitle')"></v-list-item>
+        <v-list-item :title="$t('addressBook.info')" :subtitle="$t('config.appInfo.subtitle')"></v-list-item>
       </v-list>
       <v-divider></v-divider>
       <h3 class="ml-4 mt-4">{{ $t('config.appInfo.appVersion') }}</h3>
@@ -492,7 +492,7 @@ import { Device } from '@capacitor/device';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
 import Accounts from '@/components/Accounts.vue'
 import md5 from 'md5' 
-import { removeBcnaSession, addAccount, editMasterPassword, setSessionTimeOut } from '@/libs/storage.js';  
+import { removeBcnaSession, addAccount, editMasterPassword, setSessionTimeOut, setLanguage } from '@/libs/storage.js';  
 import bitcannaWallets from '../bitcanna.wallet'
 import pjson from '@/../package.json' 
 
@@ -531,6 +531,11 @@ export default {
     }
   },
   watch: {
+    '$i18n.locale': async function (val) { 
+      console.log(val)
+      setLanguage(val)
+      //await Preferences.set({ key: 'lang', value: val });
+    },
     password: async function (val) { 
       const hash = md5(this.password); 
       const { value } = await Preferences.get({ key: 'masterPass' });

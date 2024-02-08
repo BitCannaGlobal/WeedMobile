@@ -100,7 +100,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="$t('login.passDescription')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="$t('login.passDescription')"></v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list>

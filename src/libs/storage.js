@@ -172,3 +172,15 @@ export async function getSessionTimeOut() {
   const { value } = await Preferences.get({ key: 'bcnaTimeout' });
   return value
 }
+
+export async function setLanguage(lang) {
+  await Preferences.set({
+    key: 'bcnaLanguage',
+    value: String(lang)
+  }); 
+}
+
+export async function getLanguage() {
+  const { value } = await Preferences.get({ key: 'bcnaLanguage' });
+  return value
+}

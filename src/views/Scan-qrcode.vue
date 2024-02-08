@@ -1,7 +1,7 @@
 <template>
   <div v-if="txSend === false" class="ma-4">
     <v-alert
-        v-if="isLoaded" 
+        v-if="returnError" 
         variant="outlined"
         type="warning"
         border="top"
