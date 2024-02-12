@@ -13,8 +13,8 @@ export default {
     coingeckoId: 'bitcanna',
     feeMultiplier: 1.9,
     gasPrice: 0.0025,
-    maxTxSender: 50,
-    maxTxRecipient: 50,
+    maxTxSender: 25,
+    maxTxRecipient: 25,
     fiatCurrency: [{
         viewDenom: 'USD',
         name: 'Dollar'
