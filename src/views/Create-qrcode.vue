@@ -59,15 +59,7 @@
         <v-list style="background-color: rgb(0, 0, 0);">
           <v-form ref="form">
         <v-list-item color="black" >
-          <v-chip @click="setAddress('bcna148ml2tghqkfvzj8q27dlxw6ghe3vlmprhru76x')" class="mr-2">
-            Wallet1
-          </v-chip>
-          <v-chip @click="setAddress('bcna16kga5es86ca0mkjfzt067p5u8qnaxglwrz4jcj')" class="mr-2">
-            Wallet2
-          </v-chip>
-          <v-chip @click="setAddress('bcna1l6c9uc9f9ulx8925790t9g7zzhavfr2e6nh68u')" class="mr-2">
-            Wallet3
-          </v-chip>
+
             <v-text-field
                 v-model="recipient"
                 :rules="addressRules"                
@@ -199,7 +191,7 @@ import axios from "axios";
 import QRCodeVue3 from "qrcode-vue3";
 import bech32 from "bech32";
 import { Preferences } from '@capacitor/preferences';
-import { getAllContact } from '@/libs/storage.js';
+import { getAllContact, removeBcnaSession } from '@/libs/storage.js';
 
 function bech32Validation(address) {
   try {
@@ -252,7 +244,8 @@ export default {
     ...mapState([
       'allWallets',
       'priceNow',
-      'currencyNow'
+      'currencyNow',
+      'isLogged'
     ])
   },
   watch: {
@@ -275,6 +268,12 @@ export default {
     }
   },
   async mounted() { 
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    }
 
     this.getConvertPrices = await axios("https://bcnaracle-api.bitcanna.io/api/all");
     //state.priceNow = getPrice.data.bitcanna[state.currencyNow.toLowerCase()].toFixed(5); 

@@ -70,6 +70,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-form ref="form"> 
@@ -99,7 +100,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="$t('login.passDescription')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="$t('login.passDescription')"></v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list>
@@ -157,9 +158,18 @@
 
 </template>
 <script>
+import { App } from '@capacitor/app';
 import { mapState } from 'vuex'
 import md5 from 'md5'
-import { checkMasterPassword, addBcnaSession, getMasterPassword, addMasterPassword, removeMasterPassword } from '@/libs/storage.js';
+import { 
+  checkMasterPassword, 
+  addBcnaSession, 
+  getMasterPassword, 
+  addMasterPassword, 
+  removeMasterPassword,
+  getSessionTimeOut,
+  setSessionTimeOut
+} from '@/libs/storage.js';
 
 export default {
   data() {
@@ -192,6 +202,13 @@ export default {
     ...mapState(['allWallets', 'isLogged', 'sessionMax'])
   },
   async mounted() {
+    App.addListener('backButton', data => {
+      //console.log('backButton:', data);
+      if(this.$route.name === 'Login') {
+        App.exitApp()
+      }
+      
+    });
     await this.$store.dispatch('getWallets')
     if (typeof this.$route.query.expired !== 'undefined') {
       this.alertExpired = true
@@ -221,14 +238,13 @@ export default {
       const hash = md5(this.passWord);
       let checkPass = await checkMasterPassword(hash)
       if(checkPass) {
+        getSessionTimeOut().then((sessionTimeOut) => {
+          if(sessionTimeOut === null) {
+            setSessionTimeOut('300') // 5 minutes
+          }
+        })
         await addBcnaSession();
         this.$store.commit('setIsLogged', checkPass)
-
-        /* if(this.allWallets.length !== 0) {
-          this.$router.push('/dashboard')
-        } else {
-          this.$router.push('/create')
-        } */
 
         await this.$store.dispatch('setCurrency')
         await this.$store.dispatch('getPriceNow')

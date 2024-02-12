@@ -112,7 +112,6 @@ export function setMsg(msg, addrGet, timestamp, allVal, txHash) {
         (element) => element.operatorAddress === msg.validator_dst_address
       );
 
-      console.log(allVal);
       type = msg["@type"];
       typeReadable = "Redelegate";
       color = "#00b786";

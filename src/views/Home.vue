@@ -203,6 +203,13 @@ export default {
  
 
   async mounted() { 
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    }
+
     this.accountNow = this.allWallets[this.accountSelected]
 
     if(typeof this.accountNow !== 'undefined') {

@@ -23,7 +23,7 @@
     disabled="true" 
     @click="openDialogStake"
   >
-  {{ $t("dashboard.btnStake") }} (Soon)
+  {{ $t("dashboard.btnStake") }} 
   </v-btn>
   <v-dialog
       v-model="dialogSendToken"
@@ -52,22 +52,14 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
         <v-list>
 
         <v-list-item>
-          <v-chip @click="setAddress('bcna148ml2tghqkfvzj8q27dlxw6ghe3vlmprhru76x')" class="mr-2">
-            Wallet1
-          </v-chip>
-          <v-chip @click="setAddress('bcna16kga5es86ca0mkjfzt067p5u8qnaxglwrz4jcj')" class="mr-2">
-            Wallet2
-          </v-chip>
-          <v-chip @click="setAddress('bcna1l6c9uc9f9ulx8925790t9g7zzhavfr2e6nh68u')" class="mr-2">
-            Wallet3
-          </v-chip>          
+        
             <v-text-field
                 v-model="recipient"
                 :rules="addressRules"
@@ -136,7 +128,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="this.$t('dashboard.mdlSendTx.subTitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -273,7 +265,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Claim rewards</v-toolbar-title>
+          <v-toolbar-title>{{ $t('dashboard.mdlClaimTx.title') }}</v-toolbar-title>
           <v-spacer></v-spacer>
  
         </v-toolbar>
@@ -302,7 +294,7 @@
                 >
                   <v-sheet>       
                     <span class=" text-subtitle-1">
-                      Your rewards
+                      {{ $t('dashboard.mdlClaimTx.subTitle') }}
                     </span>
                     <br />
                     <span class="font-weight-black text-subtitle-1">
@@ -319,7 +311,7 @@
                 v-model="password"
                 variant="outlined"
                 color="#00b786" 
-                label="Password" 
+                :label="$t('dashboard.mdlClaimTx.inpPassword')" 
                 type="password"
                 class="mt-2"
               ></v-text-field>
@@ -329,7 +321,7 @@
               :disabled="loading"
               :loading="loading"
               @click="claimReward()
-            ">Claim</v-btn>              
+            "> {{ $t('dashboard.mdlClaimTx.btnClaim') }}</v-btn>              
           </v-list-item>
           
     </v-card>
@@ -343,21 +335,21 @@
         <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
           <v-card-title class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Claim approved
+              {{ $t('approved.title') }}
             </span>
           </v-card-title>
           <v-card-text class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Your rewards has been claim and credited
+              {{ $t('approved.subtitle') }}
             </span>
             <v-btn
               class="mt-4"
               color="#0FB786"
               @click="dialogClaim = false"
               block
-            >Back</v-btn>
+            >{{ $t('approved.back') }}</v-btn>
           </v-card-text>
-        </v-card> 
+        </v-card>  
       </v-card>
     </v-dialog>   
     
@@ -459,19 +451,19 @@
         <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
           <v-card-title class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Claim approved
+              {{ $t('approved.title') }}
             </span>
           </v-card-title>
           <v-card-text class="text-center">
             <span class="font-weight-black text-subtitle-1">
-              Your rewards has been claim and credited
+              {{ $t('approved.subtitle') }}
             </span>
             <v-btn
               class="mt-4"
               color="#0FB786"
               @click="dialogStake = false"
               block
-            >Back</v-btn>
+            >{{ $t('approved.back') }}</v-btn>
           </v-card-text>
         </v-card> 
       </v-card>
@@ -583,9 +575,9 @@ export default {
       this.loading = false 
     },
     openDialogClaim() {
-      this.dialogClaim = true;
-      this.txSend = false;
-
+      this.dialogClaim = true
+      this.txSend = false
+      this.password = ''
       this.loading = false 
     },
     openDialogSendToken() {

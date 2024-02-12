@@ -1,23 +1,44 @@
 <template>
   <div v-if="txSend === false" class="ma-4">
     <v-alert
-      v-model="checkCameraPermissions"
-      variant="outlined"
-      type="warning"
-      border="top"
-      closable
-      close-label="Close Alert"
-    >
-      checkCameraPermissions {{ checkCameraPermissions }}
+        v-if="returnError" 
+        variant="outlined"
+        type="warning"
+        border="top"
+        closable
+        close-label="Close Alert"
+      >
+      {{ returnError }}
     </v-alert>
-    <div class="d-flex justify-center mt-6 ">
-    <v-btn @click="addAuthorisatoin()">
-      Add camera authorization
+    <!-- <div v-if="!checkCameraPermissions">
+      <v-alert
+        v-if="isLoaded" 
+        variant="outlined"
+        type="warning"
+        border="top"
+        closable
+        close-label="Close Alert"
+      >
+      {{ $t("scanQrcode.errorCamera.title") }}<br />
+      {{ $t("scanQrcode.errorCamera.android") }}<br />
+      {{ $t("scanQrcode.errorCamera.ios") }}
+      </v-alert>
+    </div>
+    <div v-if="!checkCameraPermissions" class="d-flex justify-center mt-6">
+      <v-btn v-if="!viewErrorAuthCam" @click="addAuthorisation()">
+        {{ $t("scanQrcode.addAuthCam") }}
+      </v-btn>
+      <br /> 
+    </div>  -->
+   <!-- <v-btn @click="addAuthorisation()">
+      Request permition
+    </v-btn>
+    <v-btn @click="testAuthorisation()">
+      Test permission
     </v-btn>
     <br />
-    {{ debugCam }}
-  </div>
-    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="logErrors" />  
+    debug: {{ debug }} -->
+    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="onError" />  
     <div v-if="removeScan">
     <v-alert 
       v-if="JSON.parse(result).amount > spendableBalances" 
@@ -112,6 +133,8 @@
 <script> 
 import { mapState } from 'vuex'
 import { Camera } from '@capacitor/camera';
+import { Device } from '@capacitor/device';
+import { removeBcnaSession } from '@/libs/storage.js'; 
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
 import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosmjs/stargate";
 import { Preferences } from '@capacitor/preferences';
@@ -137,27 +160,54 @@ export default {
     let alertError = false
     let loading = false
     let checkCameraPermissions = false
-    let debugCam = false
+    let viewErrorAuthCam = false
+    let isLoaded = false
+    let debug = ''
+    let returnError = ''
 
-    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, debugCam }
+    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, viewErrorAuthCam, isLoaded, debug, returnError }
   },
   computed: {
-    ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network'])
+    ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'isLogged'])
   },
   async mounted() {
-    const testCamera = await Camera.checkPermissions()
-    console.log(testCamera)  
-    this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
+    /*console.log(this.isLogged)
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    } */
+
+    // Good part
+    //const testCamera = await Camera.checkPermissions()
+    //this.checkCameraPermissions = testCamera.camera === 'granted' ? true : false
+
+    // Old code
+    // this.addAuthorisatoin()
+    /*if(this.checkCameraPermissions === false) {
+      this.addAuthorisatoin()
+      const info = await Device.getInfo();
+      if (info.operatingSystem === 'ios') {
+        this.viewErrorAuthCam = true
+      } else {
+        this.viewErrorAuthCam = false
+      }
+    } */
+    this.isLoaded = true
+
   },
   methods: {
-    addAuthorisatoin() {
-      Camera.requestPermissions().then(async (result, callback) => {
-        console.log(result)
-        const testCamera = await Camera.checkPermissions() 
-        this.debugCam = testCamera.camera === 'granted' ? false : true
-        this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
-        
+    addAuthorisation() {
+      Camera.requestPermissions({ permissions: ['camera'] }).then(async (result, callback) => {
+        this.debug = result
+        //const testCamera = await Camera.checkPermissions() 
+        //this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true        
       })
+    },
+    async testAuthorisation() {
+      const testCamera = await Camera.checkPermissions()
+      this.debug = testCamera
     },
     retry() {
       this.removeScan = false
@@ -258,31 +308,27 @@ export default {
       }
       return str.slice(0, num) + '...'
     },
-    /* paintCenterText(detectedCodes, ctx) {
-      
-      for (const detectedCode of detectedCodes) {
-        this.result = detectedCode.rawValue
-        const { boundingBox, rawValue } = detectedCode
-
-        const centerX = boundingBox.x + boundingBox.width / 2
-        const centerY = boundingBox.y + boundingBox.height / 2
-
-        const fontSize = Math.max(12, (50 * boundingBox.width) / ctx.canvas.width)
-        console.log(boundingBox.width, ctx.canvas.width)
-
-        ctx.font = `bold ${fontSize}px sans-serif`
-        ctx.textAlign = 'center'
-
-        ctx.lineWidth = 3
-        ctx.strokeStyle = '#35495e'
-        ctx.strokeText(detectedCode.rawValue, centerX, centerY)
-
-        ctx.fillStyle = '#5cb984'
-        ctx.fillText(rawValue, centerX, centerY)
+    onError(error) {
+      if (error.name === 'NotAllowedError') {        
+        // user denied camera access permission
+        this.returnError = 'user denied camera access permission'
+      } else if (error.name === 'NotFoundError') {
+        // no suitable camera device installed
+        this.returnError = 'no suitable camera device installed'
+      } else if (error.name === 'NotSupportedError') {
+        // page is not served over HTTPS (or localhost)
+        this.returnError = 'page is not served over HTTPS (or localhost)'
+      } else if (error.name === 'NotReadableError') {
+        // maybe camera is already in use
+        this.returnError = 'maybe camera is already in use'
+      } else if (error.name === 'OverconstrainedError') {
+        // did you request the front camera although there is none?
+        this.returnError = 'did you request the front camera although there is none?'
+      } else if (error.name === 'StreamApiNotSupportedError') {
+        // browser seems to be lacking features
+        this.returnError = 'browser seems to be lacking features'
       }
-    }, */
-
-    logErrors: console.error
+    }
   }
 }
 </script>

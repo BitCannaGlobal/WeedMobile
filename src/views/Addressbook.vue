@@ -45,6 +45,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
  
       <v-card>
@@ -68,7 +69,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="$t('addressBook.subtitle')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="$t('addressBook.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -130,6 +131,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
  
       <v-card>
@@ -153,7 +155,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" subtitle="$t('addressBook.edit.subtitle')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="$t('addressBook.edit.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -218,7 +220,7 @@
             variant="text"
             @click="dialDeleteContact = !dialDeleteContact"
           >
-            close
+            {{ $t("addressBook.delete.close") }}
           </v-btn>
           <v-alert
             v-if="deletedContact"
@@ -251,9 +253,9 @@
  
 </template>
 <script>
-import { ref } from 'vue'
+import { mapState } from 'vuex'
 import bech32 from "bech32";
-import { addContact, getAllContact, removeContactId, editContactId } from '@/libs/storage.js';
+import { addContact, getAllContact, removeContactId, editContactId, removeBcnaSession } from '@/libs/storage.js';
 
 function bech32Validation(address) {
   try {
@@ -314,7 +316,16 @@ function bech32Validation(address) {
         this.recipient = val.toLowerCase()
       },
     },
+    computed: {
+      ...mapState(['isLogged'])
+    },
     async mounted() { 
+      if (!this.isLogged) {
+        removeBcnaSession()
+        this.$store.commit('setIsLogged', false)
+        this.$router.push('/')
+        return
+      }
       let getAllContacts = await getAllContact()
       this.allContacts = JSON.parse(getAllContacts)
     },

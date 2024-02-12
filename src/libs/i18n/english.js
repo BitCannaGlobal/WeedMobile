@@ -1,8 +1,8 @@
 export default {
   menu: {
-    title: 'Bitcanna Wallet',
+    title: 'BitCanna Wallet',
     dashboard: 'Dashboard',
-    addressBook: 'Addressbook',
+    addressBook: 'Address book',
     transactions: 'Transactions',
     createQrcode: 'Create QR',
     scanQrcode: 'Scan QR', 
@@ -15,15 +15,15 @@ export default {
     errorMsgSession: 'Session expired',
     errorFormPassRequired: 'Password is required',
     errorFormPassLength: 'Password must be less than 20 characters',
-    welcomMsg1: 'Welcome to the Bitcanna Wallet',
-    welcomMsg2: 'Create first your password to use your wallet.',
+    welcomMsg1: 'Welcome to the BitCanna Wallet',
+    welcomMsg2: 'Create first your password to use your wallet',
     badPassword: 'Wrong password',
     passToLong: 'Your password is too long',
-    setPass: 'Set masterpass',
-    rmPass: 'Remove masterpass',
+    setPass: 'Set password',
+    rmPass: 'Remove password',
     createPass: 'Create password',
     savePass: 'Save',
-    passDescription: 'Your password is used to encrypt your mnemonic and secure your wallet.',
+    passDescription: 'Your password is used to encrypt your mnemonic and secure your wallet',
     formSetPass: 'Set your password',
     repeatPass: 'Repeat your password',
   },
@@ -37,10 +37,10 @@ export default {
     btnStake: 'Stake',
     btnClaim: 'Claim',
     btnCreateOne: 'Create one here',
-    welcomeNoWallet: 'Hey, there is no wallet available yet.',  
+    welcomeNoWallet: 'Hey, there is no wallet available yet',  
     mdlSendTx: {
       title: 'Send token',
-      subTitle: 'Here you can send your bitcanna token available on your wallet',
+      subTitle: 'Here you can send your BitCanna token available on your wallet',
       inpRecipient: 'Recipient',
       inpAmount: 'Amount',
       inpMemo: 'Memo',   
@@ -53,6 +53,12 @@ export default {
       errorAmountRequire: 'Amount is required',
       errorAmountNumber: 'Amount must be number',
       errorAmountDecimal: 'Bad decimal',
+    },
+    mdlClaimTx: {
+      title: 'Claim rewards',
+      subTitle: 'Your rewards',
+      inpPassword: 'Password',
+      btnClaim: 'Claim',
     },
   },
   accounts: {
@@ -82,7 +88,7 @@ export default {
     mdlImportAccount: {
       title: 'Import wallet',
       save: 'Save',
-      subtitle: 'Here you can import your mnenomics safely! Your passphrase will be encrypted with your masterpassword',
+      subtitle: 'Here you can import your mnenomics safely! Your passphrase will be encrypted with your password',
       name: 'Wallet name',
       address: 'Address',
       password: 'Password',
@@ -94,13 +100,13 @@ export default {
     },
     viewMnemonic: {
       title: 'Mnemonic Seed',
-      subtitle: 'View your mnemonic',
+      subtitle: 'View your mnemonics',
     },
     deleteWallet: {
       btnClose: 'Close',
       btnDelete: 'Delete',
       altSuccess: 'Wallet deleted',
-      agreeDelete: 'You agree to delete your wallet from the app?',
+      agreeDelete: 'Do you agree to delete your wallet from the App?',
       password: 'Password',
     },
     editWallet: {
@@ -138,11 +144,17 @@ export default {
       password: 'Password',
       amount: 'Amount',
       memo: 'Memo',
-      error: 'You don\'t have enough bitcanna! Fund your account',
+      error: 'You don\'t have enough BCNA! Please fund your account',
       badPass: 'Bad password',
       btnSend: 'Send',
       rescan: 'Rescan',
-    }
+    },
+    errorCamera: {
+      title: 'We have detected a problem with authorization to use your camera.',
+      android: 'If you are on Android, click on the button below to accept authorization.',
+      ios: 'If you are on iPhone, please give authorization in your phone settings.',
+    },
+    addAuthCam: 'Add authorization camera',
   },
   config: {
     subheader: {
@@ -165,19 +177,26 @@ export default {
       subtitle: 'View your mnemonic',
     },
     masterPassChange: {
-      title: 'Master password',
-      subtitle: 'Change master password',
-      password1: 'Your Password',
+      title: 'Password',
+      subtitle: 'Change password',
+      password1: 'Your password',
       password2: 'New password',
       password3: 'Repeat new password',
-      btnChange: 'Change masterPass',
-      progress: 'Masterpassword change in progress',
-      success: 'Masterpassword change is done!',
+      btnChange: 'Change',
+      progress: 'Password change in progress',
+      success: 'Password change is done!',
       close: 'Close',
     },
     autoLogout: {
       title: 'Auto logout',
-      subtitle: 'Define time for lockout ', 
+      subtitle: 'Define time for lockout', 
+      time: {
+        min: '1 minute',
+        min5: '5 minutes',
+        hour: '1 hour',
+        hours6: '6 hours',
+        day: '1 day',
+      }
     },
     timeout: {
       title: 'Set Timeout',
@@ -195,7 +214,7 @@ export default {
     },
     deleteWallet: {
       title: 'Delete wallet',
-      subtitle: 'Delete wallet from phone',
+      subtitle: 'Delete wallet from device',
     },
   },
   addressBook: {
@@ -212,6 +231,7 @@ export default {
     errorPrefix: 'Address must start with bcna',
     errorBech32: 'Bad address (not bech32)',
     errorMemo: 'Memo must be less than 100 characters', 
+    info: 'Infomations',
     edit: {
       title: 'Edit contact',
       subtitle: 'Here you can edit your contacts'
@@ -219,7 +239,7 @@ export default {
     delete: {
       title: 'Delete contact',
       close: 'Close',
-      agree: 'You agree to delete this contact?',
+      agree: 'Do you agree to delete this contact?',
     },
   },
   transactions: {

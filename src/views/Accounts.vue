@@ -95,7 +95,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="$t('accounts.mdlImportAccount.subtitle')"></v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="$t('accounts.mdlImportAccount.subtitle')"></v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -194,6 +194,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
+      class="bitcannaFont"
     >
       <v-card>
         <v-toolbar
@@ -212,7 +213,7 @@
           lines="two"
           subheader
         >
-          <v-list-item title="Infomations" :subtitle="$t('accounts.viewMnemonic.subtitle')"> </v-list-item>
+          <v-list-item :title="$t('addressBook.info')" :subtitle="$t('accounts.viewMnemonic.subtitle')"> </v-list-item>
         </v-list>
         
         <v-divider></v-divider>
@@ -365,7 +366,7 @@
 import { mapState } from 'vuex'
 import { Preferences } from '@capacitor/preferences';
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing" 
-import { checkMasterPassword, removeAccount, addAccount, removeAccountId, editAccountId, addContact } from '@/libs/storage.js';
+import { checkMasterPassword, removeAccount, addAccount, removeAccountId, editAccountId, addContact, removeBcnaSession } from '@/libs/storage.js';
 import md5 from 'md5' 
 import CreateAccount from '@/components/CreateAccount.vue' 
 
@@ -439,6 +440,12 @@ export default {
     ...mapState(['allWallets', 'isLogged', 'accountSelected', 'allWalletsList'])
   },
   async mounted() {
+    if (!this.isLogged) {
+      removeBcnaSession()
+      this.$store.commit('setIsLogged', false)
+      this.$router.push('/')
+      return
+    }
     this.setData() 
   },
   methods: { 
