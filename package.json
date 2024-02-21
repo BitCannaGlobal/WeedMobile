@@ -1,14 +1,13 @@
 {
   "name": "weedmobile",
   "version": "1.10.81",
-  "type": "module",
   "private": true,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint . --fix --ignore-path .gitignore",
-    "i18n": "node build-i18n"
+    "format": "prettier src/components/ src/views/ --write"
   },
   "dependencies": {
     "@capacitor/android": "^5.5.1",
@@ -46,6 +45,7 @@
     "@vitejs/plugin-vue": "^3.0.3",
     "eslint": "^8.55.0",
     "eslint-plugin-vue": "^9.19.2",
+    "prettier": "3.2.5",
     "sass": "^1.69.5",
     "vite": "^4.5.1",
     "vite-plugin-vuetify": "^1.0.0"

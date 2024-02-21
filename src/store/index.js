@@ -32,7 +32,7 @@ export default createStore({
     poolStaking: 0,
     allContacts: [],
     validators: [],
-    allDelegations: [],
+    allDelegations: [], 
   },
   getters: {
   },

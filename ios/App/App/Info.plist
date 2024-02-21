@@ -43,8 +43,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
-	<key>UIStatusBarHidden</key>
-	<true/>
+	<!-- <key>UIStatusBarHidden</key>
+	<true/>-->
 	<key>NSCameraUsageDescription</key>
   <string>To be able to scan qrcode</string>  
 	<key>NSPhotoLibraryUsageDescription</key>

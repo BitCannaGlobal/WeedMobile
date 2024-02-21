@@ -1,13 +1,13 @@
 <template>
   <div v-if="txSend === false" class="ma-4">
     <v-alert
-        v-if="returnError" 
-        variant="outlined"
-        type="warning"
-        border="top"
-        closable
-        close-label="Close Alert"
-      >
+      v-if="returnError"
+      variant="outlined"
+      type="warning"
+      border="top"
+      closable
+      close-label="Close Alert"
+    >
       {{ returnError }}
     </v-alert>
     <!-- <div v-if="!checkCameraPermissions">
@@ -30,7 +30,7 @@
       </v-btn>
       <br /> 
     </div>  -->
-   <!-- <v-btn @click="addAuthorisation()">
+    <!-- <v-btn @click="addAuthorisation()">
       Request permition
     </v-btn>
     <v-btn @click="testAuthorisation()">
@@ -38,30 +38,34 @@
     </v-btn>
     <br />
     debug: {{ debug }} -->
-    <qrcode-stream v-if="!removeScan" :track="selected.value" @error="onError" />  
+    <qrcode-stream
+      v-if="!removeScan"
+      :track="selected.value"
+      @error="onError"
+    />
     <div v-if="removeScan">
-    <v-alert 
-      v-if="JSON.parse(result).amount > spendableBalances" 
-      text="$t('scanQrcode.scanned.error')" 
-      type="error"
-      class="mb-4"
-    ></v-alert>
+      <v-alert
+        v-if="JSON.parse(result).amount > spendableBalances"
+        text="$t('scanQrcode.scanned.error')"
+        type="error"
+        class="mb-4"
+      ></v-alert>
     </div>
-    <v-table v-if="removeScan">     
-    <tbody> 
-      <tr>
-        <td>{{ $t("scanQrcode.scanned.address") }}</td> 
-        <td>{{ this.truncateString(JSON.parse(result).address, 15) }}</td> 
-      </tr>
-      <tr>
-        <td>{{ $t("scanQrcode.scanned.amount") }}</td> 
-        <td>{{ JSON.parse(result).amount }}</td>
-      </tr>
-      <tr>
-        <td>{{ $t("scanQrcode.scanned.memo") }}</td> 
-        <td>{{ JSON.parse(result).memo }}</td>
-      </tr>
-    </tbody>
+    <v-table v-if="removeScan">
+      <tbody>
+        <tr>
+          <td>{{ $t("scanQrcode.scanned.address") }}</td>
+          <td>{{ this.truncateString(JSON.parse(result).address, 15) }}</td>
+        </tr>
+        <tr>
+          <td>{{ $t("scanQrcode.scanned.amount") }}</td>
+          <td>{{ JSON.parse(result).amount }}</td>
+        </tr>
+        <tr>
+          <td>{{ $t("scanQrcode.scanned.memo") }}</td>
+          <td>{{ JSON.parse(result).memo }}</td>
+        </tr>
+      </tbody>
     </v-table>
     <v-alert
       v-model="alertError"
@@ -78,97 +82,124 @@
       v-if="removeScan"
       v-model="password"
       variant="outlined"
-      color="#00b786" 
-      :label="$t('scanQrcode.scanned.password')" 
+      color="#00b786"
+      :label="$t('scanQrcode.scanned.password')"
       type="password"
       class="mt-4"
     ></v-text-field>
-    <v-btn 
-      v-if="removeScan" 
-      block 
-      color="#0FB786" 
+    <v-btn
+      v-if="removeScan"
+      block
+      color="#0FB786"
       :disabled="loading"
       :loading="loading"
-      @click="sendTx()">
-        {{ $t("scanQrcode.scanned.btnSend") }}
+      @click="sendTx()"
+    >
+      {{ $t("scanQrcode.scanned.btnSend") }}
     </v-btn>
 
-    <v-btn 
-      v-if="removeScan"
-      class="mt-2"
-      block 
-      color="orange" 
-      @click="retry()"> 
+    <v-btn v-if="removeScan" class="mt-2" block color="orange" @click="retry()">
       {{ $t("scanQrcode.scanned.rescan") }}
     </v-btn>
   </div>
-  <v-card v-else height="550"  class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"> 
-          <v-icon
-          size="100"
-          color="#0FB786"
-          icon="mdi-check-outline"
-          class="returnIconQr"
-        ></v-icon> 
-        <v-card elevation="0"  class="mt-6" :height="200" :width="350" color="transparent"> <!-- color="transparent" -->
-          <v-card-title class="text-center">
-            <span class="font-weight-black text-subtitle-1">
-              {{ $t('approved.title') }}
-            </span>
-          </v-card-title>
-          <v-card-text class="text-center">
-            <span class="font-weight-black text-subtitle-1">
-              {{ $t('approved.subtitle') }}
-            </span>
-            <v-btn
-              class="mt-4"
-              color="#0FB786"
-              to="/dashboard"
-              block
-            >{{ $t('approved.back') }}</v-btn>
-          </v-card-text>
-        </v-card> 
-      </v-card>
+  <v-card
+    v-else
+    height="550"
+    class="txReturn text-center grey d-flex flex-column align-center justify-top mt-10"
+  >
+    <v-icon
+      size="100"
+      color="#0FB786"
+      icon="mdi-check-outline"
+      class="returnIconQr"
+    ></v-icon>
+    <v-card
+      elevation="0"
+      class="mt-6"
+      :height="200"
+      :width="350"
+      color="transparent"
+    >
+      <!-- color="transparent" -->
+      <v-card-title class="text-center">
+        <span class="font-weight-black text-subtitle-1">
+          {{ $t("approved.title") }}
+        </span>
+      </v-card-title>
+      <v-card-text class="text-center">
+        <span class="font-weight-black text-subtitle-1">
+          {{ $t("approved.subtitle") }}
+        </span>
+        <v-btn class="mt-4" color="#0FB786" to="/dashboard" block>{{
+          $t("approved.back")
+        }}</v-btn>
+      </v-card-text>
+    </v-card>
+  </v-card>
 </template>
 
-<script> 
-import { mapState } from 'vuex'
-import { Camera } from '@capacitor/camera';
-import { Device } from '@capacitor/device';
-import { removeBcnaSession } from '@/libs/storage.js'; 
+<script>
+import { mapState } from "vuex";
+import { Camera } from "@capacitor/camera";
+import { Device } from "@capacitor/device";
+import { removeBcnaSession } from "@/libs/storage.js";
 import { DirectSecp256k1HdWallet } from "@cosmjs/proto-signing";
-import { assertIsDeliverTxSuccess, SigningStargateClient, GasPrice } from "@cosmjs/stargate";
-import { Preferences } from '@capacitor/preferences';
-import bitcannaConfig from '../bitcanna.config' 
-import md5 from 'md5' 
+import {
+  assertIsDeliverTxSuccess,
+  SigningStargateClient,
+  GasPrice,
+} from "@cosmjs/stargate";
+import { Preferences } from "@capacitor/preferences";
+import bitcannaConfig from "../bitcanna.config";
+import md5 from "md5";
 import bech32 from "bech32";
 
-export default { 
-
+export default {
   data() {
-    const removeScan = false
+    const removeScan = false;
     const options = [
       //{ text: 'nothing (default)', value: undefined },
       // { text: 'outline', value: this.paintOutline },
       //{ text: 'centered text', value: this.paintCenterText },
-      { text: 'bounding box', value: this.paintBoundingBox }
-    ]
+      { text: "bounding box", value: this.paintBoundingBox },
+    ];
 
-    const selected = options[0]
-    let result = ''
-    let password = ''
-    let txSend = false
-    let alertError = false
-    let loading = false
-    let checkCameraPermissions = false
-    let viewErrorAuthCam = false
-    let isLoaded = false
-    let debug = ''
-    let returnError = ''
+    const selected = options[0];
+    let result = "";
+    let password = "";
+    let txSend = false;
+    let alertError = false;
+    let loading = false;
+    let checkCameraPermissions = false;
+    let viewErrorAuthCam = false;
+    let isLoaded = false;
+    let debug = "";
+    let returnError = "";
 
-    return { selected, options, result, removeScan, password, txSend, alertError, loading, checkCameraPermissions, viewErrorAuthCam, isLoaded, debug, returnError }
+    return {
+      selected,
+      options,
+      result,
+      removeScan,
+      password,
+      txSend,
+      alertError,
+      loading,
+      checkCameraPermissions,
+      viewErrorAuthCam,
+      isLoaded,
+      debug,
+      returnError,
+    };
   },
   computed: {
-    ...mapState(['allWallets', 'spendableBalances', 'accountSelected', 'network', 'isLogged'])
+    ...mapState([
+      "allWallets",
+      "spendableBalances",
+      "accountSelected",
+      "network",
+      "isLogged",
+    ]),
   },
   async mounted() {
     /*console.log(this.isLogged)
@@ -194,146 +225,153 @@ export default {
         this.viewErrorAuthCam = false
       }
     } */
-    this.isLoaded = true
-
+    this.isLoaded = true;
   },
   methods: {
     addAuthorisation() {
-      Camera.requestPermissions({ permissions: ['camera'] }).then(async (result, callback) => {
-        this.debug = result
-        //const testCamera = await Camera.checkPermissions() 
-        //this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true        
-      })
+      Camera.requestPermissions({ permissions: ["camera"] }).then(
+        async (result, callback) => {
+          this.debug = result;
+          //const testCamera = await Camera.checkPermissions()
+          //this.checkCameraPermissions = testCamera.camera === 'granted' ? false : true
+        },
+      );
     },
     async testAuthorisation() {
-      const testCamera = await Camera.checkPermissions()
-      this.debug = testCamera
+      const testCamera = await Camera.checkPermissions();
+      this.debug = testCamera;
     },
     retry() {
-      this.removeScan = false
-      this.result = ''
+      this.removeScan = false;
+      this.result = "";
     },
     async sendTx() {
+      const hash = md5(this.password);
+      const { value } = await Preferences.get({ key: "masterPass" });
 
-      const hash = md5(this.password); 
-      const { value } = await Preferences.get({ key: 'masterPass' });
+      if (hash !== value) {
+        this.alertError = true;
+        return;
+      } else this.alertError = false;
 
-      if(hash !== value) {
-        this.alertError = true
-        return
-      } else 
-        this.alertError = false
+      this.loading = true;
 
-      this.loading = true
-
-      const deserialized = await DirectSecp256k1HdWallet.deserialize(this.allWallets[this.accountSelected].data, this.password);      
-      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(deserialized.secret.data, {
-        prefix: 'bcna'
-      });
+      const deserialized = await DirectSecp256k1HdWallet.deserialize(
+        this.allWallets[this.accountSelected].data,
+        this.password,
+      );
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(
+        deserialized.secret.data,
+        {
+          prefix: "bcna",
+        },
+      );
       const [accounts] = await wallet.getAccounts();
- 
+
       const client = await SigningStargateClient.connectWithSigner(
-        bitcannaConfig[this.network].rpcURL, 
+        bitcannaConfig[this.network].rpcURL,
         wallet,
         {
           gasPrice: GasPrice.fromString(
             bitcannaConfig[this.network].gasPrice +
-            bitcannaConfig[this.network].coinLookup.chainDenom
+              bitcannaConfig[this.network].coinLookup.chainDenom,
           ),
-        }
-      );     
+        },
+      );
 
-      const convertAmount = Math.round(JSON.parse(this.result).amount * 1000000);
+      const convertAmount = Math.round(
+        JSON.parse(this.result).amount * 1000000,
+      );
       const amount = {
         denom: bitcannaConfig[this.network].coinLookup.chainDenom,
         amount: convertAmount.toString(),
       };
-      console.log(amount)
+      console.log(amount);
       try {
         const result = await client.sendTokens(
           accounts.address,
           JSON.parse(this.result).address,
           [amount],
           "auto",
-          this.memo
-        ); 
+          this.memo,
+        );
         assertIsDeliverTxSuccess(result);
-        console.log(result); 
-        this.txSend = true
-        this.loading = false
-        this.accountNow = this.allWallets[this.accountSelected]
-        await this.$store.dispatch('getBankModule', this.accountNow.address)
-        await this.$store.dispatch('getDistribModule', this.accountNow.address)
-        await this.$store.dispatch('getStakingModule', this.accountNow.address)
-        await this.$store.dispatch('getWalletAmount')
-
+        console.log(result);
+        this.txSend = true;
+        this.loading = false;
+        this.accountNow = this.allWallets[this.accountSelected];
+        await this.$store.dispatch("getBankModule", this.accountNow.address);
+        await this.$store.dispatch("getDistribModule", this.accountNow.address);
+        await this.$store.dispatch("getStakingModule", this.accountNow.address);
+        await this.$store.dispatch("getWalletAmount");
       } catch (error) {
-        console.error(error); 
+        console.error(error);
       }
     },
-    paintOutline(detectedCodes, ctx) { 
+    paintOutline(detectedCodes, ctx) {
       for (const detectedCode of detectedCodes) {
-        this.result = detectedCode.rawValue
-        const [firstPoint, ...otherPoints] = detectedCode.cornerPoints
+        this.result = detectedCode.rawValue;
+        const [firstPoint, ...otherPoints] = detectedCode.cornerPoints;
 
-        ctx.strokeStyle = 'green'
+        ctx.strokeStyle = "green";
 
-        ctx.beginPath()
-        ctx.moveTo(firstPoint.x, firstPoint.y)
+        ctx.beginPath();
+        ctx.moveTo(firstPoint.x, firstPoint.y);
         for (const { x, y } of otherPoints) {
-          ctx.lineTo(x, y)
+          ctx.lineTo(x, y);
         }
-        ctx.lineTo(firstPoint.x, firstPoint.y)
-        ctx.closePath()
-        ctx.stroke()
+        ctx.lineTo(firstPoint.x, firstPoint.y);
+        ctx.closePath();
+        ctx.stroke();
       }
     },
 
-    paintBoundingBox(detectedCodes, ctx) { 
+    paintBoundingBox(detectedCodes, ctx) {
       for (const detectedCode of detectedCodes) {
-        this.result = detectedCode.rawValue
-        this.removeScan = true
+        this.result = detectedCode.rawValue;
+        this.removeScan = true;
         const {
-          boundingBox: { x, y, width, height }
-        } = detectedCode
+          boundingBox: { x, y, width, height },
+        } = detectedCode;
 
-        ctx.lineWidth = 2
-        ctx.strokeStyle = '#00b786' 
-        ctx.strokeRect(x, y, width, height)
+        ctx.lineWidth = 2;
+        ctx.strokeStyle = "#00b786";
+        ctx.strokeRect(x, y, width, height);
       }
     },
     truncateString(str, num) {
       if (str.length <= num) {
-        return str
+        return str;
       }
-      return str.slice(0, num) + '...'
+      return str.slice(0, num) + "...";
     },
     onError(error) {
-      if (error.name === 'NotAllowedError') {        
+      if (error.name === "NotAllowedError") {
         // user denied camera access permission
-        this.returnError = 'user denied camera access permission'
-      } else if (error.name === 'NotFoundError') {
+        this.returnError = "user denied camera access permission";
+      } else if (error.name === "NotFoundError") {
         // no suitable camera device installed
-        this.returnError = 'no suitable camera device installed'
-      } else if (error.name === 'NotSupportedError') {
+        this.returnError = "no suitable camera device installed";
+      } else if (error.name === "NotSupportedError") {
         // page is not served over HTTPS (or localhost)
-        this.returnError = 'page is not served over HTTPS (or localhost)'
-      } else if (error.name === 'NotReadableError') {
+        this.returnError = "page is not served over HTTPS (or localhost)";
+      } else if (error.name === "NotReadableError") {
         // maybe camera is already in use
-        this.returnError = 'maybe camera is already in use'
-      } else if (error.name === 'OverconstrainedError') {
+        this.returnError = "maybe camera is already in use";
+      } else if (error.name === "OverconstrainedError") {
         // did you request the front camera although there is none?
-        this.returnError = 'did you request the front camera although there is none?'
-      } else if (error.name === 'StreamApiNotSupportedError') {
+        this.returnError =
+          "did you request the front camera although there is none?";
+      } else if (error.name === "StreamApiNotSupportedError") {
         // browser seems to be lacking features
-        this.returnError = 'browser seems to be lacking features'
+        this.returnError = "browser seems to be lacking features";
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 <style>
-  .returnIconQr {
-    margin-top: 80px;
-  } 
+.returnIconQr {
+  margin-top: 80px;
+}
 </style>
