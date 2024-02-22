@@ -436,16 +436,17 @@
         <v-toolbar-title>Staking</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
-      <v-card class="ma-2">
-        <v-card-text>
-          <v-tabs v-model="tab" color="#0FB786" align-tabs="center">
-            <v-tab :value="1">Delegate</v-tab>
-            <v-tab :value="2">Undel</v-tab>
-            <v-tab :value="3">Redel</v-tab>
-          </v-tabs>
-          <v-window v-model="tab">
-            <v-window-item v-for="n in 3" :key="n" :value="n">
-              <v-container fluid>
+
+      <v-card-text>
+        <v-tabs v-model="tab" color="#0FB786" align-tabs="center">
+          <v-tab :value="1">Delegate</v-tab>
+          <v-tab :value="2">Undel</v-tab>
+          <v-tab :value="3">Redel</v-tab>
+        </v-tabs>
+        <v-window v-model="tab">
+          <v-window-item :key="1" :value="1">
+            <v-form v-model="formDelegate" ref="formDelegate">
+              <v-container>
                 <v-row>
                   <v-col cols="12">
                     <v-sheet class="cardover px-3 mb-2 mt-4 rounded-lg" border>
@@ -488,6 +489,7 @@
                         v-model="delegateAmount"
                         variant="plain"
                         suffix="BCNA"
+                        :rules="amountRules"
                       ></v-text-field>
                       <div class="mb-4 text-right">
                         <v-chip class="mr-3" label small @click="getHalf">
@@ -496,14 +498,27 @@
                         <v-chip label small @click="getMax"> Max </v-chip>
                       </div>
                     </v-sheet>
-
+                    <v-text-field
+                      v-if="Object.keys(this.validatorSelected).length !== 0"
+                      v-model="password"
+                      variant="outlined"
+                      color="#00b786"
+                      required
+                      :rules="passwordRules"
+                      :label="this.$t('dashboard.mdlSendTx.inpPassword')"
+                      type="password"
+                      class="mt-4"
+                    ></v-text-field>
                     <v-sheet class="mt-4 mb-6 rounded-lg">
                       <v-btn
+                        v-if="Object.keys(this.validatorSelected).length !== 0"
                         bottom
                         block
-                        variant="tonal"
                         min-height="60"
                         class="rounded-lg"
+                        color="#0FB786"
+                        :disabled="!formDelegate"
+                        :loading="loading"
                         @click="delegateNow()"
                       >
                         Delegate now
@@ -512,10 +527,13 @@
                   </v-col>
                 </v-row>
               </v-container>
-            </v-window-item>
-          </v-window>
-        </v-card-text>
-      </v-card>
+            </v-form>
+          </v-window-item>
+          <v-window-item :key="2" :value="2"></v-window-item>
+          <v-window-item :key="3" :value="3"></v-window-item>
+        </v-window>
+      </v-card-text>
+
       <v-list-item>
         <!-- <v-text-field
                 v-model="password"
@@ -587,6 +605,7 @@ import { getAllContact } from "@/libs/storage.js";
 import bitcannaConfig from "../bitcanna.config";
 import md5 from "md5";
 import bech32 from "bech32";
+import { ca } from "translatte/languages";
 
 function bech32Validation(address) {
   try {
@@ -614,6 +633,7 @@ export default {
   data() {
     return {
       form: false,
+      formDelegate: false,
       bitcannaConfig: bitcannaConfig,
       dialogSendToken: false,
       dialogAddressBook: false,
@@ -651,6 +671,7 @@ export default {
       memoRules: [
         (v) => v.length <= 100 || this.$t("dashboard.mdlSendTx.errorMemo"),
       ],
+      passwordRules: [(v) => !!v || "Password is required"],
       step1: true,
       step2: false,
       step3: false,
@@ -686,6 +707,11 @@ export default {
     },
     getMax() {
       this.amount = this.spendableBalances;
+      this.delegateAmount = this.spendableBalances;
+    },
+    getHalf() {
+      this.amount = (this.spendableBalances / 2).toFixed(6);
+      this.delegateAmount = (this.spendableBalances / 2).toFixed(6);
     },
     setAddress(address) {
       this.recipient = address;
@@ -694,6 +720,8 @@ export default {
       this.dialogStake = true;
       this.txSend = false;
       this.loading = false;
+      this.delegateAmount = 0;
+      this.validatorSelected = {};
     },
     openDialogClaim() {
       this.dialogClaim = true;
@@ -860,6 +888,83 @@ export default {
         await this.$store.dispatch("getDistribModule", this.accountNow.address);
         await this.$store.dispatch("getStakingModule", this.accountNow.address);
         await this.$store.dispatch("getWalletAmount");
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async delegateNow() {
+      const { valid } = await this.$refs.formDelegate.validate();
+      console.log(valid);
+      if (!valid) {
+        return;
+      }
+
+      const hash = md5(this.password);
+      const { value } = await Preferences.get({ key: "masterPass" });
+
+      if (hash !== value) {
+        this.alertError = true;
+        return;
+      }
+
+      this.loading = true;
+
+      const deserialized = await DirectSecp256k1HdWallet.deserialize(
+        this.allWallets[this.accountSelected].data,
+        this.password,
+      );
+
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(
+        deserialized.secret.data,
+        {
+          prefix: "bcna",
+        },
+      );
+      const [accounts] = await wallet.getAccounts();
+      console.log(accounts);
+
+      const client = await SigningStargateClient.connectWithSigner(
+        this.bitcannaConfig[this.network].rpcURL,
+        wallet,
+        {
+          gasPrice: GasPrice.fromString(
+            this.bitcannaConfig[this.network].gasPrice +
+              this.bitcannaConfig[this.network].coinLookup.chainDenom,
+          ),
+        },
+      );
+
+      const foundMsgType = defaultRegistryTypes.find(
+        (element) => element[0] === "/cosmos.staking.v1beta1.MsgDelegate",
+      );
+      console.log(foundMsgType);
+
+      //const amount = coins(this.delegateAmount * 1000000, cosmosConfig[this.store.chainSelected].coinLookup.chainDenom);
+
+      const finalAmount = {
+        denom: this.bitcannaConfig[this.network].coinLookup.chainDenom,
+        amount: (this.delegateAmount * 1000000).toString(),
+      };
+      const finalMsg = {
+        typeUrl: foundMsgType[0],
+        value: foundMsgType[1].fromPartial({
+          delegatorAddress: accounts.address,
+          validatorAddress: this.validatorSelected.address,
+          amount: finalAmount,
+        }),
+      };
+      console.log("delegateTx", finalMsg);
+
+      try {
+        const result = await client.signAndBroadcast(
+          accounts.address,
+          [finalMsg],
+          "auto",
+          "Delegate from mobile app =)",
+        );
+        assertIsDeliverTxSuccess(result);
+        console.log(result);
+        this.txSend = true;
       } catch (error) {
         console.error(error);
       }
