@@ -401,26 +401,64 @@
           ></v-btn>
         </template>
       </v-list-item>
-
-      <!--            <v-list-item
-            v-for="n in validators"
-            :key="n.description.moniker" 
-          >
-          <v-card class="ma-2" > 
-
-            <v-list-item-title>{{ n.description.moniker }}</v-list-item-title>
-            <v-list-item-subtitle>
-              {{ n.operatorAddress }}
-            </v-list-item-subtitle>
-            <template v-slot:prepend>
-              <v-avatar color="#0FB786">
-                <v-icon color="white">mdi-account</v-icon>
-              </v-avatar>
-            </template>
-          </v-card> 
-          </v-list-item> -->
     </v-card>
   </v-dialog>
+  <v-dialog
+    v-model="dialogUnStakeToSelect"
+    fullscreen
+    transition="dialog-bottom-transition"
+    class="bitcannaFont"
+  >
+    <v-toolbar dark>
+      <v-btn icon dark @click="dialogUnStakeToSelect = false">
+        <v-icon>mdi-close</v-icon>
+      </v-btn>
+      <v-toolbar-title>Select a validator</v-toolbar-title>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+
+    <v-card>
+      <!-- {{ allDelegations }} -->
+      <v-list-item
+        v-for="n in allDelegationsFormated"
+        :key="n.validator"
+        :title="n.moniker"
+        :subtitle="n.amount + ' BCNA'"
+        class="ma-2" 
+        @click="
+          selectValidatorToUnDelegate(
+            n.moniker,
+            n.validator,
+            n.amount,
+            'https://raw.githubusercontent.com/cosmostation/chainlist/main/chain/bitcanna/moniker/' +
+            n.validator +
+              '.png',
+          )
+        "
+      > 
+        <template v-slot:prepend>
+          <v-avatar color="grey-lighten-1">
+            <v-img
+              :src="
+                'https://raw.githubusercontent.com/cosmostation/chainlist/main/chain/bitcanna/moniker/' +
+                n.validator +
+                '.png'
+              "
+              alt=""
+            ></v-img>
+          </v-avatar>
+        </template>
+
+        <template v-slot:append>
+          <v-btn
+            color="grey-lighten-1"
+            icon="mdi-information"
+            variant="text"
+          ></v-btn>
+        </template>
+      </v-list-item>
+    </v-card>
+  </v-dialog>  
   <v-dialog
     v-model="dialogStake"
     fullscreen
@@ -449,14 +487,14 @@
               <v-container>
                 <v-row>
                   <v-col cols="12">
-                    <v-sheet class="cardover px-3 mb-2 mt-4 rounded-lg" border>
+                    <v-sheet class="cardover px-3 mb-2 mt-4 rounded-lg" border @click="dialogStakeToSelect = true">
                       <v-card
                         class="mx-auto text-left"
                         max-width="344"
                         :title="this.validatorSelected.name"
                         elevation="0"
                         :subtitle="this.validatorSelected.address"
-                        :prepend-avatar="this.validatorSelected.img"
+                        :prepend-avatar="this.validatorSelected.img"                        
                       >
                       </v-card>
                       <v-col
@@ -464,10 +502,7 @@
                         cols="auto"
                       >
                         <div class="text-center">
-                          {{ this.validatorSelected.name }}
-                          <v-btn @click="dialogStakeToSelect = true">
-                            Select validator
-                          </v-btn>
+                            Select validator 
                         </div>
                       </v-col>
                     </v-sheet>
@@ -529,7 +564,88 @@
               </v-container>
             </v-form>
           </v-window-item>
-          <v-window-item :key="2" :value="2"></v-window-item>
+          <v-window-item :key="2" :value="2">
+            <v-form v-model="formUndel" ref="formUndel">
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-sheet class="cardover px-3 mb-2 mt-4 rounded-lg" border @click="dialogUnStakeToSelect = true">
+                      <v-card
+                        class="mx-auto text-left"
+                        max-width="344"
+                        :title="this.validatorUndelSelected.name"
+                        elevation="0"
+                        :subtitle="this.validatorUndelSelected.address"
+                        :prepend-avatar="this.validatorUndelSelected.img"
+                      >
+                      </v-card>
+                      <v-col
+                        v-if="Object.keys(this.validatorUndelSelected).length === 0"
+                        cols="auto"
+                      >
+                        <div class="text-center">
+                            Select validator
+                        </div>
+                      </v-col>
+                    </v-sheet>
+                    <v-col
+                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      align-center
+                      class="text-center"
+                    >
+                      <v-icon size="40"> mdi-arrow-down-bold </v-icon>
+                    </v-col>
+
+                    <v-sheet
+                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      class="cardover px-3 mb-2 rounded-lg"
+                      border
+                    >
+                      <div class="text-left mt-4">Amount to Undelegate</div>
+                      <v-text-field
+                        v-model="unDelegateAmount"
+                        variant="plain"
+                        suffix="BCNA"
+                        :rules="amountRules"
+                      ></v-text-field>
+                      <div class="mb-4 text-right">
+                        <v-chip class="mr-3" label small @click="getUndelHalf(this.validatorUndelSelected.amount)">
+                          Half
+                        </v-chip>
+                        <v-chip label small @click="getUndelMax(this.validatorUndelSelected.amount)"> Max </v-chip>
+                      </div>
+                    </v-sheet>
+                    <v-text-field
+                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      v-model="password"
+                      variant="outlined"
+                      color="#00b786"
+                      required
+                      :rules="passwordRules"
+                      :label="this.$t('dashboard.mdlSendTx.inpPassword')"
+                      type="password"
+                      class="mt-4"
+                    ></v-text-field>
+                    <v-sheet class="mt-4 mb-6 rounded-lg">
+                      <v-btn
+                        v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                        bottom
+                        block
+                        min-height="60"
+                        class="rounded-lg"
+                        color="#0FB786"
+                        :disabled="!formUndel"
+                        :loading="loading"
+                        @click="unDelegateNow()"
+                      >
+                        UnDelegate now
+                      </v-btn>
+                    </v-sheet>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-form>          
+          </v-window-item>
           <v-window-item :key="3" :value="3"></v-window-item>
         </v-window>
       </v-card-text>
@@ -634,12 +750,14 @@ export default {
     return {
       form: false,
       formDelegate: false,
+      formUndel: false,
       bitcannaConfig: bitcannaConfig,
       dialogSendToken: false,
       dialogAddressBook: false,
       dialogClaim: false,
       dialogStake: false,
       dialogStakeToSelect: false,
+      dialogUnStakeToSelect: false,
       alertError: false,
       actionSend: false,
       actionReceive: false,
@@ -652,7 +770,9 @@ export default {
       loading: false,
       tab: null,
       validatorSelected: {},
+      validatorUndelSelected: {},
       delegateAmount: 0,
+      unDelegateAmount: 0,
       allContacts: [],
       amountRules: [
         (v) => !!v || this.$t("dashboard.mdlSendTx.errorAmountRequire"),
@@ -685,12 +805,15 @@ export default {
       "network",
       "totalRewards",
       "allDelegations",
+      "allDelegationsFormated",
       "validators",
     ]),
   },
   async mounted() {
     let getAllContacts = await getAllContact();
     this.allContacts = JSON.parse(getAllContacts);
+
+    console.log(this.allDelegations);
   },
   methods: {
     checkTx() {
@@ -713,6 +836,12 @@ export default {
       this.amount = (this.spendableBalances / 2).toFixed(6);
       this.delegateAmount = (this.spendableBalances / 2).toFixed(6);
     },
+    getUndelMax(amount) {
+      this.unDelegateAmount = amount;
+    },
+    getUndelHalf(amount) {
+      this.unDelegateAmount = (amount / 2).toFixed(6);
+    },
     setAddress(address) {
       this.recipient = address;
     },
@@ -722,6 +851,8 @@ export default {
       this.loading = false;
       this.delegateAmount = 0;
       this.validatorSelected = {};
+      this.unDelegateAmount = 0;
+      this.validatorUndelSelected = {};
     },
     openDialogClaim() {
       this.dialogClaim = true;
@@ -747,6 +878,10 @@ export default {
     selectValidatorToDelegate(name, address, img) {
       this.validatorSelected = { name: name, address: address, img: img };
       this.dialogStakeToSelect = false;
+    },
+    selectValidatorToUnDelegate(name, address, amount, img) {
+      this.validatorUndelSelected = { name: name, address: address, amount: amount, img: img };
+      this.dialogUnStakeToSelect = false;
     },
     async sendToken() {
       const { valid } = await this.$refs.form.validate();
@@ -879,11 +1014,8 @@ export default {
           "",
         );
         assertIsDeliverTxSuccess(result);
-        console.log(result);
-
         this.txSend = true;
-
-        this.accountNow = this.allWallets[this.accountSelected];
+        this.accountNow = this.allWallets[this.accountSelected]
         await this.$store.dispatch("getBankModule", this.accountNow.address);
         await this.$store.dispatch("getDistribModule", this.accountNow.address);
         await this.$store.dispatch("getStakingModule", this.accountNow.address);
@@ -937,8 +1069,6 @@ export default {
       const foundMsgType = defaultRegistryTypes.find(
         (element) => element[0] === "/cosmos.staking.v1beta1.MsgDelegate",
       );
-      console.log(foundMsgType);
-
       //const amount = coins(this.delegateAmount * 1000000, cosmosConfig[this.store.chainSelected].coinLookup.chainDenom);
 
       const finalAmount = {
@@ -960,10 +1090,99 @@ export default {
           accounts.address,
           [finalMsg],
           "auto",
-          "Delegate from mobile app =)",
+          "",
+        );
+        assertIsDeliverTxSuccess(result);
+
+        this.accountNow = this.allWallets[this.accountSelected]
+        await this.$store.dispatch('getBankModule', this.accountNow.address)
+        await this.$store.dispatch('getDistribModule', this.accountNow.address)
+        await this.$store.dispatch('getStakingModule', this.accountNow.address)
+        await this.$store.dispatch('getWalletAmount')
+
+
+        this.txSend = true;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async unDelegateNow() {
+      const { valid } = await this.$refs.formDelegate.validate(); 
+      if (!valid) {
+        return;
+      }
+
+      const hash = md5(this.password);
+      const { value } = await Preferences.get({ key: "masterPass" });
+
+      if (hash !== value) {
+        this.alertError = true;
+        return;
+      }
+
+      this.loading = true;
+
+      const deserialized = await DirectSecp256k1HdWallet.deserialize(
+        this.allWallets[this.accountSelected].data,
+        this.password,
+      );
+
+      const wallet = await DirectSecp256k1HdWallet.fromMnemonic(
+        deserialized.secret.data,
+        {
+          prefix: "bcna",
+        },
+      );
+      const [accounts] = await wallet.getAccounts();
+      console.log(accounts);
+
+      const client = await SigningStargateClient.connectWithSigner(
+        this.bitcannaConfig[this.network].rpcURL,
+        wallet,
+        {
+          gasPrice: GasPrice.fromString(
+            this.bitcannaConfig[this.network].gasPrice +
+              this.bitcannaConfig[this.network].coinLookup.chainDenom,
+          ),
+        },
+      );
+
+      const foundMsgType = defaultRegistryTypes.find(
+        (element) => element[0] === "/cosmos.staking.v1beta1.MsgUndelegate"
+      );
+
+        const convertAmount = (this.unDelegateAmount * 1000000).toFixed(0);
+        const amount = {
+          denom: this.bitcannaConfig[this.network].coinLookup.chainDenom,
+          amount: convertAmount.toString(),
+        };
+        
+        const finalMsg = {
+          typeUrl: foundMsgType[0],
+          value: foundMsgType[1].fromPartial({
+            delegatorAddress: accounts.address,
+            validatorAddress: this.validatorUndelSelected.address,
+            amount: amount,
+          }),
+        };
+        console.log(finalMsg)
+      try {
+        const result = await client.signAndBroadcast(
+          accounts.address,
+          [finalMsg],
+          "auto",
+          "",
         );
         assertIsDeliverTxSuccess(result);
         console.log(result);
+
+        this.accountNow = this.allWallets[this.accountSelected];
+        await this.$store.dispatch('getBankModule', this.accountNow.address)
+        await this.$store.dispatch('getDistribModule', this.accountNow.address)
+        await this.$store.dispatch('getStakingModule', this.accountNow.address)
+        await this.$store.dispatch('getWalletAmount')
+
+
         this.txSend = true;
       } catch (error) {
         console.error(error);

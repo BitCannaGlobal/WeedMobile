@@ -33,6 +33,7 @@ export default createStore({
     allContacts: [],
     validators: [],
     allDelegations: [], 
+    allDelegationsFormated: [],
   },
   getters: {
   },
@@ -149,7 +150,22 @@ export default createStore({
       } else {
         totalUnbound = 0.00
       }
- 
+      
+      let allDelegationsFormated = []
+      for (let i of delegatorValidators.delegationResponses) { 
+        const foundVal = allValidators.validators.find((element) => element.operatorAddress === i.delegation.validatorAddress)        
+        allDelegationsFormated.push({ 
+          validator: i.delegation.validatorAddress,
+          moniker: foundVal.description.moniker,
+          amount: (i.balance.amount / 1000000).toFixed(2),
+          commission: foundVal.commission.commissionRates.rate,
+          imageUrl: foundVal.description.identity,
+          status: foundVal.status
+        })
+        
+      }   
+
+      state.allDelegationsFormated = allDelegationsFormated
       state.allDelegations = delegatorValidators.delegationResponses
       state.totalDelegations = (total / 1000000).toFixed(2)
       state.totalUnbound = (totalUnbound / 1000000).toFixed(2)
