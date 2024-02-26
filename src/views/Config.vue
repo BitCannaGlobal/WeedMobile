@@ -547,6 +547,13 @@ export default {
   },
   methods: {
     async testNotification() {
+      LocalNotifications.requestPermissions().then((result) => {
+        if (result.granted) {
+          console.log('testNotificationGranted')
+        } else {
+          console.log('testNotificationDenied')
+        }
+      });
       console.log('testNotification')
       LocalNotifications.schedule({
         notifications: [
