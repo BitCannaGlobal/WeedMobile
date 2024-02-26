@@ -111,6 +111,26 @@
       </template>
     </v-list-item>
 
+    <v-list-item
+      title="Test notification"
+      subtitle="Test the notification system"
+      @click.stop="testNotification()"
+    >
+      <template v-slot:prepend>
+        <v-avatar>
+          <v-icon color="#33ffc9">mdi-information-outline</v-icon>
+        </v-avatar>
+      </template>
+
+      <template v-slot:append>
+        <v-btn
+          color="grey-lighten-1"
+          icon="mdi-chevron-right"
+          variant="text"
+          @click.stop="openAppInfo()"
+        ></v-btn>
+      </template>
+    </v-list-item>
     <!-- <v-list-item
       title="Import wallet"
       subtitle="Only for dev mode"
@@ -446,6 +466,9 @@ import {
 import bitcannaWallets from "../bitcanna.wallet";
 import pjson from "@/../package.json";
 
+import { LocalNotifications } from '@capacitor/local-notifications';
+ 
+
 export default {
   components: { Accounts },
   data() {
@@ -523,6 +546,24 @@ export default {
     this.deviceInfo = info;
   },
   methods: {
+    async testNotification() {
+      console.log('testNotification')
+      LocalNotifications.schedule({
+        notifications: [
+          {
+            title: "Hello",
+            body: "World",
+            id: 1,
+            schedule: { at: new Date(Date.now() + 1000 * 5) },
+            sound: null,
+            attachments: null,
+            actionTypeId: "",
+            extra: null
+          }
+        ]
+      });
+      console.log(await LocalNotifications.getPending())
+    },
     async changeMassterPass() {
       if (this.newPassword1 === this.newPassword2) {
         this.masterPasswordChanging = true;
