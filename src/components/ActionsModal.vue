@@ -471,7 +471,7 @@
         <v-btn icon dark @click="dialogStake = false">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Staking</v-toolbar-title>
+        <v-toolbar-title>{{ $t("dashboard.mdlStake.title") }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
 
@@ -492,7 +492,7 @@
                       class="cardover px-3 mb-2 rounded-lg"
                       border
                     >
-                      <div class="text-left mt-4">Amount to delegate</div>
+                      <div class="text-left mt-4">{{ $t("dashboard.mdlStake.amountDelegate") }}</div>
                       <v-text-field
                         v-model="delegateAmount"
                         variant="plain"
@@ -501,9 +501,9 @@
                       ></v-text-field>
                       <div class="mb-4 text-right">
                         <v-chip class="mr-3" label small @click="getHalf">
-                          Half
+                          {{ $t("dashboard.mdlStake.half") }}
                         </v-chip>
-                        <v-chip label small @click="getMax"> Max </v-chip>
+                        <v-chip label small @click="getMax"> {{ $t("dashboard.mdlStake.max") }} </v-chip>
                       </div>
                     </v-sheet>
                     <v-col
@@ -900,7 +900,7 @@ export default {
         (v) => !!v || this.$t("dashboard.mdlSendTx.errorAmountRequire"),
         (v) => !isNaN(v) || this.$t("dashboard.mdlSendTx.errorAmountNumber"),
         (v) =>
-          v <= this.validatorUndelSelected.amount ||
+          v >= this.validatorUndelSelected.amount ||
           "You don't have enough tokens (" + this.validatorUndelSelected.amount + ")",
         (v) =>
           countPlaces(v) < 7 ||
@@ -910,7 +910,7 @@ export default {
         (v) => !!v || this.$t("dashboard.mdlSendTx.errorAmountRequire"),
         (v) => !isNaN(v) || this.$t("dashboard.mdlSendTx.errorAmountNumber"),
         (v) =>
-          v <= this.validatorUndelSelected.amount ||
+          v >= this.validatorUndelSelected.amount ||
           "You don't have enough tokens (" + this.validatorUndelSelected.amount + ")",
         (v) =>
           countPlaces(v) < 7 ||

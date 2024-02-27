@@ -157,7 +157,7 @@ export default createStore({
         allDelegationsFormated.push({ 
           validator: i.delegation.validatorAddress,
           moniker: foundVal.description.moniker,
-          amount: (i.balance.amount / 1000000).toFixed(2),
+          amount: (i.balance.amount / 1000000).toFixed(6),
           commission: foundVal.commission.commissionRates.rate,
           imageUrl: foundVal.description.identity,
           status: foundVal.status
