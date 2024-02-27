@@ -996,6 +996,7 @@ export default {
       this.unDelegateAmount = 0;
       this.reDelegateAmount = 0;
       this.validatorUndelSelected = {};
+      this.password = "";
     },
     openDialogClaim() {
       this.dialogClaim = true;

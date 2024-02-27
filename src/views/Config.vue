@@ -467,7 +467,7 @@ import bitcannaWallets from "../bitcanna.wallet";
 import pjson from "@/../package.json";
 
 import { LocalNotifications } from '@capacitor/local-notifications';
- 
+
 
 export default {
   components: { Accounts },
