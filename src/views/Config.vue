@@ -89,7 +89,25 @@
     <v-divider></v-divider>
 
     <v-list-subheader>{{ $t("config.subheader.other") }}</v-list-subheader>
+    <v-list-item
+      title="Notification"
+      subtitle="Configure your own notifications"
+      @click.stop="testNotification()"
+    >
+      <template v-slot:prepend>
+        <v-avatar>
+          <v-icon color="#33ffc9">mdi-bell-cog-outline</v-icon>
+        </v-avatar>
+      </template>
 
+      <template v-slot:append>
+        <v-btn
+          color="grey-lighten-1"
+          icon="mdi-chevron-right"
+          variant="text" 
+        ></v-btn>
+      </template>
+    </v-list-item>
     <v-list-item
       :title="$t('config.appInfo.title')"
       :subtitle="$t('config.appInfo.subtitle')"
@@ -111,26 +129,7 @@
       </template>
     </v-list-item>
 
-    <v-list-item
-      title="Test notification"
-      subtitle="Test the notification system"
-      @click.stop="testNotification()"
-    >
-      <template v-slot:prepend>
-        <v-avatar>
-          <v-icon color="#33ffc9">mdi-information-outline</v-icon>
-        </v-avatar>
-      </template>
 
-      <template v-slot:append>
-        <v-btn
-          color="grey-lighten-1"
-          icon="mdi-chevron-right"
-          variant="text"
-          @click.stop="openAppInfo()"
-        ></v-btn>
-      </template>
-    </v-list-item>
     <!-- <v-list-item
       title="Import wallet"
       subtitle="Only for dev mode"
@@ -446,6 +445,43 @@
       </v-table>
     </v-card>
   </v-dialog>
+  <v-dialog
+    v-model="dialogNotification"
+    fullscreen
+    :scrim="false"
+    transition="dialog-bottom-transition"
+    class="bitcannaFont"
+  >
+    <v-card>
+      <v-toolbar dark>
+        <v-btn icon dark @click="dialogNotification = false">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+        <v-toolbar-title>Notification config</v-toolbar-title>
+        <v-spacer></v-spacer>
+      </v-toolbar>
+      <v-list lines="two"> 
+ 
+
+      <v-list-item
+        title="When I receive a payment"
+        subtitle="Check every hour"
+      >
+        <template v-slot:append>
+          <v-switch v-model="notifReceive" color="primary"></v-switch>
+        </template>
+      </v-list-item>
+      <v-list-item
+        title="Bitcanna change price"
+        subtitle="Check every day"
+      >
+        <template v-slot:append>
+          <v-switch v-model="notifPrice" color="primary"></v-switch>
+        </template>
+      </v-list-item>
+    </v-list>
+    </v-card>
+  </v-dialog>  
 </template>
 
 <script>
@@ -483,6 +519,7 @@ export default {
       enableButton: false,
       dialogChangeMasterPass: false,
       dialogSetTimeOut: false,
+      dialogNotification: false,
       importDebugMnenomic: false,
       alertImported: false,
       newPassword1: "",
@@ -493,12 +530,30 @@ export default {
       appVersion: "",
       deviceInfo: {},
       timeout: {},
+      notifReceive: false,
+      notifPrice: false,
       timers: [
         { state: this.$t("config.autoLogout.time.min"), key: "min" },
         { state: this.$t("config.autoLogout.time.min5"), key: "min5" },
         { state: this.$t("config.autoLogout.time.hour"), key: "hour" },
         { state: this.$t("config.autoLogout.time.hours6"), key: "hour6" },
         { state: this.$t("config.autoLogout.time.day"), key: "day" },
+      ],
+      allNotifications: [
+        {
+          color: 'blue',
+          icon: 'mdi-clipboard-text',
+          subtitle: 'Check every hour',
+          title: 'When I receive a payment',
+          value: false,
+        },
+        {
+          color: 'amber',
+          icon: 'mdi-gesture-tap-button',
+          subtitle: 'Check every day',
+          title: 'Bitcanna change price',
+          value: false,
+        },
       ],
     };
   },
@@ -547,7 +602,8 @@ export default {
   },
   methods: {
     async testNotification() {
-      LocalNotifications.requestPermissions().then((result) => {
+      this.dialogNotification = true;
+      /* LocalNotifications.requestPermissions().then((result) => {
         if (result.granted) {
           console.log('testNotificationGranted')
         } else {
@@ -569,7 +625,7 @@ export default {
           }
         ]
       });
-      console.log(await LocalNotifications.getPending())
+      console.log(await LocalNotifications.getPending()) */
     },
     async changeMassterPass() {
       if (this.newPassword1 === this.newPassword2) {

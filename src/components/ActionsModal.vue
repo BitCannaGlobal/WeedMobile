@@ -359,7 +359,7 @@
       <v-btn icon dark @click="dialogStakeToSelect = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
-      <v-toolbar-title>Select a validator</v-toolbar-title>
+      <v-toolbar-title>{{ $t("dashboard.mdlStake.selectVal") }}</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
 
@@ -413,7 +413,7 @@
       <v-btn icon dark @click="dialogUnStakeToSelect = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
-      <v-toolbar-title>Select a validator</v-toolbar-title>
+      <v-toolbar-title>{{ $t("dashboard.mdlStake.selectVal") }}</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
 
@@ -527,7 +527,7 @@
                         cols="auto"
                       >
                         <div class="text-center">
-                            Select validator 
+                          {{ $t("dashboard.mdlStake.selectVal") }}
                         </div>
                       </v-col>
                     </v-sheet>
@@ -555,7 +555,7 @@
                         :loading="loading"
                         @click="delegateNow()"
                       >
-                        Delegate now
+                        {{ $t("dashboard.mdlStake.delNow") }}
                       </v-btn>
                     </v-sheet>
                   </v-col>
@@ -583,7 +583,7 @@
                         cols="auto"
                       >
                         <div class="text-center">
-                            Select validator
+                          {{ $t("dashboard.mdlStake.selectVal") }}
                         </div>
                       </v-col>
                     </v-sheet>
@@ -600,7 +600,7 @@
                       class="cardover px-3 mb-2 rounded-lg"
                       border
                     >
-                      <div class="text-left mt-4">Amount to Undelegate</div>
+                      <div class="text-left mt-4">{{ $t("dashboard.mdlStake.titleUndel") }}</div>
                       <v-text-field
                         v-model="unDelegateAmount"
                         variant="plain"
@@ -609,9 +609,9 @@
                       ></v-text-field>
                       <div class="mb-4 text-right">
                         <v-chip class="mr-3" label small @click="getUndelHalf(this.validatorUndelSelected.amount)">
-                          Half
+                          {{ $t("dashboard.mdlStake.half") }}
                         </v-chip>
-                        <v-chip label small @click="getUndelMax(this.validatorUndelSelected.amount)"> Max </v-chip>
+                        <v-chip label small @click="getUndelMax(this.validatorUndelSelected.amount)"> {{ $t("dashboard.mdlStake.max") }} </v-chip>
                       </div>
                     </v-sheet>
                     <v-text-field
@@ -637,7 +637,7 @@
                         :loading="loading"
                         @click="unDelegateNow()"
                       >
-                        UnDelegate now
+                        {{ $t("dashboard.mdlStake.undelNow") }}
                       </v-btn>
                     </v-sheet>
                   </v-col>
@@ -665,7 +665,7 @@
                         cols="auto"
                       >
                         <div class="text-center">
-                            Select validator
+                            {{ $t("dashboard.mdlStake.selectVal") }}
                         </div>
                       </v-col>
                     </v-sheet>
@@ -682,7 +682,7 @@
                       class="cardover px-3 mb-2 rounded-lg"
                       border
                     >
-                      <div class="text-left mt-4">Amount to redelegate</div>
+                      <div class="text-left mt-4">{{ $t("dashboard.mdlStake.titleRedel") }}</div>
                       <v-text-field
                         v-model="reDelegateAmount"
                         variant="plain"
@@ -721,7 +721,7 @@
                         cols="auto"
                       >
                         <div class="text-center">
-                            Select validator 
+                          {{ $t("dashboard.mdlStake.selectVal") }}
                         </div>
                       </v-col>
                     </v-sheet>
@@ -749,7 +749,8 @@
                         :loading="loading"
                         @click="reDelegateNow()"
                       >
-                        reDelegate now
+                        
+                        {{ $t("dashboard.mdlStake.redelNow") }}
                       </v-btn>
                     </v-sheet>
                   </v-col>

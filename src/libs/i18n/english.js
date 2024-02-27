@@ -60,6 +60,18 @@ export default {
       inpPassword: 'Password',
       btnClaim: 'Claim',
     },
+    mdlStake: {
+      title: 'Staking',
+      amountDelegate: 'Amount to delegate',
+      half: 'Half',
+      max: 'Max',
+      selectVal: 'Select validator',
+      delNow: 'Delegate now',
+      titleUndel: 'Amount to Undelegate',
+      undelNow: 'UnDelegate now',
+      titleRedel: 'Amount to redelegate',
+      redelNow: 'reDelegate now', 
+    },
   },
   accounts: {
     title: 'Accounts', 
