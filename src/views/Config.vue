@@ -538,23 +538,7 @@ export default {
         { state: this.$t("config.autoLogout.time.hour"), key: "hour" },
         { state: this.$t("config.autoLogout.time.hours6"), key: "hour6" },
         { state: this.$t("config.autoLogout.time.day"), key: "day" },
-      ],
-      allNotifications: [
-        {
-          color: 'blue',
-          icon: 'mdi-clipboard-text',
-          subtitle: 'Check every hour',
-          title: 'When I receive a payment',
-          value: false,
-        },
-        {
-          color: 'amber',
-          icon: 'mdi-gesture-tap-button',
-          subtitle: 'Check every day',
-          title: 'Bitcanna change price',
-          value: false,
-        },
-      ],
+      ] 
     };
   },
   watch: {
@@ -578,6 +562,14 @@ export default {
       this.$store.dispatch("changeCurrency", val);
       await this.$store.dispatch("getPriceNow");
     },
+    notifReceive: async function (val) {
+      console.log(val);
+      await Preferences.set({ key: "notifReceive", value: val });
+    },
+    notifPrice: async function (val) {
+      console.log(val);
+      await Preferences.set({ key: "notifPrice", value: val });
+    },
   },
   computed: {
     ...mapState(["allWallets", "accountSelected", "sessionMax", "isLogged"]),
@@ -599,6 +591,11 @@ export default {
 
     const info = await Device.getInfo();
     this.deviceInfo = info;
+
+    const notifReceive = await Preferences.get({ key: "notifReceive" });
+    this.notifReceive = notifReceive.value === "true" ? true : false;
+    const notiPrice = await Preferences.get({ key: "notifPrice" });
+    this.notifPrice = notiPrice.value === "true" ? true : false;    
   },
   methods: {
     async testNotification() {

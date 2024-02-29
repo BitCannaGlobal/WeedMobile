@@ -73,11 +73,13 @@
 import { App } from '@capacitor/app';
 import { Camera } from '@capacitor/camera';
 import { Preferences } from '@capacitor/preferences';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import bitcannaConfig from '../../bitcanna.config'
 
 import { mapState } from 'vuex'
 import mainFooter from '@/components/Footer.vue' 
-import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } from '@/libs/storage.js'; 
+import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut, getNotifReceive } from '@/libs/storage.js'; 
+import axios from 'axios';
 
   export default {
     components: { mainFooter },
@@ -145,18 +147,44 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
       }); 
 
       await this.$store.dispatch('initRpc')
+      // Test notification
+      this.sendNotification()     
 
       if (!this.isLogged) {
         removeBcnaSession()
         this.$store.commit('setIsLogged', false)
         this.$router.push('/')
         return
-      }
-
-      
-      
+      }      
     },
     methods: {
+      async sendNotification() {
+        const notiPrice = await Preferences.get({ key: "notifPrice" });
+        const lastNotifPrice = await Preferences.get({ key: "lastNotifPrice" });
+
+        console.log('lastNotifPrice', Number(lastNotifPrice.value) + 24 * 3600)
+        
+        if(notiPrice.value === 'true' && (Number(lastNotifPrice.value) + 24 * 3600) < Math.floor(Date.now() / 1000)) {
+          let getBitcannaInfo = await axios.get('https://api.coingecko.com/api/v3/coins/bitcanna')
+          LocalNotifications.schedule({
+            notifications: [
+              {
+                title: "Bitcanna price " + getBitcannaInfo.data.market_data.price_change_percentage_24h + "%",
+                body: "1 BCNA = $" + getBitcannaInfo.data.market_data.current_price.usd,
+                largeBody: "$ " + getBitcannaInfo.data.market_data.current_price.usd,
+                id: 1,
+                schedule: { at: new Date(Date.now()) },
+                sound: null,
+                attachments: null,
+                actionTypeId: "",
+                extra: null
+              }
+            ]
+          });
+          await Preferences.set({ key: "lastNotifPrice", value: Math.floor(Date.now() / 1000) });
+        }
+
+      },
       async changeNetwork(network) {
         this.$store.commit('setNetwork', network) 
         await this.$store.dispatch('initRpc')
