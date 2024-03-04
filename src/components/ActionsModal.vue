@@ -79,7 +79,7 @@
               :label="this.$t('dashboard.mdlSendTx.inpAmount')"
               type="number"
               inputmode="numeric"
-              pattern="[0-9]*"
+              pattern="[0-9\.]*$"
               class="mt-2"
               suffix="Max"
               append-inner-icon="mdi-plus-box-outline"

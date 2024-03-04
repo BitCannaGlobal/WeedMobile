@@ -72,7 +72,7 @@
                 :label="$t('createQrcode.amount')"
                 type="number"
                 inputmode="numeric"
-                pattern="[0-9]*"
+                pattern="[0-9\.]*$"
                 class="mt-2"
               ></v-text-field>
             </v-col>
