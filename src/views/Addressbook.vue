@@ -12,8 +12,8 @@
   <v-card v-for="(item, index) in allContacts" class="ma-4">
     <v-list v-if="allContacts.length > 0" lines="two">
       <v-list-item
-        :key="item.name"
-        :title="item.name + ' (' + item.memo + ')'"
+        :key="item.name" 
+        :title="item.memo ? item.name + ' (' + item.memo + ')' : item.name"
         :subtitle="truncateString(item.address, 20)"
         @click="openEditDialog(index, item)"
       >
