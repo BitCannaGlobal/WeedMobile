@@ -243,7 +243,7 @@ export default {
     errorPrefix: 'Address must start with bcna',
     errorBech32: 'Bad address (not bech32)',
     errorMemo: 'Memo must be less than 100 characters', 
-    info: 'Infomations',
+    info: 'Infomation',
     edit: {
       title: 'Edit contact',
       subtitle: 'Here you can edit your contacts'
