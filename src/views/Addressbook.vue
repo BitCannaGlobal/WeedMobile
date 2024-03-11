@@ -80,8 +80,8 @@
                 color="#00b786"
                 :label="$t('addressBook.address')"
                 class="mt-4"
-                append-inner-icon="mdi-qrcode-scan"
-                @click:append-inner="scanNow()"
+                append-icon="mdi-qrcode-scan"
+                @click:append="scanNow()"
               ></v-text-field>
             </v-list-item>
             <v-list-item>
