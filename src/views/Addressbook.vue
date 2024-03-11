@@ -79,10 +79,15 @@
                 variant="outlined"
                 color="#00b786"
                 :label="$t('addressBook.address')"
-                class="mt-4"
-                append-icon="mdi-qrcode-scan"
-                @click:append="scanNow()"
-              ></v-text-field>
+                class="mt-4" 
+              >
+              <template v-slot:append>
+                <v-icon 
+                  icon="mdi-qrcode-scan"
+                  @click="scanNow()"
+                />
+              </template>            
+            </v-text-field>
             </v-list-item>
             <v-list-item>
               <v-text-field
@@ -161,9 +166,14 @@
                 color="#00b786"
                 :label="$t('addressBook.address')"
                 class="mt-4"
-                append-inner-icon="mdi-qrcode-scan"
-                @click:append-inner="scanNow()"
-              ></v-text-field>
+              >
+              <template v-slot:append>
+                <v-icon 
+                  icon="mdi-qrcode-scan"
+                  @click="scanNow()"
+                />
+              </template>             
+            </v-text-field>
             </v-list-item>
             <v-list-item>
               <v-text-field
