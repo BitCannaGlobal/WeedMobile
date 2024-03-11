@@ -490,8 +490,8 @@
       <v-card-text>
         <v-tabs v-model="tab" color="#0FB786" align-tabs="center">
           <v-tab :value="1">Delegate</v-tab>
-          <v-tab :value="2">Undel</v-tab>
-          <v-tab :value="3">Redel</v-tab>
+          <!-- <v-tab :value="2">Undel</v-tab>
+          <v-tab :value="3">Redel</v-tab> -->
         </v-tabs>
         <v-window v-model="tab">
           <v-window-item :key="1" :value="1">
