@@ -46,7 +46,7 @@
     <div v-if="removeScan">
       <v-alert
         v-if="JSON.parse(result).amount > spendableBalances"
-        text="$t('scanQrcode.scanned.error')"
+        :text="$t('scanQrcode.scanned.error')"
         type="error"
         class="mb-4"
       ></v-alert>
