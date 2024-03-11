@@ -59,6 +59,7 @@
         <v-divider></v-divider>
         <v-list>
           <v-list-item>
+            <qrcode-stream v-if="enableCam" @detect="onDetect" />
             <v-text-field
               v-model="recipient"
               :rules="addressRules"
@@ -66,9 +67,20 @@
               color="#00b786"
               :label="this.$t('dashboard.mdlSendTx.inpRecipient')"
               class="mt-4"
-              append-icon="mdi-book-open-page-variant-outline"
-              @click:append="getAddressBook()"
-            ></v-text-field>
+            >
+                      
+            <template v-slot:append>
+              <v-icon 
+                icon="mdi-book-open-page-variant-outline"
+                @click="getAddressBook()"
+              />
+              <v-icon 
+                class="ml-4"
+                icon="mdi-qrcode-scan"
+                @click="toggleCamera()"
+              />
+            </template>
+          </v-text-field>
           </v-list-item>
           <v-list-item>
             <v-text-field
@@ -832,6 +844,7 @@ import { getAllContact } from "@/libs/storage.js";
 import bitcannaConfig from "../bitcanna.config";
 import md5 from "md5";
 import bech32 from "bech32";
+import { Camera } from "@capacitor/camera";
 import { ca } from "translatte/languages";
 
 function bech32Validation(address) {
@@ -859,6 +872,7 @@ export default {
   },
   data() {
     return {
+      enableCam: false,
       form: false,
       formDelegate: false,
       formUndel: false,
@@ -1421,6 +1435,13 @@ export default {
         this.loading = false;
         console.error(error);
       } 
+    },
+    toggleCamera() {
+      this.enableCam = this.enableCam === true ? false : true; 
+    },
+    onDetect (detectedCodes) {
+      this.recipient = detectedCodes[0].rawValue
+      this.enableCam = false
     },
     truncateString(str, num) {
       if (str.length <= num) {
