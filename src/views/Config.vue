@@ -87,27 +87,6 @@
       </template>
     </v-list-item>
     <v-divider></v-divider>
-
-    <v-list-subheader>{{ $t("config.subheader.other") }}</v-list-subheader>
-    <v-list-item
-      title="Notification"
-      subtitle="Configure your own notifications"
-      @click.stop="testNotification()"
-    >
-      <template v-slot:prepend>
-        <v-avatar>
-          <v-icon color="#33ffc9">mdi-bell-cog-outline</v-icon>
-        </v-avatar>
-      </template>
-
-      <template v-slot:append>
-        <v-btn
-          color="grey-lighten-1"
-          icon="mdi-chevron-right"
-          variant="text" 
-        ></v-btn>
-      </template>
-    </v-list-item>
     <v-list-item
       :title="$t('config.appInfo.title')"
       :subtitle="$t('config.appInfo.subtitle')"
@@ -445,43 +424,7 @@
       </v-table>
     </v-card>
   </v-dialog>
-  <v-dialog
-    v-model="dialogNotification"
-    fullscreen
-    :scrim="false"
-    transition="dialog-bottom-transition"
-    class="bitcannaFont"
-  >
-    <v-card>
-      <v-toolbar dark>
-        <v-btn icon dark @click="dialogNotification = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-        <v-toolbar-title>Notification config</v-toolbar-title>
-        <v-spacer></v-spacer>
-      </v-toolbar>
-      <v-list lines="two"> 
- 
 
-      <v-list-item
-        title="When I receive a payment"
-        subtitle="Check every hour"
-      >
-        <template v-slot:append>
-          <v-switch v-model="notifReceive" color="primary"></v-switch>
-        </template>
-      </v-list-item>
-      <v-list-item
-        title="Bitcanna change price"
-        subtitle="Check every day"
-      >
-        <template v-slot:append>
-          <v-switch v-model="notifPrice" color="primary"></v-switch>
-        </template>
-      </v-list-item>
-    </v-list>
-    </v-card>
-  </v-dialog>  
 </template>
 
 <script>
@@ -519,7 +462,6 @@ export default {
       enableButton: false,
       dialogChangeMasterPass: false,
       dialogSetTimeOut: false,
-      dialogNotification: false,
       importDebugMnenomic: false,
       alertImported: false,
       newPassword1: "",
@@ -530,8 +472,6 @@ export default {
       appVersion: "",
       deviceInfo: {},
       timeout: {},
-      notifReceive: false,
-      notifPrice: false,
       timers: [
         { state: this.$t("config.autoLogout.time.min"), key: "min" },
         { state: this.$t("config.autoLogout.time.min5"), key: "min5" },
