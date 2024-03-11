@@ -1,18 +1,11 @@
-
 <template>
- 
   <div class="ma-4">
     <v-row class="ma-2">
       <h1>
-        {{ $t("transactions.title") }} 
+        {{ $t("transactions.title") }}
       </h1>
-      <v-spacer /> 
-      <v-btn
-        large                          
-        class="mt-2"
-        color="#333333"
-        to="/create-qrcode"
-      >
+      <v-spacer />
+      <v-btn large class="mt-2" color="#333333" to="/create-qrcode">
         {{ $t("transactions.btnCreateQr") }}
       </v-btn>
     </v-row>
@@ -23,51 +16,38 @@
           {{ group[0].section }}
         </h3>
         <v-expansion-panels>
-          <v-expansion-panel
-            v-for="item in group"
-            :key="i" 
-          >
-        
-          <v-expansion-panel-title v-slot="{ open }">
-            
-            <v-row no-gutters>
-              <v-col cols="4" class="d-flex justify-start">
-                <v-chip 
-                  :color="item.final.color"
-                  outlined
-                  label 
+          <v-expansion-panel v-for="item in group" :key="i">
+            <v-expansion-panel-title v-slot="{ open }">
+              <v-row no-gutters>
+                <v-col cols="4" class="d-flex justify-start">
+                  <v-chip :color="item.final.color" outlined label>
+                    {{ item.final.typeReadable }}
+                  </v-chip>
+                </v-col>
+                <v-col cols="8" class="text--secondary mt-2">
+                  {{
+                    dayjs(item.final.timestamp).format("DD/MM/YYYY HH:mm:ss")
+                  }}
+                </v-col>
+              </v-row>
+            </v-expansion-panel-title>
+            <v-expansion-panel-text>
+              <v-row justify="space-around" no-gutters>
+                <v-btn
+                  class="mr-2"
+                  elevation="2"
+                  color="#333333"
+                  small
+                  @click.stop="openExplorer(item.final.finalHash)"
+                  >{{ $t("transactions.btnViewTx") }}</v-btn
                 >
-                  {{ item.final.typeReadable }}
-                </v-chip>
-              </v-col>
-              <v-col
-                cols="8"
-                class="text--secondary mt-2"
-              >
-              
-                {{ dayjs(item.final.timestamp).format('DD/MM/YYYY HH:mm:ss')  }}
-              </v-col>
-            </v-row>
-          </v-expansion-panel-title>        
-          <v-expansion-panel-text>
-        <v-row
-          justify="space-around"
-          no-gutters
-        >
-        <v-btn
-          class=" mr-2"
-          elevation="2"
-          color="#333333" 
-          small
-          @click.stop="openExplorer(item.final.finalHash)"
-        >{{ $t("transactions.btnViewTx") }}</v-btn>
-        </v-row>
-      </v-expansion-panel-text>        
-        </v-expansion-panel>
+              </v-row>
+            </v-expansion-panel-text>
+          </v-expansion-panel>
         </v-expansion-panels>
       </div>
     </template>
-  </div> 
+  </div>
 </template>
 
 <script>
@@ -75,13 +55,13 @@ import { mapState } from "vuex";
 
 import axios from "axios";
 import dayjs from "dayjs";
-import { removeBcnaSession } from '@/libs/storage.js';
+import { removeBcnaSession } from "@/libs/storage.js";
 import { reverse, sortBy, uniqWith, orderBy, groupBy } from "lodash";
-import { Browser } from '@capacitor/browser';
+import { Browser } from "@capacitor/browser";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 import { setMsg } from "../libs/msgType";
-import bitcannaConfig from '../bitcanna.config' 
+import bitcannaConfig from "../bitcanna.config";
 
 const categories = [
   {
@@ -97,7 +77,6 @@ const categories = [
     },
   },
 ];
-
 
 export default {
   data: () => ({
@@ -116,30 +95,30 @@ export default {
   }),
   computed: {
     ...mapState([
-      'network', 
-      'rpcBase', 
-      'isLogged', 
-      'allWallets', 
-      'sessionMax', 
-      'accountSelected', 
-      'spendableBalances', 
-      'totalRewards', 
-      'priceNow',
-      'totalTokens',
-      'validators'
-    ])
+      "network",
+      "rpcBase",
+      "isLogged",
+      "allWallets",
+      "sessionMax",
+      "accountSelected",
+      "spendableBalances",
+      "totalRewards",
+      "priceNow",
+      "totalTokens",
+      "validators",
+    ]),
   },
   watch: {},
 
   async beforeMount() {
     if (!this.isLogged) {
-      removeBcnaSession()
-      this.$store.commit('setIsLogged', false)
-      this.$router.push('/')
-      return
+      removeBcnaSession();
+      this.$store.commit("setIsLogged", false);
+      this.$router.push("/");
+      return;
     }
     if (this.isLogged) {
-      this.accountNow = this.allWallets[this.accountSelected]
+      this.accountNow = this.allWallets[this.accountSelected];
 
       const resultSender = await axios(
         bitcannaConfig[this.network].apiURL +
@@ -147,7 +126,7 @@ export default {
           this.accountNow.address +
           "%27&limit=" +
           bitcannaConfig[this.network].maxTxSender +
-          "&order_by=2"
+          "&order_by=2",
       );
       const resultRecipient = await axios(
         bitcannaConfig[this.network].apiURL +
@@ -155,10 +134,10 @@ export default {
           this.accountNow.address +
           "%27&limit=" +
           bitcannaConfig[this.network].maxTxRecipient +
-          "&order_by=2"
+          "&order_by=2",
       );
       const finalTxs = resultSender.data.tx_responses.concat(
-        resultRecipient.data.tx_responses
+        resultRecipient.data.tx_responses,
       );
 
       this.rpcAllTxs = this.transactionsReducer(finalTxs);
@@ -169,17 +148,17 @@ export default {
   methods: {
     async openExplorer(hash) {
       await Browser.open({
-        url: 'https://explorer.bitcanna.io/transactions/' + hash,
+        url: "https://explorer.bitcanna.io/transactions/" + hash,
       });
     },
-    groupedEvents() { 
-        const test = orderBy(
-          groupBy(this.categorizedEvents(), "section"),
-          (group) => group[0].final.timestamp,
-          "desc"
-        );
-        return test; 
-    },    
+    groupedEvents() {
+      const test = orderBy(
+        groupBy(this.categorizedEvents(), "section"),
+        (group) => group[0].final.timestamp,
+        "desc",
+      );
+      return test;
+    },
     categorizedEvents() {
       return this.rpcAllTxs.map((event) => {
         // check if the tx is in Today, Yesterday or Last Week
@@ -187,12 +166,12 @@ export default {
           ` (` + dayjs(event.timestamp).format("D MMMM YYYY") + `)`;
 
         const category = categories.find(({ matcher }) => matcher(event));
-        
+
         if (category) {
           const final = this.getMessageType(
             event.tx.body.messages[0],
             event.timestamp,
-            event.txhash
+            event.txhash,
           );
           return {
             section: category.section + dateString,
@@ -207,7 +186,7 @@ export default {
           const final = this.getMessageType(
             event.tx.body.messages[0],
             event.timestamp,
-            event.txhash
+            event.txhash,
           );
 
           return {
@@ -215,12 +194,12 @@ export default {
             final,
           };
         }
-        
+
         // tx is in a month another year
         const final = this.getMessageType(
           event.tx.body.messages[0],
           event.timestamp,
-          event.txhash
+          event.txhash,
         );
 
         return {
@@ -228,16 +207,16 @@ export default {
           final,
         };
       });
-    },    
+    },
     transactionsReducer(txs) {
       const duplicateFreeTxs = uniqWith(txs, (a, b) => a.txhash === b.txhash);
-      
+
       const sortedTxs = sortBy(duplicateFreeTxs, ["timestamp"]);
       const reversedTxs = reverse(sortedTxs);
 
       reversedTxs.forEach(async (item, i) => {
         reversedTxs[i].messageInfo = this.getMessageType(
-          item.tx.body.messages[0]
+          item.tx.body.messages[0],
         );
       });
       //console.log(reversedTxs)
@@ -246,13 +225,13 @@ export default {
         return collection.concat(transaction);
       }, []);
     },
-    getMessageType(msg, timestamp, txHash) { 
+    getMessageType(msg, timestamp, txHash) {
       const typeReadable = setMsg(
         msg,
         this.accountNow.address,
         timestamp,
         this.validators,
-        txHash
+        txHash,
       );
       return typeReadable;
     },
@@ -265,17 +244,16 @@ export default {
         minute: "numeric",
         second: "numeric",
         hour12: false,
-      }).format(new Date(dateStr))
-    }, 
+      }).format(new Date(dateStr));
+    },
     async copyAddr(text) {
       await this.$copyText(text);
       this.isCopied = true;
       setTimeout(this.hideCopy, 4000);
-    },  
+    },
     hideCopy() {
       this.isCopied = false;
-    },   
+    },
   },
-
 };
 </script>

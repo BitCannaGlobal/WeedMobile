@@ -32,7 +32,8 @@ export default createStore({
     poolStaking: 0,
     allContacts: [],
     validators: [],
-    allDelegations: [],
+    allDelegations: [], 
+    allDelegationsFormated: [],
   },
   getters: {
   },
@@ -116,7 +117,7 @@ export default createStore({
     },
     async getStakingModule({ state }, addressSelected) {    
       const queryStaking = new staking.QueryClientImpl(state.rpcClient);
-      let allValidators = await queryStaking.Validators({ status: 2,pagination: {
+      let allValidators = await queryStaking.Validators({ status: 'BOND_STATUS_BONDED', pagination: {
         countTotal: false,
         key: '',
         offset: Long.fromNumber(0, true),
@@ -149,7 +150,22 @@ export default createStore({
       } else {
         totalUnbound = 0.00
       }
- 
+      
+      let allDelegationsFormated = []
+      for (let i of delegatorValidators.delegationResponses) { 
+        const foundVal = allValidators.validators.find((element) => element.operatorAddress === i.delegation.validatorAddress)        
+        allDelegationsFormated.push({ 
+          validator: i.delegation.validatorAddress,
+          moniker: foundVal.description.moniker,
+          amount: (i.balance.amount / 1000000).toFixed(6),
+          commission: foundVal.commission.commissionRates.rate,
+          imageUrl: foundVal.description.identity,
+          status: foundVal.status
+        })
+        
+      }   
+
+      state.allDelegationsFormated = allDelegationsFormated
       state.allDelegations = delegatorValidators.delegationResponses
       state.totalDelegations = (total / 1000000).toFixed(2)
       state.totalUnbound = (totalUnbound / 1000000).toFixed(2)

@@ -184,3 +184,8 @@ export async function getLanguage() {
   const { value } = await Preferences.get({ key: 'bcnaLanguage' });
   return value
 }
+
+export async function getNotifReceive() {
+  const { value } = await Preferences.get({ key: 'notifReceive' });
+  return value
+}

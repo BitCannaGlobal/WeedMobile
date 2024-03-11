@@ -60,6 +60,18 @@ export default {
       "inpPassword": 'Password',
       "btnClaim": 'Réclamer',
     },
+    "mdlStake": {
+      "title": 'Staking',
+      "amountDelegate": 'Montant à déléguer',
+      "half": 'Moitié',
+      "max": 'Max',
+      "selectVal": 'Selectionner un validateur',
+      "delNow": 'Deleguer maintenant',
+      "titleUndel": 'Montant à Undelegate',
+      "undelNow": 'UnDelegate maintenant',
+      "titleRedel": 'Montant à redeleger',
+      "redelNow": 'reDelegate maintenant', 
+    },
   },
   "accounts": {
     "title": "Comptes",

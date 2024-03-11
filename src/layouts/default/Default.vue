@@ -73,11 +73,13 @@
 import { App } from '@capacitor/app';
 import { Camera } from '@capacitor/camera';
 import { Preferences } from '@capacitor/preferences';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import bitcannaConfig from '../../bitcanna.config'
 
 import { mapState } from 'vuex'
 import mainFooter from '@/components/Footer.vue' 
-import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } from '@/libs/storage.js'; 
+import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut, getNotifReceive } from '@/libs/storage.js'; 
+import axios from 'axios';
 
   export default {
     components: { mainFooter },
@@ -151,10 +153,7 @@ import { addBcnaSession, getBcnaSession, removeBcnaSession, getSessionTimeOut } 
         this.$store.commit('setIsLogged', false)
         this.$router.push('/')
         return
-      }
-
-      
-      
+      }      
     },
     methods: {
       async changeNetwork(network) {

@@ -60,6 +60,18 @@ export default {
       "inpPassword": 'Contraseña',
       "btnClaim": 'Reclamar',
     },
+    "mdlStake": {
+      "title": 'Delegar',
+      "amountDelegate": 'Cantidad a delegar',
+      "half": 'Mitad',
+      "max": 'Máx',
+      "selectVal": 'Selecciona un validador',
+      "delNow": 'Delega ahora',
+      "titleUndel": 'Cantidad a Undelegar',
+      "undelNow": 'Undelega ahora',
+      "titleRedel": 'Cantidad a Redelegar',
+      "redelNow": 'Redelega ahora', 
+    },
   },
   "accounts": {
     "title": "Cuentas",
