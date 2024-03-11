@@ -68,19 +68,18 @@
               :label="this.$t('dashboard.mdlSendTx.inpRecipient')"
               class="mt-4"
             >
-                      
-            <template v-slot:append>
-              <v-icon 
-                icon="mdi-book-open-page-variant-outline"
-                @click="getAddressBook()"
-              />
-              <v-icon 
-                class="ml-4"
-                icon="mdi-qrcode-scan"
-                @click="toggleCamera()"
-              />
-            </template>
-          </v-text-field>
+              <template v-slot:append>
+                <v-icon
+                  icon="mdi-book-open-page-variant-outline"
+                  @click="getAddressBook()"
+                />
+                <v-icon
+                  class="ml-4"
+                  icon="mdi-qrcode-scan"
+                  @click="toggleCamera()"
+                />
+              </template>
+            </v-text-field>
           </v-list-item>
           <v-list-item>
             <v-text-field
@@ -371,7 +370,9 @@
       <v-btn icon dark @click="dialogStakeToSelect = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
-      <v-toolbar-title>{{ $t("dashboard.mdlStake.selectVal") }}</v-toolbar-title>
+      <v-toolbar-title>{{
+        $t("dashboard.mdlStake.selectVal")
+      }}</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
 
@@ -425,7 +426,9 @@
       <v-btn icon dark @click="dialogUnStakeToSelect = false">
         <v-icon>mdi-close</v-icon>
       </v-btn>
-      <v-toolbar-title>{{ $t("dashboard.mdlStake.selectVal") }}</v-toolbar-title>
+      <v-toolbar-title>{{
+        $t("dashboard.mdlStake.selectVal")
+      }}</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
 
@@ -436,18 +439,18 @@
         :key="n.validator"
         :title="n.moniker"
         :subtitle="n.amount + ' BCNA'"
-        class="ma-2" 
+        class="ma-2"
         @click="
           selectValidatorToUnDelegate(
             n.moniker,
             n.validator,
             n.amount,
             'https://raw.githubusercontent.com/cosmostation/chainlist/main/chain/bitcanna/moniker/' +
-            n.validator +
+              n.validator +
               '.png',
           )
         "
-      > 
+      >
         <template v-slot:prepend>
           <v-avatar color="grey-lighten-1">
             <v-img
@@ -470,7 +473,7 @@
         </template>
       </v-list-item>
     </v-card>
-  </v-dialog>  
+  </v-dialog>
   <v-dialog
     v-model="dialogStake"
     fullscreen
@@ -499,12 +502,10 @@
               <v-container>
                 <v-row>
                   <v-col cols="12">
-
-                    <v-sheet 
-                      class="cardover px-3 mb-2 rounded-lg"
-                      border
-                    >
-                      <div class="text-left mt-4">{{ $t("dashboard.mdlStake.amountDelegate") }}</div>
+                    <v-sheet class="cardover px-3 mb-2 rounded-lg" border>
+                      <div class="text-left mt-4">
+                        {{ $t("dashboard.mdlStake.amountDelegate") }}
+                      </div>
                       <v-text-field
                         v-model="delegateAmount"
                         variant="plain"
@@ -515,23 +516,26 @@
                         <v-chip class="mr-3" label small @click="getHalf">
                           {{ $t("dashboard.mdlStake.half") }}
                         </v-chip>
-                        <v-chip label small @click="getMax"> {{ $t("dashboard.mdlStake.max") }} </v-chip>
+                        <v-chip label small @click="getMax">
+                          {{ $t("dashboard.mdlStake.max") }}
+                        </v-chip>
                       </div>
                     </v-sheet>
-                    <v-col
-                      align-center
-                      class="text-center"
-                    >
+                    <v-col align-center class="text-center">
                       <v-icon size="40"> mdi-arrow-down-bold </v-icon>
                     </v-col>
-                    <v-sheet class="cardover px-3 mb-2 mt-4 rounded-lg" border @click="dialogStakeToSelect = true">
+                    <v-sheet
+                      class="cardover px-3 mb-2 mt-4 rounded-lg"
+                      border
+                      @click="dialogStakeToSelect = true"
+                    >
                       <v-card
                         class="mx-auto text-left"
                         max-width="344"
                         :title="this.validatorSelected.name"
                         elevation="0"
                         :subtitle="this.validatorSelected.address"
-                        :prepend-avatar="this.validatorSelected.img"                        
+                        :prepend-avatar="this.validatorSelected.img"
                       >
                       </v-card>
                       <v-col
@@ -580,7 +584,11 @@
               <v-container>
                 <v-row>
                   <v-col cols="12">
-                    <v-sheet class="cardover px-3 mb-2 mt-4 rounded-lg" border @click="dialogUnStakeToSelect = true">
+                    <v-sheet
+                      class="cardover px-3 mb-2 mt-4 rounded-lg"
+                      border
+                      @click="dialogUnStakeToSelect = true"
+                    >
                       <v-card
                         class="mx-auto text-left"
                         max-width="344"
@@ -591,7 +599,9 @@
                       >
                       </v-card>
                       <v-col
-                        v-if="Object.keys(this.validatorUndelSelected).length === 0"
+                        v-if="
+                          Object.keys(this.validatorUndelSelected).length === 0
+                        "
                         cols="auto"
                       >
                         <div class="text-center">
@@ -600,7 +610,9 @@
                       </v-col>
                     </v-sheet>
                     <v-col
-                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      v-if="
+                        Object.keys(this.validatorUndelSelected).length !== 0
+                      "
                       align-center
                       class="text-center"
                     >
@@ -608,11 +620,15 @@
                     </v-col>
 
                     <v-sheet
-                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      v-if="
+                        Object.keys(this.validatorUndelSelected).length !== 0
+                      "
                       class="cardover px-3 mb-2 rounded-lg"
                       border
                     >
-                      <div class="text-left mt-4">{{ $t("dashboard.mdlStake.titleUndel") }}</div>
+                      <div class="text-left mt-4">
+                        {{ $t("dashboard.mdlStake.titleUndel") }}
+                      </div>
                       <v-text-field
                         v-model="unDelegateAmount"
                         variant="plain"
@@ -620,14 +636,31 @@
                         :rules="amountRulesUnDelegate"
                       ></v-text-field>
                       <div class="mb-4 text-right">
-                        <v-chip class="mr-3" label small @click="getUndelHalf(this.validatorUndelSelected.amount)">
+                        <v-chip
+                          class="mr-3"
+                          label
+                          small
+                          @click="
+                            getUndelHalf(this.validatorUndelSelected.amount)
+                          "
+                        >
                           {{ $t("dashboard.mdlStake.half") }}
                         </v-chip>
-                        <v-chip label small @click="getUndelMax(this.validatorUndelSelected.amount)"> {{ $t("dashboard.mdlStake.max") }} </v-chip>
+                        <v-chip
+                          label
+                          small
+                          @click="
+                            getUndelMax(this.validatorUndelSelected.amount)
+                          "
+                        >
+                          {{ $t("dashboard.mdlStake.max") }}
+                        </v-chip>
                       </div>
                     </v-sheet>
                     <v-text-field
-                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      v-if="
+                        Object.keys(this.validatorUndelSelected).length !== 0
+                      "
                       v-model="password"
                       variant="outlined"
                       color="#00b786"
@@ -639,7 +672,9 @@
                     ></v-text-field>
                     <v-sheet class="mt-4 mb-6 rounded-lg">
                       <v-btn
-                        v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                        v-if="
+                          Object.keys(this.validatorUndelSelected).length !== 0
+                        "
                         bottom
                         block
                         min-height="60"
@@ -655,14 +690,18 @@
                   </v-col>
                 </v-row>
               </v-container>
-            </v-form>          
+            </v-form>
           </v-window-item>
           <v-window-item :key="3" :value="3">
             <v-form v-model="formRedel" ref="formRedel">
               <v-container>
                 <v-row>
                   <v-col cols="12">
-                    <v-sheet class="cardover px-3 mb-2 mt-4 rounded-lg" border @click="dialogUnStakeToSelect = true">
+                    <v-sheet
+                      class="cardover px-3 mb-2 mt-4 rounded-lg"
+                      border
+                      @click="dialogUnStakeToSelect = true"
+                    >
                       <v-card
                         class="mx-auto text-left"
                         max-width="344"
@@ -673,16 +712,20 @@
                       >
                       </v-card>
                       <v-col
-                        v-if="Object.keys(this.validatorUndelSelected).length === 0"
+                        v-if="
+                          Object.keys(this.validatorUndelSelected).length === 0
+                        "
                         cols="auto"
                       >
                         <div class="text-center">
-                            {{ $t("dashboard.mdlStake.selectVal") }}
+                          {{ $t("dashboard.mdlStake.selectVal") }}
                         </div>
                       </v-col>
                     </v-sheet>
                     <v-col
-                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      v-if="
+                        Object.keys(this.validatorUndelSelected).length !== 0
+                      "
                       align-center
                       class="text-center"
                     >
@@ -690,11 +733,15 @@
                     </v-col>
 
                     <v-sheet
-                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      v-if="
+                        Object.keys(this.validatorUndelSelected).length !== 0
+                      "
                       class="cardover px-3 mb-2 rounded-lg"
                       border
                     >
-                      <div class="text-left mt-4">{{ $t("dashboard.mdlStake.titleRedel") }}</div>
+                      <div class="text-left mt-4">
+                        {{ $t("dashboard.mdlStake.titleRedel") }}
+                      </div>
                       <v-text-field
                         v-model="reDelegateAmount"
                         variant="plain"
@@ -702,22 +749,43 @@
                         :rules="amountRulesReDelegate"
                       ></v-text-field>
                       <div class="mb-4 text-right">
-                        <v-chip class="mr-3" label small @click="getRedelHalf(this.validatorUndelSelected.amount)">
+                        <v-chip
+                          class="mr-3"
+                          label
+                          small
+                          @click="
+                            getRedelHalf(this.validatorUndelSelected.amount)
+                          "
+                        >
                           Half
                         </v-chip>
-                        <v-chip label small @click="getRedelMax(this.validatorUndelSelected.amount)"> Max </v-chip>
+                        <v-chip
+                          label
+                          small
+                          @click="
+                            getRedelMax(this.validatorUndelSelected.amount)
+                          "
+                        >
+                          Max
+                        </v-chip>
                       </div>
                     </v-sheet>
                     <v-col
-                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      v-if="
+                        Object.keys(this.validatorUndelSelected).length !== 0
+                      "
                       align-center
                       class="text-center"
                     >
                       <v-icon size="40"> mdi-arrow-down-bold </v-icon>
                     </v-col>
-                    <v-sheet 
-                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
-                      class="cardover px-3 mb-2 mt-4 rounded-lg" border @click="dialogStakeToSelect = true"
+                    <v-sheet
+                      v-if="
+                        Object.keys(this.validatorUndelSelected).length !== 0
+                      "
+                      class="cardover px-3 mb-2 mt-4 rounded-lg"
+                      border
+                      @click="dialogStakeToSelect = true"
                     >
                       <v-card
                         class="mx-auto text-left"
@@ -725,7 +793,7 @@
                         :title="this.validatorSelected.name"
                         elevation="0"
                         :subtitle="this.validatorSelected.address"
-                        :prepend-avatar="this.validatorSelected.img"                        
+                        :prepend-avatar="this.validatorSelected.img"
                       >
                       </v-card>
                       <v-col
@@ -737,9 +805,11 @@
                         </div>
                       </v-col>
                     </v-sheet>
-                    
+
                     <v-text-field
-                      v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                      v-if="
+                        Object.keys(this.validatorUndelSelected).length !== 0
+                      "
                       v-model="password"
                       variant="outlined"
                       color="#00b786"
@@ -751,7 +821,9 @@
                     ></v-text-field>
                     <v-sheet class="mt-4 mb-6 rounded-lg">
                       <v-btn
-                        v-if="Object.keys(this.validatorUndelSelected).length !== 0"
+                        v-if="
+                          Object.keys(this.validatorUndelSelected).length !== 0
+                        "
                         bottom
                         block
                         min-height="60"
@@ -761,14 +833,13 @@
                         :loading="loading"
                         @click="reDelegateNow()"
                       >
-                        
                         {{ $t("dashboard.mdlStake.redelNow") }}
                       </v-btn>
                     </v-sheet>
                   </v-col>
                 </v-row>
               </v-container>
-            </v-form>              
+            </v-form>
           </v-window-item>
         </v-window>
       </v-card-text>
@@ -916,7 +987,9 @@ export default {
         (v) => !isNaN(v) || this.$t("dashboard.mdlSendTx.errorAmountNumber"),
         (v) =>
           v >= this.validatorUndelSelected.amount ||
-          "You don't have enough tokens (" + this.validatorUndelSelected.amount + ")",
+          "You don't have enough tokens (" +
+            this.validatorUndelSelected.amount +
+            ")",
         (v) =>
           countPlaces(v) < 7 ||
           this.$t("dashboard.mdlSendTx.errorAmountDecimal"),
@@ -926,7 +999,9 @@ export default {
         (v) => !isNaN(v) || this.$t("dashboard.mdlSendTx.errorAmountNumber"),
         (v) =>
           v >= this.validatorUndelSelected.amount ||
-          "You don't have enough tokens (" + this.validatorUndelSelected.amount + ")",
+          "You don't have enough tokens (" +
+            this.validatorUndelSelected.amount +
+            ")",
         (v) =>
           countPlaces(v) < 7 ||
           this.$t("dashboard.mdlSendTx.errorAmountDecimal"),
@@ -964,7 +1039,6 @@ export default {
     this.allContacts = JSON.parse(getAllContacts);
 
     console.log(this.allDelegations);
- 
   },
   methods: {
     checkTx() {
@@ -1039,7 +1113,12 @@ export default {
       this.dialogStakeToSelect = false;
     },
     selectValidatorToUnDelegate(name, address, amount, img) {
-      this.validatorUndelSelected = { name: name, address: address, amount: amount, img: img };
+      this.validatorUndelSelected = {
+        name: name,
+        address: address,
+        amount: amount,
+        img: img,
+      };
       this.dialogUnStakeToSelect = false;
     },
     async sendToken() {
@@ -1174,7 +1253,7 @@ export default {
         );
         assertIsDeliverTxSuccess(result);
         this.txSend = true;
-        this.accountNow = this.allWallets[this.accountSelected]
+        this.accountNow = this.allWallets[this.accountSelected];
         await this.$store.dispatch("getBankModule", this.accountNow.address);
         await this.$store.dispatch("getDistribModule", this.accountNow.address);
         await this.$store.dispatch("getStakingModule", this.accountNow.address);
@@ -1253,12 +1332,11 @@ export default {
         );
         assertIsDeliverTxSuccess(result);
 
-        this.accountNow = this.allWallets[this.accountSelected]
-        await this.$store.dispatch('getBankModule', this.accountNow.address)
-        await this.$store.dispatch('getDistribModule', this.accountNow.address)
-        await this.$store.dispatch('getStakingModule', this.accountNow.address)
-        await this.$store.dispatch('getWalletAmount')
-
+        this.accountNow = this.allWallets[this.accountSelected];
+        await this.$store.dispatch("getBankModule", this.accountNow.address);
+        await this.$store.dispatch("getDistribModule", this.accountNow.address);
+        await this.$store.dispatch("getStakingModule", this.accountNow.address);
+        await this.$store.dispatch("getWalletAmount");
 
         this.txSend = true;
       } catch (error) {
@@ -1266,7 +1344,7 @@ export default {
       }
     },
     async unDelegateNow() {
-      const { valid } = await this.$refs.formDelegate.validate(); 
+      const { valid } = await this.$refs.formDelegate.validate();
       if (!valid) {
         return;
       }
@@ -1307,24 +1385,24 @@ export default {
       );
 
       const foundMsgType = defaultRegistryTypes.find(
-        (element) => element[0] === "/cosmos.staking.v1beta1.MsgUndelegate"
+        (element) => element[0] === "/cosmos.staking.v1beta1.MsgUndelegate",
       );
 
-        const convertAmount = (this.unDelegateAmount * 1000000).toFixed(0);
-        const amount = {
-          denom: this.bitcannaConfig[this.network].coinLookup.chainDenom,
-          amount: convertAmount.toString(),
-        };
-        
-        const finalMsg = {
-          typeUrl: foundMsgType[0],
-          value: foundMsgType[1].fromPartial({
-            delegatorAddress: accounts.address,
-            validatorAddress: this.validatorUndelSelected.address,
-            amount: amount,
-          }),
-        };
-        console.log(finalMsg)
+      const convertAmount = (this.unDelegateAmount * 1000000).toFixed(0);
+      const amount = {
+        denom: this.bitcannaConfig[this.network].coinLookup.chainDenom,
+        amount: convertAmount.toString(),
+      };
+
+      const finalMsg = {
+        typeUrl: foundMsgType[0],
+        value: foundMsgType[1].fromPartial({
+          delegatorAddress: accounts.address,
+          validatorAddress: this.validatorUndelSelected.address,
+          amount: amount,
+        }),
+      };
+      console.log(finalMsg);
       try {
         const result = await client.signAndBroadcast(
           accounts.address,
@@ -1336,11 +1414,10 @@ export default {
         console.log(result);
 
         this.accountNow = this.allWallets[this.accountSelected];
-        await this.$store.dispatch('getBankModule', this.accountNow.address)
-        await this.$store.dispatch('getDistribModule', this.accountNow.address)
-        await this.$store.dispatch('getStakingModule', this.accountNow.address)
-        await this.$store.dispatch('getWalletAmount')
-
+        await this.$store.dispatch("getBankModule", this.accountNow.address);
+        await this.$store.dispatch("getDistribModule", this.accountNow.address);
+        await this.$store.dispatch("getStakingModule", this.accountNow.address);
+        await this.$store.dispatch("getWalletAmount");
 
         this.txSend = true;
       } catch (error) {
@@ -1348,14 +1425,14 @@ export default {
       }
     },
     async reDelegateNow() {
-      const { valid } = await this.$refs.formRedel.validate(); 
+      const { valid } = await this.$refs.formRedel.validate();
       if (!valid) {
         return;
       }
-      console.log('reDelegateNow')
-      console.log(this.reDelegateAmount)
-      console.log(this.validatorUndelSelected.address)
-      console.log(this.validatorSelected.address)
+      console.log("reDelegateNow");
+      console.log(this.reDelegateAmount);
+      console.log(this.validatorUndelSelected.address);
+      console.log(this.validatorSelected.address);
 
       const hash = md5(this.password);
       const { value } = await Preferences.get({ key: "masterPass" });
@@ -1393,27 +1470,27 @@ export default {
       );
 
       const foundMsgType = defaultRegistryTypes.find(
-          (element) =>
-            element[0] === "/cosmos.staking.v1beta1.MsgBeginRedelegate"
-        );
+        (element) =>
+          element[0] === "/cosmos.staking.v1beta1.MsgBeginRedelegate",
+      );
 
-        const convertAmount = Math.round(this.reDelegateAmount * 1000000);
-        const amount = {
-          denom: this.bitcannaConfig[this.network].coinLookup.chainDenom,
-          amount: convertAmount.toString(),
-        };
-        const finalMsg = {
-          typeUrl: foundMsgType[0],
-          value: foundMsgType[1].fromPartial({
-            delegatorAddress: accounts.address,
-            validatorSrcAddress: this.validatorUndelSelected.address,
-            validatorDstAddress: this.validatorSelected.address,
-            amount: amount,
-          }),
-        };
+      const convertAmount = Math.round(this.reDelegateAmount * 1000000);
+      const amount = {
+        denom: this.bitcannaConfig[this.network].coinLookup.chainDenom,
+        amount: convertAmount.toString(),
+      };
+      const finalMsg = {
+        typeUrl: foundMsgType[0],
+        value: foundMsgType[1].fromPartial({
+          delegatorAddress: accounts.address,
+          validatorSrcAddress: this.validatorUndelSelected.address,
+          validatorDstAddress: this.validatorSelected.address,
+          amount: amount,
+        }),
+      };
 
-        console.log(finalMsg)
-        try {
+      console.log(finalMsg);
+      try {
         const result = await client.signAndBroadcast(
           accounts.address,
           [finalMsg],
@@ -1424,24 +1501,23 @@ export default {
         console.log(result);
 
         this.accountNow = this.allWallets[this.accountSelected];
-        await this.$store.dispatch('getBankModule', this.accountNow.address)
-        await this.$store.dispatch('getDistribModule', this.accountNow.address)
-        await this.$store.dispatch('getStakingModule', this.accountNow.address)
-        await this.$store.dispatch('getWalletAmount')
-
+        await this.$store.dispatch("getBankModule", this.accountNow.address);
+        await this.$store.dispatch("getDistribModule", this.accountNow.address);
+        await this.$store.dispatch("getStakingModule", this.accountNow.address);
+        await this.$store.dispatch("getWalletAmount");
 
         this.txSend = true;
       } catch (error) {
         this.loading = false;
         console.error(error);
-      } 
+      }
     },
     toggleCamera() {
-      this.enableCam = this.enableCam === true ? false : true; 
+      this.enableCam = this.enableCam === true ? false : true;
     },
-    onDetect (detectedCodes) {
-      this.recipient = detectedCodes[0].rawValue
-      this.enableCam = false
+    onDetect(detectedCodes) {
+      this.recipient = detectedCodes[0].rawValue;
+      this.enableCam = false;
     },
     truncateString(str, num) {
       if (str.length <= num) {

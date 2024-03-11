@@ -108,7 +108,6 @@
       </template>
     </v-list-item>
 
-
     <!-- <v-list-item
       title="Import wallet"
       subtitle="Only for dev mode"
@@ -424,7 +423,6 @@
       </v-table>
     </v-card>
   </v-dialog>
-
 </template>
 
 <script>
@@ -445,8 +443,7 @@ import {
 import bitcannaWallets from "../bitcanna.wallet";
 import pjson from "@/../package.json";
 
-import { LocalNotifications } from '@capacitor/local-notifications';
-
+import { LocalNotifications } from "@capacitor/local-notifications";
 
 export default {
   components: { Accounts },
@@ -478,7 +475,7 @@ export default {
         { state: this.$t("config.autoLogout.time.hour"), key: "hour" },
         { state: this.$t("config.autoLogout.time.hours6"), key: "hour6" },
         { state: this.$t("config.autoLogout.time.day"), key: "day" },
-      ] 
+      ],
     };
   },
   watch: {
@@ -535,7 +532,7 @@ export default {
     const notifReceive = await Preferences.get({ key: "notifReceive" });
     this.notifReceive = notifReceive.value === "true" ? true : false;
     const notiPrice = await Preferences.get({ key: "notifPrice" });
-    this.notifPrice = notiPrice.value === "true" ? true : false;    
+    this.notifPrice = notiPrice.value === "true" ? true : false;
   },
   methods: {
     async testNotification() {

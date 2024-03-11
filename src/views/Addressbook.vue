@@ -12,7 +12,7 @@
   <v-card v-for="(item, index) in allContacts" class="ma-4">
     <v-list v-if="allContacts.length > 0" lines="two">
       <v-list-item
-        :key="item.name" 
+        :key="item.name"
         :title="item.memo ? item.name + ' (' + item.memo + ')' : item.name"
         :subtitle="truncateString(item.address, 20)"
         @click="openEditDialog(index, item)"
@@ -79,15 +79,12 @@
                 variant="outlined"
                 color="#00b786"
                 :label="$t('addressBook.address')"
-                class="mt-4" 
+                class="mt-4"
               >
-              <template v-slot:append>
-                <v-icon 
-                  icon="mdi-qrcode-scan"
-                  @click="scanNow()"
-                />
-              </template>            
-            </v-text-field>
+                <template v-slot:append>
+                  <v-icon icon="mdi-qrcode-scan" @click="scanNow()" />
+                </template>
+              </v-text-field>
             </v-list-item>
             <v-list-item>
               <v-text-field
@@ -167,13 +164,10 @@
                 :label="$t('addressBook.address')"
                 class="mt-4"
               >
-              <template v-slot:append>
-                <v-icon 
-                  icon="mdi-qrcode-scan"
-                  @click="scanNow()"
-                />
-              </template>             
-            </v-text-field>
+                <template v-slot:append>
+                  <v-icon icon="mdi-qrcode-scan" @click="scanNow()" />
+                </template>
+              </v-text-field>
             </v-list-item>
             <v-list-item>
               <v-text-field
