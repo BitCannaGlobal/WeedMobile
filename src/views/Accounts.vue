@@ -1,5 +1,5 @@
 <template>
-  <h4 class="ma-4">{{ $t("accounts.title") }}</h4>
+  <h4 class="mt-9 ma-4">{{ $t("accounts.title") }}</h4>
 
   <v-card color="black">
     <v-card-text class="justify-center">

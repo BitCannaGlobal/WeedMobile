@@ -1,5 +1,5 @@
 <template>
-  <v-card class="ma-4" color="black">
+  <v-card class="mt-9 ma-4" color="black">
     <v-row>
       <v-col cols="12">
         <v-btn block color="#0FB786" @click="openDial()">

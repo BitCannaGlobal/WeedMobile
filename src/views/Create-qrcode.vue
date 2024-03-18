@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-4" v-if="finalQr !== ''" align="center">
+  <div class="mt-9 ma-4" v-if="finalQr !== ''" align="center">
     <QRCodeVue3
       :width="300"
       :height="300"

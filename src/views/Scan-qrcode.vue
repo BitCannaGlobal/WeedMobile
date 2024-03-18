@@ -1,5 +1,5 @@
 <template>
-  <div v-if="txSend === false" class="ma-4">
+  <div v-if="txSend === false" class="mt-9 ma-4">
     <v-alert
       v-if="returnError"
       variant="outlined"
