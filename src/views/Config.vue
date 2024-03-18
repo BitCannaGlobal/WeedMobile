@@ -227,7 +227,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-card>
       <v-toolbar dark>
@@ -336,7 +336,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-card>
       <v-toolbar dark>
@@ -385,7 +385,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-card>
       <v-toolbar dark>

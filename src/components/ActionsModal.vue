@@ -36,7 +36,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-card v-if="txSend === false">
       <v-form v-if="step1" ref="form" v-model="form">
@@ -234,7 +234,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-card>
       <v-toolbar dark>
@@ -260,7 +260,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-card v-if="txSend === false">
       <v-toolbar dark>
@@ -364,7 +364,7 @@
     v-model="dialogStakeToSelect"
     fullscreen
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-toolbar dark>
       <v-btn icon dark @click="dialogStakeToSelect = false">
@@ -420,7 +420,7 @@
     v-model="dialogUnStakeToSelect"
     fullscreen
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-toolbar dark>
       <v-btn icon dark @click="dialogUnStakeToSelect = false">
@@ -479,7 +479,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    class="bitcannaFont mt-9"
   >
     <v-card v-if="txSend === false">
       <v-toolbar dark>

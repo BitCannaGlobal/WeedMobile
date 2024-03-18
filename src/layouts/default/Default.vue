@@ -8,6 +8,7 @@
         >
         <v-list-item
           prepend-icon="mdi-close-thick"
+          class=""
           :title="$t('menu.title')"
           @click="drawer = false"
         ></v-list-item>
@@ -23,7 +24,7 @@
     </v-navigation-drawer>
 
     <v-app-bar style="background-color:black; color:white"  class="mt-4">
-      <v-app-bar-nav-icon  v-if="isLogged"   @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon  v-if="isLogged" class="ml-auto mr-n4"   @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title  v-if="isLogged"  >WeedMobile</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>
