@@ -143,6 +143,7 @@
 <script>
 import { getBcnaSession, removeBcnaSession } from "@/libs/storage.js";
 import { mapState } from "vuex";
+import { Device } from '@capacitor/device';
 import actionsModal from "@/components/ActionsModal.vue";
 
 import bitcannaConfig from "../bitcanna.config";
@@ -172,6 +173,7 @@ export default {
       "priceNow",
       "totalTokens",
       "currencyNow",
+      "operatingSystem"
     ]),
   },
 
@@ -191,6 +193,11 @@ export default {
       await this.$store.dispatch("getDistribModule", this.accountNow.address);
       await this.$store.dispatch("getStakingModule", this.accountNow.address);
       await this.$store.dispatch("getWalletAmount");
+      const info = await Device.getInfo();
+      await this.$store.dispatch("setoperatingSystem", info.operatingSystem);
+      
+      
+ 
     }
 
     /* setInterval(async ()=> {

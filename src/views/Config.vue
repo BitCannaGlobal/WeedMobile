@@ -227,7 +227,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont mt-9"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
@@ -336,7 +336,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont mt-9"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
@@ -385,7 +385,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont mt-9"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
@@ -509,7 +509,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["allWallets", "accountSelected", "sessionMax", "isLogged"]),
+    ...mapState(["allWallets", "accountSelected", "sessionMax", "isLogged", "operatingSystem"]),
   },
   async mounted() {
     if (!this.isLogged) {

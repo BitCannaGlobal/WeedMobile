@@ -70,7 +70,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
@@ -186,7 +186,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
@@ -429,6 +429,7 @@ export default {
       "isLogged",
       "accountSelected",
       "allWalletsList",
+      "operatingSystem"
     ]),
   },
   async mounted() {

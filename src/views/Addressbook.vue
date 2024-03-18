@@ -1,4 +1,5 @@
 <template>
+  
   <v-card class="mt-9 ma-4" color="black">
     <v-row>
       <v-col cols="12">
@@ -41,7 +42,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
-      class="bitcannaFont mt-9"
+      :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
     >
       <v-card>
         <v-form ref="form">
@@ -122,7 +123,7 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
-      class="bitcannaFont mt-9"
+      :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
     >
       <v-card>
         <v-form ref="form">
@@ -301,7 +302,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["isLogged"]),
+    ...mapState(["isLogged", "operatingSystem"]),
   },
   async mounted() {
     if (!this.isLogged) {
