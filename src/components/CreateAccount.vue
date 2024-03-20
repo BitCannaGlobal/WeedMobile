@@ -7,7 +7,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-toolbar dark>
       <v-btn icon dark @click="dialogCreateWallet = false">
@@ -251,7 +251,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["allWallets", "isLogged"]),
+    ...mapState(["allWallets", "isLogged", "operatingSystem"]),
   },
   async mounted() {
     var generateSecret = await DirectSecp256k1HdWallet.generate(12);

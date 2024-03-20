@@ -193,12 +193,14 @@ export default {
       await this.$store.dispatch("getDistribModule", this.accountNow.address);
       await this.$store.dispatch("getStakingModule", this.accountNow.address);
       await this.$store.dispatch("getWalletAmount");
-      const info = await Device.getInfo();
-      await this.$store.dispatch("setoperatingSystem", info.operatingSystem);
       
+
       
  
     }
+    const info = await Device.getInfo();
+    await this.$store.dispatch("setoperatingSystem", info.operatingSystem);
+    console.log(this.operatingSystem)
 
     /* setInterval(async ()=> {
       await this.$store.dispatch('getBankModule', this.accountNow.address)
