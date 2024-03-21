@@ -23,7 +23,7 @@
         </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar style="background-color:black; color:white"  class="mt-4">
+    <v-app-bar style="background-color:black; color:white"  class="mt-7">
       <v-app-bar-nav-icon  v-if="isLogged" class="ml-auto mr-n4"   @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title  v-if="isLogged"  >WeedMobile</v-toolbar-title>
       <v-spacer></v-spacer>
