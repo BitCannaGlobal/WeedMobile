@@ -1,5 +1,5 @@
 <template>
-  <v-list bg-color="black" lines="two">
+  <v-list bg-color="black" lines="two" class="mt-9 ma-4">
     <v-list-subheader>{{ $t("config.subheader.general") }}</v-list-subheader>
     <!-- <Accounts />  -->
     <v-list-item
