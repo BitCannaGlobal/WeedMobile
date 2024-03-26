@@ -27,14 +27,16 @@ import English from './libs/i18n/english.js'
 import Spanish from './libs/i18n/spanish.js'
 import French from './libs/i18n/french.js'
 import Netherlands from './libs/i18n/netherlands.js'
-
+import Italian from './libs/i18n/italian.js'
+import { de } from 'translatte/languages';
 
 const messages = {
   English,
   //German,
   Spanish,
   French,
-  Netherlands
+  Netherlands,
+  Italian
 } 
  
 const getLocalLang = async () => {
@@ -57,7 +59,10 @@ const getLocalLang = async () => {
       break;     
     case 'fr':
       language = 'French'
-      break;        
+      break;    
+    case 'it':
+      language = 'Italian'
+      break;          
     default:
       language = 'English'
       break;
