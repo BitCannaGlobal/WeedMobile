@@ -74,17 +74,12 @@
   >
     <v-card>
       <v-toolbar dark>
-        <v-btn icon dark @click="dialogImport = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
         <v-toolbar-title>{{
           $t("accounts.mdlImportAccount.title")
         }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn variant="text" size="x-large" @click="importWallet">
-            {{ $t("accounts.mdlImportAccount.save") }}
-          </v-btn>
+
         </v-toolbar-items>
       </v-toolbar>
       <v-list lines="two" subheader>
@@ -176,6 +171,15 @@
               type="password"
               class="mt-6"
             ></v-text-field>
+            <v-btn color="#0FB786" block @click="importWallet">
+              {{ $t("accounts.mdlImportAccount.save") }}
+            </v-btn>
+            <v-btn
+              class="mt-4"
+              block
+              color="red"
+              @click="dialogImport = false"
+            >{{ $t("config.currency.close") }}</v-btn>
           </v-list-item>
         </v-form>
       </v-list>
@@ -190,9 +194,6 @@
   >
     <v-card>
       <v-toolbar dark>
-        <v-btn icon dark @click="dialogViewMnemonic = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
         <v-toolbar-title>{{
           $t("accounts.viewMnemonic.title")
         }}</v-toolbar-title>
@@ -239,6 +240,12 @@
           @click="viewMnenomic()"
           >{{ $t("accounts.viewMnemonic.title") }}</v-btn
         >
+        <v-btn
+          class="mt-4"
+          block
+          color="red"
+          @click="dialogViewMnemonic = false"
+        >{{ $t("config.currency.close") }}</v-btn>    
       </v-list-item>
       <h4 class="ma-4" v-if="canViewMnemonic">
         {{ $t("accounts.mdlImportAccount.returnMsg") }}
