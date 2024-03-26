@@ -27,8 +27,7 @@ import English from './libs/i18n/english.js'
 import Spanish from './libs/i18n/spanish.js'
 import French from './libs/i18n/french.js'
 import Netherlands from './libs/i18n/netherlands.js'
-import Italian from './libs/i18n/italian.js'
-import { de } from 'translatte/languages';
+import Italian from './libs/i18n/italian.js' 
 
 const messages = {
   English,
