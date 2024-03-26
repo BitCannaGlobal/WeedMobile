@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-4" v-if="finalQr !== ''" align="center">
+  <div class="mt-9 ma-4" v-if="finalQr !== ''" align="center">
     <QRCodeVue3
       :width="300"
       :height="300"
@@ -44,7 +44,7 @@
     }}</v-btn>
   </div>
 
-  <div v-if="finalQr == ''">
+  <div class="mt-9 ma-4" v-if="finalQr == ''">
     <h3 class="ma-4">{{ $t("createQrcode.title") }}</h3>
     <v-divider></v-divider>
     <v-list style="background-color: rgb(0, 0, 0)">

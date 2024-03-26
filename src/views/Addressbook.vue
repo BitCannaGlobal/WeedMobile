@@ -1,5 +1,6 @@
 <template>
-  <v-card class="ma-4" color="black">
+  
+  <v-card class="mt-9 ma-4" color="black">
     <v-row>
       <v-col cols="12">
         <v-btn block color="#0FB786" @click="openDial()">
@@ -41,14 +42,12 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
-      class="bitcannaFont"
+      :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
     >
       <v-card>
         <v-form ref="form">
           <v-toolbar dark>
-            <v-btn icon dark @click="dialog = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
+ 
             <v-toolbar-title>{{ $t("addressBook.title") }}</v-toolbar-title>
             <v-spacer></v-spacer>
           </v-toolbar>
@@ -111,6 +110,12 @@
                 @click="addContact()"
                 >{{ $t("addressBook.btnAddContact") }}</v-btn
               >
+              <v-btn
+                class="mt-4"
+                block
+                color="red"
+                @click="dialog = false"
+              >Close</v-btn>
             </v-list-item>
           </v-list>
         </v-form>
@@ -122,14 +127,11 @@
       fullscreen
       :scrim="false"
       transition="dialog-bottom-transition"
-      class="bitcannaFont"
+      :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
     >
       <v-card>
         <v-form ref="form">
           <v-toolbar dark>
-            <v-btn icon dark @click="dialogEdit = false">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
             <v-toolbar-title>{{
               $t("addressBook.edit.title")
             }}</v-toolbar-title>
@@ -194,6 +196,12 @@
                 @click="editContact()"
                 >{{ $t("addressBook.edit.title") }}</v-btn
               >
+              <v-btn
+                class="mt-4"
+                block
+                color="red"
+                @click="dialogEdit = false"
+              >Close</v-btn>
             </v-list-item>
           </v-list>
         </v-form>
@@ -301,7 +309,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["isLogged"]),
+    ...mapState(["isLogged", "operatingSystem"]),
   },
   async mounted() {
     if (!this.isLogged) {

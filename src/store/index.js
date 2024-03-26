@@ -34,6 +34,7 @@ export default createStore({
     validators: [],
     allDelegations: [], 
     allDelegationsFormated: [],
+    operatingSystem: '',
   },
   getters: {
   },
@@ -57,6 +58,9 @@ export default createStore({
       state.rpcClient = rpcClient
       state.rpcBase = client 
     },  
+    setoperatingSystem({ state }, data) {
+      state.operatingSystem = data
+    },
     async getPriceNow({ state }) {
       const getPrice = await axios("https://bcnaracle-api.bitcanna.io/api/all");
       state.priceNow = getPrice.data.bitcanna[state.currencyNow.toLowerCase()].toFixed(5); 

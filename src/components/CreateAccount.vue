@@ -7,12 +7,10 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-toolbar dark>
-      <v-btn icon dark @click="dialogCreateWallet = false">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
+
       <v-toolbar-title>{{
         $t("accounts.mdlCreateAccount.title")
       }}</v-toolbar-title>
@@ -42,6 +40,12 @@
         <v-btn class="mt-4" color="#0eb786" @click="step1" block>
           {{ $t("accounts.btnStartVerification") }}
         </v-btn>
+        <v-btn
+          class="mt-4"
+          block
+          color="red"
+          @click="dialogCreateWallet = false"
+        >{{ $t("config.currency.close") }}</v-btn>
       </div>
       <div class="ma-4" v-if="step === 2">
         <v-alert
@@ -251,7 +255,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["allWallets", "isLogged"]),
+    ...mapState(["allWallets", "isLogged", "operatingSystem"]),
   },
   async mounted() {
     var generateSecret = await DirectSecp256k1HdWallet.generate(12);

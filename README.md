@@ -1,57 +1,50 @@
-# base
 
-## Project setup
+# WeedMobile app IOS/Android for BitCanna
 
+This is the official repo for bitcanna's ios/android mobile app.  
+We use vueJs3 and capacitorJs technology to link the different mobile APIs.
+
+| Actual version  | Ios | Android |
+| ------------- | ------------- | ------------- |
+| 1.10.94 | Only on testFlight  | Only for beta tester  |
+
+
+## Screenshots
+
+
+
+| App home  | Account view | Generate QRcode | Scan QRcode |
+| ------------- | ------------- | ------------- | ------------- |
+| ![App home](https://i.imgur.com/fBXVzlW.png) | ![Account view](https://i.imgur.com/y9a3gHW.png)  | ![Generate QRcode](https://i.imgur.com/MhFOnB4.png)  | ![Scan QRcode](https://i.imgur.com/uLjM1cw.png) 
+
+
+## Dev mode
+
+To try the app in dev mode (browser only)
+
+```bash
+  git clone https://github.com/BitCannaGlobal/WeedMobile.git
+  # if you want to work on new verions
+  # git checkout v*.**.**
+  cd WeedMobile
+  yarn
+  yarn dev
 ```
-# yarn
-yarn
+    
+## Authors
 
-# npm
-npm install
+- [@BitCannaGlobal](https://github.com/BitCannaGlobal)
 
-# pnpm
-pnpm install
-```
+## Features
 
-### Compiles and hot-reloads for development
-
-```
-# yarn
-yarn dev
-
-# npm
-npm run dev
-
-# pnpm
-pnpm dev
-```
-
-### Compiles and minifies for production
-
-```
-# yarn
-yarn build
-
-# npm
-npm run build
-
-# pnpm
-pnpm build
-```
-
-### Lints and fixes files
-
-```
-# yarn
-yarn lint
-
-# npm
-npm run lint
-
-# pnpm
-pnpm lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://vitejs.dev/config/).
+- [x]  Cross platform (ios/android)
+- [x]  Secure import/create wallet
+- [x]  Multi langages
+- [x]  Create qr code on app
+- [x]  Scan qr code on app
+- [ ]  Implant cosmos SDK message
+    - [x]  Send transaction
+    - [x]  Claim reward
+    - [ ]  Delegate
+    - [ ]  Undelegate 
+    - [ ]  Redelegate 

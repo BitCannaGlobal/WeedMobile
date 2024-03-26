@@ -1,5 +1,5 @@
 <template>
-  <div class="ma-4">
+  <div class="mt-9 ma-4">
     <v-row class="ma-2">
       <h1>
         {{ $t("transactions.title") }}

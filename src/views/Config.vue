@@ -1,5 +1,5 @@
 <template>
-  <v-list bg-color="black" lines="two">
+  <v-list bg-color="black" lines="two" class="mt-9 ma-4">
     <v-list-subheader>{{ $t("config.subheader.general") }}</v-list-subheader>
     <!-- <Accounts />  -->
     <v-list-item
@@ -227,13 +227,10 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
-        <v-btn icon dark @click="dialogChangeMasterPass = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
         <v-toolbar-title>{{
           $t("config.masterPassChange.title")
         }}</v-toolbar-title>
@@ -289,6 +286,12 @@
               >
                 {{ $t("config.masterPassChange.btnChange") }}
               </v-btn>
+              <v-btn
+                class="mt-4"
+                block
+                color="red"
+                @click="dialogChangeMasterPass = false"
+              >{{ $t("config.currency.close") }}</v-btn>
             </div>
           </div>
         </v-list-item>
@@ -336,13 +339,10 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
-        <v-btn icon dark @click="dialogSetTimeOut = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
         <v-toolbar-title>{{ $t("config.timeout.title") }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
@@ -373,6 +373,12 @@
             >
               {{ $t("config.timeout.btnUpdate") }}
             </v-btn>
+            <v-btn
+              class="mt-4"
+              block
+              color="red"
+              @click="dialogSetTimeOut = false"
+            >{{ $t("config.currency.close") }}</v-btn>            
           </div>
         </v-list-item>
         <v-list-item> </v-list-item>
@@ -385,13 +391,10 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
-        <v-btn icon dark @click="dialogAppInfo = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
         <v-toolbar-title>{{ $t("config.appInfo.title") }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
@@ -399,10 +402,18 @@
         <v-list-item
           :title="$t('addressBook.info')"
           :subtitle="$t('config.appInfo.subtitle')"
-        ></v-list-item>
+        >
+              <v-btn
+                class="mt-4"
+                block
+                color="red"
+                @click="dialogAppInfo = false"
+              >{{ $t("config.currency.close") }}</v-btn>      
+      </v-list-item>
       </v-list>
       <v-divider></v-divider>
       <h3 class="ml-4 mt-4">{{ $t("config.appInfo.appVersion") }}</h3>
+      
       <v-table>
         <tbody>
           <tr>
@@ -412,6 +423,7 @@
         </tbody>
       </v-table>
       <v-divider></v-divider>
+      
       <h3 class="ml-4 mt-4">{{ $t("config.appInfo.deviceInfo") }}</h3>
       <v-table>
         <tbody>
@@ -420,8 +432,11 @@
             <td>{{ value }}</td>
           </tr>
         </tbody>
+        
       </v-table>
+      
     </v-card>
+    
   </v-dialog>
 </template>
 
@@ -509,7 +524,7 @@ export default {
     },
   },
   computed: {
-    ...mapState(["allWallets", "accountSelected", "sessionMax", "isLogged"]),
+    ...mapState(["allWallets", "accountSelected", "sessionMax", "isLogged", "operatingSystem"]),
   },
   async mounted() {
     if (!this.isLogged) {

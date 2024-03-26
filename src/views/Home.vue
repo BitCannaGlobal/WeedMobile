@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mt-9">
     <h3 class="ma-4">{{ $t("dashboard.title") }} {{ accountNow?.name }}</h3>
 
     <!--         <v-select
@@ -143,6 +143,7 @@
 <script>
 import { getBcnaSession, removeBcnaSession } from "@/libs/storage.js";
 import { mapState } from "vuex";
+import { Device } from '@capacitor/device';
 import actionsModal from "@/components/ActionsModal.vue";
 
 import bitcannaConfig from "../bitcanna.config";
@@ -172,6 +173,7 @@ export default {
       "priceNow",
       "totalTokens",
       "currencyNow",
+      "operatingSystem"
     ]),
   },
 
@@ -191,7 +193,14 @@ export default {
       await this.$store.dispatch("getDistribModule", this.accountNow.address);
       await this.$store.dispatch("getStakingModule", this.accountNow.address);
       await this.$store.dispatch("getWalletAmount");
+      
+
+      
+ 
     }
+    const info = await Device.getInfo();
+    await this.$store.dispatch("setoperatingSystem", info.operatingSystem);
+    console.log(this.operatingSystem)
 
     /* setInterval(async ()=> {
       await this.$store.dispatch('getBankModule', this.accountNow.address)

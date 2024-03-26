@@ -36,14 +36,11 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card v-if="txSend === false">
       <v-form v-if="step1" ref="form" v-model="form">
         <v-toolbar dark>
-          <v-btn icon dark @click="dialogSendToken = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
           <v-toolbar-title>{{
             $t("dashboard.mdlSendTx.title")
           }}</v-toolbar-title>
@@ -59,6 +56,7 @@
         <v-divider></v-divider>
         <v-list>
           <v-list-item>
+            
             <qrcode-stream v-if="enableCam" @detect="onDetect" />
             <v-text-field
               v-model="recipient"
@@ -110,6 +108,7 @@
           </v-list-item>
           <v-list-item>
             <v-btn
+              class="mb-4"
               block
               color="#0FB786"
               :disabled="!form"
@@ -117,14 +116,17 @@
               @click="checkTx()"
               >{{ $t("dashboard.mdlSendTx.btnSend") }}</v-btn
             >
+            <v-btn
+              block
+              color="red"
+              @click="dialogSendToken = false"
+            >{{ $t("config.currency.close") }}</v-btn>
           </v-list-item>
+ 
         </v-list>
       </v-form>
       <v-form v-if="step2" ref="form">
         <v-toolbar dark>
-          <v-btn icon dark @click="dialogSendToken = false">
-            <v-icon>mdi-close</v-icon>
-          </v-btn>
           <v-toolbar-title>{{
             $t("dashboard.mdlSendTx.title")
           }}</v-toolbar-title>
@@ -158,6 +160,7 @@
             </v-table>
           </v-list-item>
           <v-list-item>
+
             <v-alert
               v-model="alertError"
               class="mt-4"
@@ -180,6 +183,7 @@
           </v-list-item>
           <v-list-item>
             <v-btn
+              class="mb-4"
               block
               color="#0FB786"
               :disabled="loading"
@@ -187,7 +191,13 @@
               @click="sendToken()"
               >{{ $t("dashboard.mdlSendTx.btnSend") }}</v-btn
             >
+            <v-btn
+              block
+              color="red"
+              @click="dialogSendToken = false"
+            >{{ $t("config.currency.close") }}</v-btn>
           </v-list-item>
+          
         </v-list>
       </v-form>
     </v-card>
@@ -234,7 +244,7 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card>
       <v-toolbar dark>
@@ -260,13 +270,10 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card v-if="txSend === false">
       <v-toolbar dark>
-        <v-btn icon dark @click="dialogClaim = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
         <v-toolbar-title>{{
           $t("dashboard.mdlClaimTx.title")
         }}</v-toolbar-title>
@@ -311,6 +318,7 @@
           class="mt-2"
         ></v-text-field>
         <v-btn
+          class="mb-4"
           block
           color="#0FB786"
           :disabled="loading"
@@ -319,6 +327,11 @@
         >
           {{ $t("dashboard.mdlClaimTx.btnClaim") }}</v-btn
         >
+        <v-btn
+          block
+          color="red"
+          @click="dialogClaim = false"
+        >{{ $t("config.currency.close") }}</v-btn>
       </v-list-item>
     </v-card>
     <v-card
@@ -364,12 +377,9 @@
     v-model="dialogStakeToSelect"
     fullscreen
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-toolbar dark>
-      <v-btn icon dark @click="dialogStakeToSelect = false">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
       <v-toolbar-title>{{
         $t("dashboard.mdlStake.selectVal")
       }}</v-toolbar-title>
@@ -377,6 +387,11 @@
     </v-toolbar>
 
     <v-card>
+      <v-btn
+        class="mb-4 mt-4 ml-4 mr-4" 
+        color="red"
+        @click="dialogStakeToSelect = false"
+      >{{ $t("config.currency.close") }}</v-btn>
       <v-list-item
         v-for="n in validators"
         :key="n.operatorAddress"
@@ -414,13 +429,14 @@
           ></v-btn>
         </template>
       </v-list-item>
+
     </v-card>
   </v-dialog>
   <v-dialog
     v-model="dialogUnStakeToSelect"
     fullscreen
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-toolbar dark>
       <v-btn icon dark @click="dialogUnStakeToSelect = false">
@@ -479,13 +495,10 @@
     fullscreen
     :scrim="false"
     transition="dialog-bottom-transition"
-    class="bitcannaFont"
+    :class="operatingSystem === 'ios' ? 'mt-9 bitcannaFont' : 'bitcannaFont'"
   >
     <v-card v-if="txSend === false">
       <v-toolbar dark>
-        <v-btn icon dark @click="dialogStake = false">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
         <v-toolbar-title>{{ $t("dashboard.mdlStake.title") }}</v-toolbar-title>
         <v-spacer></v-spacer>
       </v-toolbar>
@@ -573,6 +586,12 @@
                       >
                         {{ $t("dashboard.mdlStake.delNow") }}
                       </v-btn>
+
+                      <v-btn
+                        block
+                        color="red"
+                        @click="dialogStake = false"
+                      >{{ $t("config.currency.close") }}</v-btn>
                     </v-sheet>
                   </v-col>
                 </v-row>
@@ -1032,6 +1051,7 @@ export default {
       "allDelegations",
       "allDelegationsFormated",
       "validators",
+      "operatingSystem"
     ]),
   },
   async mounted() {
