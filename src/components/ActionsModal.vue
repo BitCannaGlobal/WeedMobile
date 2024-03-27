@@ -577,7 +577,6 @@
                         v-if="Object.keys(this.validatorSelected).length !== 0"
                         bottom
                         block
-                        min-height="60"
                         class="rounded-lg"
                         color="#0FB786"
                         :disabled="!formDelegate"
@@ -589,6 +588,7 @@
 
                       <v-btn
                         block
+                        class="rounded-lg mt-4"
                         color="red"
                         @click="dialogStake = false"
                       >{{ $t("config.currency.close") }}</v-btn>

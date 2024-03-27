@@ -39,7 +39,9 @@
 
         <template v-if="isLogged">
           <v-bottom-navigation grow >
-            
+            <v-btn color="#212121" class="burgerMenu" @click="drawer = !drawer">
+              <v-icon color="#ffffff">mdi-menu</v-icon> 
+            </v-btn>
             <v-btn value="recent" to="/dashboard">
               <v-icon>mdi-view-dashboard</v-icon>
               <span
@@ -60,10 +62,6 @@
                 ><strong>{{ $t("footer.title3") }}</strong></span
               >
             </v-btn> -->
-            <v-btn color="#212121" class="burgerMenu" @click="drawer = !drawer">
-              <v-icon color="#ffffff">mdi-menu</v-icon>
- 
-            </v-btn>
           </v-bottom-navigation>
         </template>
 
