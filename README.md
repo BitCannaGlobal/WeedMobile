@@ -6,7 +6,7 @@ We use vueJs3 and capacitorJs technology to link the different mobile APIs.
 
 | Actual version  | Ios | Android |
 | ------------- | ------------- | ------------- |
-| 1.10.95 | Only on testFlight  | Only for beta tester  |
+| 1.10.96 | Only on testFlight  | Only for beta tester  |
 
 
 ## Screenshots
@@ -45,6 +45,6 @@ To try the app in dev mode (browser only)
 - [ ]  Implant cosmos SDK message
     - [x]  Send transaction
     - [x]  Claim reward
-    - [ ]  Delegate
+    - [x]  Delegate
     - [ ]  Undelegate 
     - [ ]  Redelegate 
