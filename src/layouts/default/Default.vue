@@ -175,12 +175,10 @@ import axios from 'axios';
       async sessionManager(isActive) {
         if (!isActive) { 
           await addBcnaSession();
-          //console.log('App will close in ' + this.sessionMax + ' seconds');
         } else {
           let getFinalSession = await getBcnaSession();
-          this.remainingTime(getFinalSession)
-          //console.log('App is active, reset session data: ' + getFinalSession);
-          removeBcnaSession();
+          //this.remainingTime(getFinalSession)
+          //removeBcnaSession();
         }
       },
       async remainingTime(getFinalSession) {        
