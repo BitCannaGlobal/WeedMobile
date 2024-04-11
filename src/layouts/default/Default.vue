@@ -139,7 +139,7 @@ import axios from 'axios';
       let sessionTimeOut = await getSessionTimeOut();
       this.$store.dispatch('setDefaultTimeout', sessionTimeOut)
 
-      App.addListener('appStateChange', async ({ isActive }) => {
+      /*App.addListener('appStateChange', async ({ isActive }) => {
         const testCamera = await Camera.checkPermissions()
         console.log('App state changed. Is active?', isActive);
 
@@ -151,7 +151,7 @@ import axios from 'axios';
           this.sessionManager(isActive)
         }
         
-      }); 
+      }); */
 
       await this.$store.dispatch('initRpc')
 
