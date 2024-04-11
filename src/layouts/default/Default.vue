@@ -138,6 +138,7 @@ import axios from 'axios';
     async mounted() {
       let sessionTimeOut = await getSessionTimeOut();
       this.$store.dispatch('setDefaultTimeout', sessionTimeOut)
+      await addBcnaSession();
 
       /*App.addListener('appStateChange', async ({ isActive }) => {
         const testCamera = await Camera.checkPermissions()
