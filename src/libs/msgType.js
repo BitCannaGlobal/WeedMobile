@@ -118,8 +118,8 @@ export function setMsg(msg, addrGet, timestamp, allVal, txHash) {
       icon = "Unknown.svg";
       finalHash = txHash;
       msgData = {
-        from: foundVal.name,
-        to: foundVal2.name,
+        from: foundVal?.name,
+        to: foundVal2?.name,
         amount: msg.amount.amount / 1000000,
       };
       break;

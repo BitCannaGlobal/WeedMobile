@@ -39,7 +39,9 @@
 
         <template v-if="isLogged">
           <v-bottom-navigation grow >
-            
+            <v-btn color="#212121" class="burgerMenu" @click="drawer = !drawer">
+              <v-icon color="#ffffff">mdi-menu</v-icon> 
+            </v-btn>
             <v-btn value="recent" to="/dashboard">
               <v-icon>mdi-view-dashboard</v-icon>
               <span
@@ -60,10 +62,6 @@
                 ><strong>{{ $t("footer.title3") }}</strong></span
               >
             </v-btn> -->
-            <v-btn color="#212121" class="burgerMenu" @click="drawer = !drawer">
-              <v-icon color="#ffffff">mdi-menu</v-icon>
- 
-            </v-btn>
           </v-bottom-navigation>
         </template>
 
@@ -140,8 +138,9 @@ import axios from 'axios';
     async mounted() {
       let sessionTimeOut = await getSessionTimeOut();
       this.$store.dispatch('setDefaultTimeout', sessionTimeOut)
+      await addBcnaSession();
 
-      App.addListener('appStateChange', async ({ isActive }) => {
+      /*App.addListener('appStateChange', async ({ isActive }) => {
         const testCamera = await Camera.checkPermissions()
         console.log('App state changed. Is active?', isActive);
 
@@ -153,7 +152,7 @@ import axios from 'axios';
           this.sessionManager(isActive)
         }
         
-      }); 
+      }); */
 
       await this.$store.dispatch('initRpc')
 
@@ -177,12 +176,10 @@ import axios from 'axios';
       async sessionManager(isActive) {
         if (!isActive) { 
           await addBcnaSession();
-          //console.log('App will close in ' + this.sessionMax + ' seconds');
         } else {
           let getFinalSession = await getBcnaSession();
-          this.remainingTime(getFinalSession)
-          //console.log('App is active, reset session data: ' + getFinalSession);
-          removeBcnaSession();
+          //this.remainingTime(getFinalSession)
+          //removeBcnaSession();
         }
       },
       async remainingTime(getFinalSession) {        
