@@ -156,15 +156,15 @@ export default createStore({
       }
       
       let allDelegationsFormated = []
-      for (let i of delegatorValidators.delegationResponses) { 
-        const foundVal = allValidators.validators.find((element) => element.operatorAddress === i.delegation.validatorAddress)        
+      for (let i of delegatorValidators.delegationResponses) {
+        const foundVal = allValidators.validators.find((element) => element.operatorAddress === i.delegation.validatorAddress)      
         allDelegationsFormated.push({ 
           validator: i.delegation.validatorAddress,
-          moniker: foundVal.description.moniker,
+          moniker: foundVal?.description.moniker,
           amount: (i.balance.amount / 1000000).toFixed(6),
-          commission: foundVal.commission.commissionRates.rate,
-          imageUrl: foundVal.description.identity,
-          status: foundVal.status
+          commission: foundVal?.commission.commissionRates.rate,
+          imageUrl: foundVal?.description.identity,
+          status: foundVal?.status
         })
         
       }   
