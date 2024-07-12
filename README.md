@@ -6,7 +6,7 @@ We use vueJs3 and capacitorJs technology to link the different mobile APIs.
 
 | Actual version  | Ios | Android |
 | ------------- | ------------- | ------------- |
-| 1.10.99 | Only on testFlight  | Only for beta tester  |
+| 1.10.100 | Only on testFlight  | Only for beta tester  |
 
 
 ## Screenshots
