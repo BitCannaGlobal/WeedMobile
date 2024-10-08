@@ -148,7 +148,7 @@ export default {
   methods: {
     async openExplorer(hash) {
       await Browser.open({
-        url: "https://explorer.bitcanna.io/transactions/" + hash,
+        url: "https://explorer.bitcanna.io/tx/" + hash,
       });
     },
     groupedEvents() {
