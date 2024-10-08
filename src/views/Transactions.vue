@@ -122,7 +122,7 @@ export default {
 
       const resultSender = await axios(
         bitcannaConfig[this.network].apiURL +
-          "/cosmos/tx/v1beta1/txs?events=message.sender=%27" +
+          "/cosmos/tx/v1beta1/txs?query=message.sender=%27" +
           this.accountNow.address +
           "%27&limit=" +
           bitcannaConfig[this.network].maxTxSender +
@@ -130,7 +130,7 @@ export default {
       );
       const resultRecipient = await axios(
         bitcannaConfig[this.network].apiURL +
-          "/cosmos/tx/v1beta1/txs?events=transfer.recipient=%27" +
+          "/cosmos/tx/v1beta1/txs?query=transfer.recipient=%27" +
           this.accountNow.address +
           "%27&limit=" +
           bitcannaConfig[this.network].maxTxRecipient +
