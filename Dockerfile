@@ -11,4 +11,4 @@ COPY . /app
 
 WORKDIR /app
 
-CMD yarn dev
+CMD ["yarn", "dev"]
