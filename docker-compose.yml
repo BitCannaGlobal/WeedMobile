@@ -3,7 +3,7 @@
 version: '3.9'
 services:
   app:
-    image: bernalraul/webwallet:latest
+    image: bernalraul/weedmobile:latest
     container_name: webmobile-mainnet
     volumes:
       - ./bitcanna-1.template.config.js:/app/src/bitcanna.config.js
@@ -14,7 +14,7 @@ services:
     command: ["sh", "-c", "yarn dev"]
 
   app-devnet-1:
-    image: bernalraul/webwallet:latest
+    image: bernalraul/weedmobile:latest
     container_name: webmobile-devnet-1
     profiles:
       - devnet-1
@@ -25,7 +25,7 @@ services:
     command: ["sh", "-c", "yarn dev"]
 
   app-devnet-6:
-    image: bernalraul/webwallet:latest
+    image: bernalraul/weedmobile:latest
     container_name: webmobile-devnet-6
     profiles:
       - devnet-6
