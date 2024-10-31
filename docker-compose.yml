@@ -11,6 +11,7 @@ services:
       - "3000:3000"
     profiles:
       - bitcanna-1
+    command: ["sh", "-c", "yarn dev"]
 
   app-devnet-1:
     image: bernalraul/webwallet:latest
