@@ -119,10 +119,25 @@ export default {
     }
     if (this.isLogged) {
       this.accountNow = this.allWallets[this.accountSelected];
+      //let's check if CosmosBFT version is v0.37 or v0.38
+      const nodeInfoResponse = await axios.get(
+        bitcannaConfig[this.network].apiURL +
+        "/cosmos/base/tendermint/v1beta1/node_info"
+      );
+
+      const minorVersion = parseInt(nodeInfoResponse.data.default_node_info.version.split('.')[1], 10);
+      let paramName;
+      if (minorVersion >= 38) {
+        // For v0.38.x and above
+        paramName = 'query';
+      } else {
+        // For v0.37.x and below
+        paramName = 'events';
+      }
 
       const resultSender = await axios(
         bitcannaConfig[this.network].apiURL +
-          "/cosmos/tx/v1beta1/txs?events=message.sender=%27" +
+          "/cosmos/tx/v1beta1/txs?"+paramName+"=message.sender=%27" +
           this.accountNow.address +
           "%27&limit=" +
           bitcannaConfig[this.network].maxTxSender +
@@ -130,7 +145,7 @@ export default {
       );
       const resultRecipient = await axios(
         bitcannaConfig[this.network].apiURL +
-          "/cosmos/tx/v1beta1/txs?events=transfer.recipient=%27" +
+          "/cosmos/tx/v1beta1/txs?"+paramName+"=transfer.recipient=%27" +
           this.accountNow.address +
           "%27&limit=" +
           bitcannaConfig[this.network].maxTxRecipient +
@@ -148,7 +163,7 @@ export default {
   methods: {
     async openExplorer(hash) {
       await Browser.open({
-        url: "https://explorer.bitcanna.io/transactions/" + hash,
+        url: "https://explorer.bitcanna.io/tx/" + hash,
       });
     },
     groupedEvents() {

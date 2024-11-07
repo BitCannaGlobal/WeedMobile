@@ -8,9 +8,6 @@ export function setMsg(msg, addrGet, timestamp, allVal, txHash) {
   let finalHash = "";
   let msgData = Object;
 
-
- 
-
   switch (msg["@type"]) {
     case "/cosmos.bank.v1beta1.MsgSend":
       if (msg.to_address === addrGet) {
@@ -242,8 +239,41 @@ export function setMsg(msg, addrGet, timestamp, allVal, txHash) {
       color = "#00b786";
       icon = "Unknown.svg";
       finalHash = txHash;
-      break;        
-       
+      break;
+    case "/cosmwasm.wasm.v1.MsgStoreCode":
+      type = msg["@type"];
+      typeReadable = "Upload Contract";
+      color = "#00b786";
+      icon = "Unknown.svg";
+      finalHash = txHash;
+      // msgData = {
+      //   instantiate_permission: msg.instantiate_permission,
+      //   sender: msg.sender,
+      // };    
+      break;
+    case "/cosmwasm.wasm.v1.MsgInstantiateContract":
+        type = msg["@type"];
+        typeReadable = "Instantiate Contract";
+        color = "#00b786";
+        icon = "Unknown.svg";
+        finalHash = txHash;
+        // msgData = {
+        //   code_id: msg.code_id,
+        //   sender: msg.sender,
+        //   label: msg.label,
+        // };    
+        break;
+    case "/cosmwasm.wasm.v1.MsgExecuteContract":
+        type = msg["@type"];
+        typeReadable = "Execute Contract";
+        color = "#00b786";
+        icon = "Unknown.svg";
+        finalHash = txHash;
+        // msgData = {
+        //   code_id: msg.code_id,
+        //   sender: msg.sender,
+        // };  
+        break;
 
     default:
       console.log("Sorry, dont know " + msg["@type"] + ".");
